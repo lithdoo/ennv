@@ -10,10 +10,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@ennv/components": "workspace:*",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "styled-components": "^5.3.11",
-    "@ennv/components":"workspace:*"
+    "styled-components": "^5.3.11"
   },
   "devDependencies": {
     "@types/react": "^18.0.28",
@@ -25,6 +25,7 @@
     "eslint": "^8.38.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.3.4",
+    "sass": "^1.62.1",
     "typescript": "^5.0.2",
     "vite": "^4.3.2"
   }
