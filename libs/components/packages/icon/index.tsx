@@ -8,10 +8,13 @@ export const Root = styled.svg`
     overflow: hidden;
 `
 
-export const EnIcon = ({ family, name }: { family: string, name: string }) => {
+export const EnIcon = ({ family, name, kind = ['', ''] }: { family?: string, name?: string, kind?: [string, string] }) => {
+    const f = family || kind[0]
+    const n = name || kind[1]
+
     return (
         <Root className="ennv-base-icon" aria-hidden="true">
-            <use xlinkHref={`#${family}-${name}`}></use>
+            <use xlinkHref={`#${f}-${n}`}></use>
         </Root>
     )
 }
