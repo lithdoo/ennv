@@ -38,13 +38,15 @@
     "node": ">=10"
   },
   "dependencies": {
-    "@ennv/client": "workspace:^",
+    "@ennv/client": "workspace:*",
+    "@ennv/systray": "workspace:*",
+    "@types/crypto-js": "^4.1.1",
+    "crypto-js": "^4.1.1",
     "koa": "^2.14.2",
     "koa-mount": "^4.0.0",
     "koa-router": "^12.0.0",
     "koa-static": "^5.0.0",
-    "python": "^0.0.4",
-    "systray": "^1.0.5"
+    "python": "^0.0.4"
   },
   "devDependencies": {
     "@ava/typescript": "^1.1.1",
@@ -53,6 +55,7 @@
     "@types/koa-mount": "^4.0.2",
     "@types/koa-router": "^7.4.4",
     "@types/koa-static": "^4.0.2",
+    "@types/node": "^20.2.6",
     "@typescript-eslint/eslint-plugin": "^4.0.1",
     "@typescript-eslint/parser": "^4.0.1",
     "ava": "^3.12.1",

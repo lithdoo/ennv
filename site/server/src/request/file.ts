@@ -38,7 +38,7 @@ file.get('/list', async (ctx, next) => {
 
     const { root, path } = ctx.query
     const target = p.resolve(root as string, path as string)
-    const res = fs.readdirSync(target, { withFileTypes: true }).map(v => ({
+    const res = fs.readdirSync(target, { withFileTypes: true }).map((v) => ({
         name: v.name,
         isDir: v.isDirectory(),
         isFile: v.isFile()

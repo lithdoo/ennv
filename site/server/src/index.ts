@@ -5,7 +5,7 @@ import Koa from 'koa'
 import serve from 'koa-static'
 import mount from 'koa-mount'
 import * as path from 'path'
-import './utils/tray'
+import { tray } from './utils/tray'
 
 import router from './request/index'
 
@@ -16,4 +16,11 @@ app.listen(3000);
 app.use(router.routes())
 app.use(router.allowedMethods())
 
+
+try{
+    
+tray.init()
+}catch(e){
+    console.log(e)
+}
 console.log('listening on port 3000');
