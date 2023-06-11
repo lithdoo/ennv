@@ -1,12 +1,12 @@
 ---
-title: A static site based on dumi
+title: Ennv - 基于 web 且方便拓展定制的文件管理器
 hero:
-  title: Site
-  description: A static site based on dumi
+  title: ENNV
+  description: 基于 web 且方便拓展定制的文件管理器
   actions:
-    - text: Hello
+    - text: 立即上手
       link: /
-    - text: World
+    - text: Github
       link: /
 features:
   - title: Hello
