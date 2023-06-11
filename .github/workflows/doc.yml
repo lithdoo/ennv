@@ -26,7 +26,6 @@ jobs:
 
       - name: Build Project
         run: |
-          npm install pnpm -g
           pnpm install
           pnpm run -r  --filter=doc build
 
