@@ -1,0 +1,35 @@
+
+name: deploy-doc
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest 
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v1
+
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 18.x
+
+      - name: Add pnpm
+        run: |
+          pnpm install pnpm -g
+
+      - name: Build Project
+        run: |
+          pnpm install
+          pnpm run -r  --filter=doc build
+
+      - name: Deploy to Github
+        uses: JamesIves/github-pages-deploy-action@4.0.0
+        with:
+          branch: gh-pages 
+          folder: site/doc/dist/
