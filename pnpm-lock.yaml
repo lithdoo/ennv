@@ -162,7 +162,7 @@ importers:
         specifier: ^4.3.2
         version: 4.3.2(sass@1.62.1)
 
-  site/docs:
+  site/doc:
     devDependencies:
       '@commitlint/cli':
         specifier: ^17.6.5
@@ -173,9 +173,6 @@ importers:
       dumi:
         specifier: ^2.2.1
         version: 2.2.1(@babel/core@7.22.5)(@types/node@20.3.0)(eslint@8.42.0)(postcss@8.4.24)(prettier@2.8.8)(react-dom@18.2.0)(react@18.2.0)(styled-components@5.3.11)(stylelint@14.16.1)(typescript@5.1.3)(webpack@5.86.0)
-      husky:
-        specifier: ^8.0.3
-        version: 8.0.3
       lint-staged:
         specifier: ^13.2.2
         version: 13.2.2
@@ -1986,7 +1983,7 @@ packages:
     peerDependencies:
       react: '>=16.3.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.22.5
       hoist-non-react-statics: 3.3.2
       react: 18.1.0
       react-is: 16.13.1
@@ -1998,7 +1995,7 @@ packages:
     peerDependencies:
       react: '>=16.3.0'
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.22.5
       hoist-non-react-statics: 3.3.2
       react: 18.2.0
       react-is: 16.13.1
@@ -2261,7 +2258,7 @@ packages:
       postcss: '>=7.0.0'
       postcss-syntax: '>=0.36.2'
     dependencies:
-      '@babel/core': 7.21.0
+      '@babel/core': 7.22.5
       postcss: 8.4.24
       postcss-syntax: 0.36.2(postcss@8.4.24)
     transitivePeerDependencies:
@@ -2947,7 +2944,7 @@ packages:
   /@types/sax@1.2.4:
     resolution: {integrity: sha512-pSAff4IAxJjfAXUG6tFkO7dsSbTmf8CtUpfhhZ5VhkRpC4628tJhh3+V6H1E+/Gs9piSzYKT5yzHO5M4GG9jkw==}
     dependencies:
-      '@types/node': 17.0.45
+      '@types/node': 20.3.0
     dev: true
 
   /@types/scheduler@0.16.3:
@@ -3663,7 +3660,7 @@ packages:
   /@umijs/history@5.3.1:
     resolution: {integrity: sha512-/e0cEGrR2bIWQD7pRl3dl9dcyRGeC9hoW0OCvUTT/hjY0EfUrkd6G8ZanVghPMpDuY5usxq9GVcvrT8KNXLWvA==}
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.22.5
       query-string: 6.14.1
     dev: true
 
@@ -8835,7 +8832,7 @@ packages:
   /history@5.3.0:
     resolution: {integrity: sha512-ZqaKwjjrAYUYfLG+htGaIIZ4nioX2L70ZUMIFysS3xvBsSG4x/n1V6TXV3N8ZYNuFGlDirFg32T7B6WOUPDYcQ==}
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.22.5
     dev: true
 
   /hmac-drbg@1.0.1:
@@ -9082,12 +9079,6 @@ packages:
 
   /humps@2.0.1:
     resolution: {integrity: sha512-E0eIbrFWUhwfXJmsbdjRQFQPrl5pTEoKlz163j1mTqqUnU9PgR4AgB8AIITzuB3vLBdxZXyZ9TDIrwB2OASz4g==}
-    dev: true
-
-  /husky@8.0.3:
-    resolution: {integrity: sha512-+dQSyqPh4x1hlO1swXBiNb2HzTDN1I2IGLQx1GrBuiqFJfoMrnZWwVmatvSiO+Iz8fBUnf+lekwNo4c2LlXItg==}
-    engines: {node: '>=14'}
-    hasBin: true
     dev: true
 
   /iconv-lite@0.4.24:
@@ -13893,7 +13884,7 @@ packages:
       react: ^16.6.0 || ^17.0.0 || ^18.0.0
       react-dom: ^16.6.0 || ^17.0.0 || ^18.0.0
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.22.5
       invariant: 2.2.4
       prop-types: 15.8.1
       react: 18.1.0
@@ -13908,7 +13899,7 @@ packages:
       react: ^16.6.0 || ^17.0.0 || ^18.0.0
       react-dom: ^16.6.0 || ^17.0.0 || ^18.0.0
     dependencies:
-      '@babel/runtime': 7.21.0
+      '@babel/runtime': 7.22.5
       invariant: 2.2.4
       prop-types: 15.8.1
       react: 18.2.0

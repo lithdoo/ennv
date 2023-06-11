@@ -6,7 +6,7 @@
     "start": "npm run dev",
     "dev": "dumi dev",
     "build": "dumi build",
-    "prepare": "husky install && dumi setup"
+    "prepare": "dumi setup"
   },
   "authors": [
     "lithdoo"
@@ -26,7 +26,6 @@
     "@commitlint/cli": "^17.6.5",
     "@commitlint/config-conventional": "^17.6.5",
     "dumi": "^2.2.1",
-    "husky": "^8.0.3",
     "lint-staged": "^13.2.2",
     "prettier": "^2.8.8"
   }
