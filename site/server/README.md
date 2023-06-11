@@ -1,3 +1,0 @@
-# server
-
-ennv server
