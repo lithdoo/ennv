@@ -18,13 +18,10 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 18.x
-
-      - name: Add pnpm
-        run: |
-          pnpm install pnpm -g
-
+          
       - name: Build Project
         run: |
+          npm install pnpm -g
           pnpm install
           pnpm run -r  --filter=doc build
 
