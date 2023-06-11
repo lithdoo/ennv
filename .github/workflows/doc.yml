@@ -14,11 +14,16 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v1
 
-      - name: Use Node.js
-        uses: actions/setup-node@v1
+      - name: setup node and pnpm
+        uses: dafnik/setup-node-pnpm@v1
         with:
-          node-version: 18.x
-          
+          pnpm: 8
+          node: 18
+          node-file: ''
+          cwd: '.'
+          install: false
+          install-ignore-scripts: false
+
       - name: Build Project
         run: |
           npm install pnpm -g
