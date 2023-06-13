@@ -115,6 +115,12 @@ importers:
       '@ennv/components':
         specifier: workspace:*
         version: link:../../libs/components
+      mobx:
+        specifier: ^6.9.0
+        version: 6.9.0
+      mobx-react:
+        specifier: ^7.6.0
+        version: 7.6.0(mobx@6.9.0)(react-dom@18.2.0)(react@18.2.0)
       react:
         specifier: ^18.2.0
         version: 18.2.0
@@ -11672,6 +11678,47 @@ packages:
     resolution: {integrity: sha512-+hEnITedc8LAtIP9u3HJDFIdcLV2vXP33sqLLIzkv1Db1zO/1OxbvYf0Y1OC/S/Qo5dxHXepofhmxL02PsKe+A==}
     engines: {node: '>=10'}
     hasBin: true
+    dev: false
+
+  /mobx-react-lite@3.4.3(mobx@6.9.0)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-NkJREyFTSUXR772Qaai51BnE1voWx56LOL80xG7qkZr6vo8vEaLF3sz1JNUVh+rxmUzxYaqOhfuxTfqUh0FXUg==}
+    peerDependencies:
+      mobx: ^6.1.0
+      react: ^16.8.0 || ^17 || ^18
+      react-dom: '*'
+      react-native: '*'
+    peerDependenciesMeta:
+      react-dom:
+        optional: true
+      react-native:
+        optional: true
+    dependencies:
+      mobx: 6.9.0
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    dev: false
+
+  /mobx-react@7.6.0(mobx@6.9.0)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-+HQUNuh7AoQ9ZnU6c4rvbiVVl+wEkb9WqYsVDzGLng+Dqj1XntHu79PvEWKtSMoMj67vFp/ZPXcElosuJO8ckA==}
+    peerDependencies:
+      mobx: ^6.1.0
+      react: ^16.8.0 || ^17 || ^18
+      react-dom: '*'
+      react-native: '*'
+    peerDependenciesMeta:
+      react-dom:
+        optional: true
+      react-native:
+        optional: true
+    dependencies:
+      mobx: 6.9.0
+      mobx-react-lite: 3.4.3(mobx@6.9.0)(react-dom@18.2.0)(react@18.2.0)
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    dev: false
+
+  /mobx@6.9.0:
+    resolution: {integrity: sha512-HdKewQEREEJgsWnErClfbFoVebze6rGazxFLU/XUyrII8dORfVszN1V0BMRnQSzcgsNNtkX8DHj3nC6cdWE9YQ==}
     dev: false
 
   /mocha@5.1.1:

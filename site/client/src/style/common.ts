@@ -1,5 +1,8 @@
 export const vars = {
-
+    taskBarHeight: () => `72px`,
+    taskBarMinHeight: () => `24px`,
+    rootSiderWidth: () => `300px`,
+    infoSiderWidth: () => `320px`
 }
 
 
@@ -21,5 +24,9 @@ export const group = {
     flex_center: () => `
         justify-content: center;
         align-items: center;
+    `,
+    fill: () => `
+        height: 100%;
+        width: 100%;
     `
 }

@@ -5,6 +5,8 @@ import { EnTask } from "../model/task";
 import { taskList } from "../model/_mock";
 import { group } from "../style/common";
 import { EnIcon } from "@ennv/components";
+import { observer } from 'mobx-react'
+import { BarStatus, barState } from "@/state/roots";
 
 const cssVar = {
     barHeight: '72px',
@@ -21,11 +23,11 @@ const Container = styled.div`
     ${transiton}
 
     border-bottom: 1px solid #ececec;
-    &.bar{
+    &.${BarStatus.normal}{
         height: ${cssVar.barHeight}
     }
 
-    &.min{
+    &.${BarStatus.min}{
         height: ${cssVar.minHeight}
     }
 
@@ -36,22 +38,22 @@ const Container = styled.div`
 
 `
 
-export const MainTask = () => {
-    const [status, setStatus] = useState<'bar' | 'min'>('bar')
+export const MainTask = observer(() => {
+    // const [status, setStatus] = useState<'bar' | 'min'>('bar')
 
     return (
-        <Container className={status}>
-            <HeightHideBox innerClassName="bar-container" height={cssVar.barHeight} hide={status !== 'bar'}>
+        <Container className={barState.status}>
+            <HeightHideBox innerClassName="bar-container" height={cssVar.barHeight} hide={barState.status !== BarStatus.normal}>
                 <TaskList tasks={taskList}></TaskList>
-                <TaskBtnGroup onMinimize={() => { setStatus('min') }}></TaskBtnGroup>
+                <TaskBtnGroup onMinimize={() => { barState.minimize() }}></TaskBtnGroup>
             </HeightHideBox>
 
-            <HeightHideBox height={cssVar.minHeight} hide={status !== 'min'} >
-                <b style={{ lineHeight: cssVar.minHeight }} onClick={() => { setStatus('bar') }}>test</b>
+            <HeightHideBox height={cssVar.minHeight} hide={ barState.status !== BarStatus.min} >
+                <b style={{ lineHeight: cssVar.minHeight }} onClick={() => { barState.normalize()}}>test</b>
             </HeightHideBox>
         </Container>
     )
-}
+})
 
 
 const TaskItemContainer = styled.div`
@@ -110,7 +112,7 @@ const TaskListContainer = styled.div`
 
 const TaskList = ({ tasks }: { tasks: EnTask[] }) => {
     return <TaskListContainer>{
-        tasks.map((task,key) => <TaskItem task={task}  key={key}/>)
+        tasks.map((task, key) => <TaskItem task={task} key={key} />)
     }</TaskListContainer>
 }
 

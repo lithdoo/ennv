@@ -6,10 +6,9 @@ import { group } from "../style/common";
 
 const Container = styled.div`
     grid-area: center;
-    ${group.flex_col}
+    ${group.flex_col()}
+    ${group.fill()}
 `
-
-
 
 export const MainDir = () => {
 

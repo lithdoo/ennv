@@ -3,8 +3,7 @@ import styled from "styled-components";
 import { group } from "../style/common";
 
 const Container = styled.div`
-    grid-area: right;
-    width: 320px;
+    ${group.fill()}
     padding: 16px;
 `
 
