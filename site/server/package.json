@@ -9,6 +9,8 @@
   "license": "MIT",
   "keywords": [],
   "scripts": {
+    "start:dev": "pm2 start ./build/index.js --watch --name ennv-dev && tsc -p tsconfig.json -w",
+    "stop:dev":"pm2 stop ennv-dev && pm2 delete ennv-dev",
     "run": "node ./build/index.js",
     "build": "tsc -p tsconfig.json",
     "build:all": "run-p build:*",
@@ -46,6 +48,7 @@
     "koa-mount": "^4.0.0",
     "koa-router": "^12.0.0",
     "koa-static": "^5.0.0",
+    "pm2": "^5.3.0",
     "python": "^0.0.4"
   },
   "devDependencies": {

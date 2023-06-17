@@ -12,15 +12,14 @@ import router from './request/index'
 const app = new Koa();
 
 app.use(mount('/client', serve(path.resolve(__dirname, '../node_modules/@ennv/client/dist/'))));
-app.listen(3000);
+app.listen(4002);
 app.use(router.routes())
 app.use(router.allowedMethods())
 
 
-try{
-    
-tray.init()
-}catch(e){
+try {
+    tray.init()
+} catch (e) {
     console.log(e)
 }
 console.log('listening on port 3000');

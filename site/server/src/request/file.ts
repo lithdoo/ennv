@@ -6,7 +6,7 @@ import * as fs from 'fs'
 
 export const file = new Router()
 
-file.get('/root', async (ctx, next) => {
+file.get('/file/root', async (ctx, next) => {
     if (process.platform.indexOf('win32') >= 0) {
         ctx.body = 'dsfs'
         ctx.body = await new Promise<string[]>((resolve, reject) => {

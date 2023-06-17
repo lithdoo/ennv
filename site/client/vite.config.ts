@@ -6,6 +6,12 @@ import path from 'path'
 export default defineConfig({
   base: '/client/',
   plugins: [react()],
+  server: {
+    port: 4001,
+    proxy: {
+      '/file': 'http://localhost:4002'
+    }
+  },
   resolve: {
     alias: { '@': path.resolve(__dirname, './src') }
   }
