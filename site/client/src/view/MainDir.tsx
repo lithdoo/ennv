@@ -141,7 +141,7 @@ const FileItemContainer = styled.div`
 
     ${group.flex_col}
     ${group.flex_center}
-    ${group.trans_ease}
+    ${group.trans_ease_out}
     cursor: pointer;
     border-radius: 12px;
 

@@ -14,6 +14,21 @@ export const HeightHideBox = ({ innerClassName = '', outerClassName = "", height
 }
 
 
+export const WidthHideBox = ({ innerClassName = '', outerClassName = "", minWidth='' , width, hide, children }: PropsWithChildren<{
+    width: string,
+    minWidth?:string,
+    hide: boolean,
+    innerClassName?: string,
+    outerClassName?: string
+}>) => {
+
+    return <div className={outerClassName} style={{ width: hide ? '0' : width, overflow: 'hidden'}}>
+        <div className={innerClassName} style={{ width,minWidth  }}>{children}</div>
+    </div>
+}
+
+
+
 const EnIconBtnContainer = styled.button``
 
 export const EnIconBtn = ({onClick=()=>{}})=>{

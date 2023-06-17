@@ -7,8 +7,8 @@ export const vars = {
 
 
 export const group = {
-    trans_ease: () => `
-        transition:all 0.3s ease;
+    trans_ease_out: () => `
+        transition:all 0.3s ease-out;
     `,
     text_font: () => `
         font-size: 14px;

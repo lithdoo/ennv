@@ -19,9 +19,9 @@ const MainContainer = styled.div`
     display: grid;
     grid-template-areas:  'task task task'
                           'root dir info';
-    ${group.trans_ease()}
+    ${group.trans_ease_out()}
     > *{
-      ${group.trans_ease()}
+      ${group.trans_ease_out()}
       overflow: hidden;
     }
 

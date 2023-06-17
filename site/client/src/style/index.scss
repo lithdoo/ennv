@@ -32,8 +32,13 @@ body,
 
 @media (prefers-color-scheme: light) {
     :root {
-        color: #213547;
+        color: #565656;
         background-color: #ffffff;
+    }
+
+    ::selection {
+        color: #fff;
+        background: #97e2ff;
     }
 
     a:hover {
@@ -92,7 +97,7 @@ button:focus-visible {
 
 @media (prefers-color-scheme: light) {
     :root {
-        color: #213547;
+        color: #565656;
         background-color: #ffffff;
     }
 
