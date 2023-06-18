@@ -82,12 +82,11 @@ file.post('/file/dir/content/folders', async (ctx, next) => {
         .filter(v => v.isDirectory())
         .map((v) => ({
             name: v.name,
-            // isLeaf: fs.readdirSync(p.resolve(...(path ?? []), v.name), { withFileTypes: true })
-            //     .filter(v => v.isDirectory())
-            //     .length > 0
+            isLeaf: fs.readdirSync(p.resolve(...(path ?? []), v.name), { withFileTypes: true })
+                .filter(v2 => access(p.resolve(...(path ?? []), v.name,v2.name)))
+                .filter(v => v.isDirectory())
+                .length <= 0
         }))
-
-
 
     ctx.body = res
     await next()

@@ -9,7 +9,7 @@
   "license": "MIT",
   "keywords": [],
   "scripts": {
-    "start:dev": "pm2 start ./build/index.js --watch --name ennv-dev -e ./error -o ./console && tsc -p tsconfig.json -w",
+    "start:dev": "tsc -p tsconfig.json && pm2 start ./build/index.js --watch --name ennv-dev -e ./error -o ./console &&  tsc -p tsconfig.json -w ",
     "stop:dev": "pm2 stop ennv-dev && pm2 delete ennv-dev",
     "run": "node ./build/index.js",
     "build": "tsc -p tsconfig.json",
@@ -75,7 +75,7 @@
     "standard-version": "^9.0.0",
     "ts-node": "^9.0.0",
     "typedoc": "^0.19.0",
-    "typescript": "^4.0.2"
+    "typescript": "^5.1.3"
   },
   "files": [
     "build/main",
