@@ -5,6 +5,7 @@ import { WidthHideBox } from "@/components";
 import logo from '@/assets/favicon500.png'
 import { observer } from "mobx-react";
 import { useState } from "react";
+import { getDirFolders } from "@/request/file";
 
 
 const Container = styled.div`
@@ -16,14 +17,12 @@ const Container = styled.div`
     > .root-sider-container{
         ${group.trans_ease_out()}
         height:100%;
-        background:red;
     }
 
     
     > .root-edit-container{
         ${group.trans_ease_out()}
         height:100%;
-        background:#f3f3f3;
     }
 `
 
@@ -47,9 +46,6 @@ export const MainRoot = () => {
     )
 }
 
-
-
-
 const RootEditContainer = styled.div`
 
 
@@ -62,6 +58,7 @@ const RootEditContainer = styled.div`
         .root-edit-logo{
             text-align:center;
             > img{
+                margin-top: 120px;
                 height:240px;
                 pointer-events:none;
                 user-select: none;
@@ -71,12 +68,17 @@ const RootEditContainer = styled.div`
         .root-edit-disk-selector{
             ${group.flex_row}
 
-            margin: 6px 0;
+            margin: 8px -12px;
+            flex-wrap: wrap;
 
             > .root-edit-disk-button{
-                margin: 0 12px;
+                margin: 8px 12px;
                 min-width: 64px;
-                border: 1px solid #66ccff;
+                border: 2px solid #66ccff;
+                font-weight: bolder;
+                line-height: 32px;
+                border-radius: 4px;
+                color: #66ccff;
                 text-align: center;
                 cursor: pointer;
 
@@ -90,8 +92,21 @@ const RootEditContainer = styled.div`
 `
 const RootEdit = observer(() => {
 
-    const [editDisk,setEditDisk] = useState('')
-    const [path,setPath] = useState<string[]>([])
+    const [editDisk, setEditDisk] = useState('')
+    const [path, setPath] = useState<string[]>([])
+
+    const changeEditDisk = (name: string) => {
+        setEditDisk(name)
+        getDirFolders([name]).then(data => console.log(data))
+    }
+
+    type DirItem = {
+        key:string,
+        name:string,
+        isOpen:boolean,
+        isLoaded:boolean,
+        isLeaf:boolean,
+    }
 
     return <RootEditContainer>
         <div className="root-edit-content">
@@ -100,12 +115,16 @@ const RootEdit = observer(() => {
             </div>
             <div className="root-edit-panel">
                 <div className="root-edit-label">
-                    请选择工作目录: {[editDisk,...path].join(' / ')}
+                    请选择工作目录: {[editDisk, ...path].join(' / ')}
                 </div>
                 <div className="root-edit-disk-selector">{
-                    rootState.diskList.map(name=>(
-                        <div onClick={()=>{setEditDisk(name)}} data-focus={name === editDisk} className="root-edit-disk-button">{name}</div>
+                    rootState.diskList.map(name => (
+                        <div onClick={() => { changeEditDisk(name) }} key={name} data-focus={name === editDisk} className="root-edit-disk-button">{name}</div>
                     ))
+                }</div>
+                <div className="root-edit-path-selector">{
+
+
                 }</div>
             </div>
 

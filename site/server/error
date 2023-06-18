@@ -1,0 +1,26 @@
+
+  Error: EPERM: operation not permitted, scandir 'D:\System Volume Information'
+      at Object.readdirSync (node:fs:1452:3)
+      at C:\Users\lithd\Documents\GitHub\ennv\site\server\build\request\file.js:83:20
+      at Array.map (<anonymous>)
+      at C:\Users\lithd\Documents\GitHub\ennv\site\server\build\request\file.js:81:10
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:42:32)
+      at C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-router@12.0.0\node_modules\koa-router\lib\router.js:425:16
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:42:32)
+      at C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:34:12
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-router@12.0.0\node_modules\koa-router\lib\router.js:430:31)
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:42:32)
+
+
+  Error: EPERM: operation not permitted, scandir 'D:\System Volume Information'
+      at Object.readdirSync (node:fs:1452:3)
+      at C:\Users\lithd\Documents\GitHub\ennv\site\server\build\request\file.js:97:20
+      at Array.map (<anonymous>)
+      at C:\Users\lithd\Documents\GitHub\ennv\site\server\build\request\file.js:95:10
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:42:32)
+      at C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-router@12.0.0\node_modules\koa-router\lib\router.js:425:16
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:42:32)
+      at C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:34:12
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-router@12.0.0\node_modules\koa-router\lib\router.js:430:31)
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:42:32)
+

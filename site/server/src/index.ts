@@ -8,9 +8,12 @@ import * as path from 'path'
 import { tray } from './utils/tray'
 
 import router from './request/index'
+import bodyParser from 'koa-bodyparser'
 
 const app = new Koa();
 
+
+app.use(bodyParser())
 app.use(mount('/client', serve(path.resolve(__dirname, '../node_modules/@ennv/client/dist/'))));
 app.listen(4002);
 app.use(router.routes())

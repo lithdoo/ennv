@@ -7,7 +7,6 @@ class WorkSpace {
     path: string[] = []
     currentDir0: string[] = []
 }
-
 export enum BarStatus {
     min = 'bar-min',
     max = 'bar-max',
@@ -58,9 +57,7 @@ export const rootState = new class {
 
     async reflashDiskList() {
         const list = await getDiskList()
-        action(() => {
-            debugger
-            this.diskList = list })()
+        action(() => {this.diskList = list })()
     }
 
 }
