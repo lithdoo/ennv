@@ -1,9 +1,22 @@
 
+import { EnIcon } from "@ennv/components"
 import styled from "styled-components"
 
 
 
 const TreeItemContainer = styled.div`
+
+.tree-item-children{
+    padding-left:16px;
+    overflow: hidden;
+    &[data-open="true"]{
+        height: auto;
+    }
+    &[data-open="false"]{
+        height: 0;
+    }
+}
+
 
 `
 
@@ -34,7 +47,7 @@ export function TreeItem<T>(props: {
 
             if (childNodeList.length === 0) return blank(target)
 
-            return <div className="children" data-open={isOpen(target)}>{children(target).map(t =>
+            return <div className="tree-item-children" data-open={isOpen(target)}>{children(target).map(t =>
                 <TreeItem<T>
                     key={genKey(t)}
                     target={t}
@@ -72,4 +85,24 @@ export function DataTree<T>({ list, blank, id, title, isLeaf, isOpen, children }
             children={children}
         />)
     }</>
+}
+
+const TreeOpenBtnContainer = styled.div`
+    height: 24px;
+    width:  22px;
+    line-height: 24px;
+    font-size: 20px;
+    margin-left:-6px;
+    cursor: pointer;
+    &[data-open="true"]{
+        transform: rotate(90deg);
+    }
+`
+export function TreeOpenBtn({ isOpen, onToggle }: {
+    isOpen: boolean,
+    onToggle: () => void,
+}) {
+    return <TreeOpenBtnContainer data-open={isOpen} onClick={onToggle}>
+        <EnIcon family="i_base" name="option-right"></EnIcon>
+    </TreeOpenBtnContainer>
 }
