@@ -10,15 +10,15 @@ export const file = new Router()
 const access = (path: string) => {
 
 
-    if(/\$RECYCLE\.BIN$/.test(path)){
+    if (/\$RECYCLE\.BIN$/.test(path)) {
         return false
     }
-    if(/\$Recycle\.Bin$/.test(path)){
+    if (/\$Recycle\.Bin$/.test(path)) {
         return false
     }
 
     try {
-        fs.accessSync(path,fs.constants.R_OK | fs.constants.W_OK)
+        fs.accessSync(path, fs.constants.R_OK | fs.constants.W_OK)
         return !hf.isHiddenSync(path)
     } catch (e) {
         return false
@@ -34,10 +34,7 @@ file.get('/file/disk/list', async (ctx, next) => {
                 const output = String(data)
                 const out = output.split("\r\n").map(e => e.trim()).filter(e => e != "")
                 if (out[0] === "Name") {
-
-                    const list = out.slice(1).map(v=>  `${v}/`)
-                        // .filter(v => access(v))
-
+                    const list = out.slice(1)
                     resolve(list)
                 }
             });
@@ -54,7 +51,7 @@ file.get('/file/disk/list', async (ctx, next) => {
             list.stdin.end();
         })
     } else {
-        ctx.body = ['/']
+        ctx.body = ['']
     }
     await next()
 })
@@ -73,19 +70,24 @@ file.post('/file/dir/content/', async (ctx, next) => {
     await next()
 })
 
+file.get('/file/dir/content/folders', async (ctx, next) => {
+    const { path } = ctx.request.query
 
-file.post('/file/dir/content/folders', async (ctx, next) => {
-    const { path } = ctx.request.body as any
-    const target = p.resolve(...(path ?? []))
-    const res = fs.readdirSync(target, { withFileTypes: true })
-        .filter(v => access(p.resolve(...(path ?? []), v.name)))
-        .filter(v => v.isDirectory())
+
+    let target = '/'
+
+    if (path && (path[path.length - 1] === '/')) {
+        target = path as string
+    } else if (path) {
+        target = path + '/'
+    }
+
+    const res = fs.readdirSync(target as string, { withFileTypes: true })
+        .filter(v => v.isDirectory() && access(p.resolve(target, v.name)))
         .map((v) => ({
             name: v.name,
-            isLeaf: fs.readdirSync(p.resolve(...(path ?? []), v.name), { withFileTypes: true })
-                .filter(v2 => access(p.resolve(...(path ?? []), v.name,v2.name)))
-                .filter(v => v.isDirectory())
-                .length <= 0
+            isLeaf: !fs.readdirSync(p.resolve(target, v.name), { withFileTypes: true })
+                .find(v2 => v2.isDirectory() && access(p.resolve(target, v.name, v2.name)))
         }))
 
     ctx.body = res
