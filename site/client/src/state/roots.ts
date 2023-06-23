@@ -41,8 +41,6 @@ export const stateWorkspaces = new class {
     }
 }
 
-
-
 interface FileBase { }
 interface FolderBase { }
 

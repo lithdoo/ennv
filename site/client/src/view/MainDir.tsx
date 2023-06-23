@@ -3,6 +3,8 @@ import styled from "styled-components";
 import { EnFolder, EnFile, FileType } from "../model/file";
 import { EnIcon } from "@ennv/components";
 import { group } from "../style/common";
+import { stateCurrentDir } from "@/state";
+import { observer } from "mobx-react";
 
 const Container = styled.div`
     grid-area: center;
@@ -10,40 +12,28 @@ const Container = styled.div`
     ${group.fill()}
 `
 
-export const MainDir = () => {
-
-
-    const [focus, setFocus] = useState<EnFile | EnFolder | null>(null)
-    const [list] = useState(
-        new Array(100).fill(0)
-            .map(() => {
-                return new EnFile()
-            })
-            .map((item, index) => {
-                item.name = `image-${index}.jpg`
-                item.size = 10000
-                item.type = FileType.type(item.name)
-                return item
-            })
-    )
-
+export const MainDir = observer(() => {
+    const focus = stateCurrentDir.active ?? null
+    const list = stateCurrentDir.list
     const toggle = (target: EnFile | EnFolder) => {
-        console.log(1)
         if (focus !== target) {
-            setFocus(target)
+            stateCurrentDir.focus(target)
         } else {
-            setFocus(null)
+            stateCurrentDir.blur()
         }
     }
 
     return (
         <Container>
             <NavBar></NavBar>
-            <FileGrid list={list} toggle={toggle} focus={focus}></FileGrid>
+            <FileGrid
+                list={list}
+                focus={focus}
+                toggle={toggle}
+            />
         </Container>
     )
-
-}
+})
 
 
 
@@ -65,23 +55,34 @@ const NavBarContainer = styled.div`
         }
         .route{
             padding: 0 2px;
+            cursor: pointer;
         }
     }    
 `
-const NavBar = () => {
-    const routes = ['test', 'node_mudules']
+const NavBar = observer(() => {
+    const root = (stateCurrentDir.ws?.path.split('/') ?? []).filter(v => !!v)
+    const routes = stateCurrentDir.path.split('/').filter(v => !!v)
+        .map((val, idx) => val === root[idx] ? '' : val)
+        .filter(v => !!v)
+        .reduce((res, name) => {
+            const parent = res[res.length - 1]
+            return res.concat([{ name, path: `${parent.path}/${name}` }])
+        }, [{ name: '$ROOT', path: stateCurrentDir.ws?.path || '' }])
 
     return (
         <NavBarContainer>
             <div className="route-list">
-                <span className="root">$root</span>/
                 {
-                    routes.map((route, index) => <span key={index}><span className="route">{route}</span>/</span>)
+                    routes.map((route, index) => <span key={index}>
+                        <span className="route" onClick={() => {
+                            if (stateCurrentDir.ws) stateCurrentDir.open(stateCurrentDir.ws, route.path)
+                        }}>{route.name}</span> /
+                    </span>)
                 }
             </div>
         </NavBarContainer>
     )
-}
+})
 
 const FileGridContainer = styled.div`
     flex: 1 1 0;

@@ -56,13 +56,21 @@ file.get('/file/disk/list', async (ctx, next) => {
     await next()
 })
 
-file.post('/file/dir/content/', async (ctx, next) => {
-    const { path } = ctx.request.body as any
-    const target = p.resolve(...(path ?? []))
+file.get('/file/dir/content', async (ctx, next) => {
+    const { path } = ctx.request.query
+    let target = '/'
+
+    if (path && (path[path.length - 1] === '/')) {
+        target = path as string
+    } else if (path) {
+        target = path + '/'
+    }
+
     const res = fs.readdirSync(target, { withFileTypes: true })
-        .filter(v => access(p.resolve(...(path ?? []), v.name)))
+    .filter(v => p.resolve(target, v.name))
         .map((v) => ({
             name: v.name,
+            path: p.posix.resolve(target, v.name),
             isFolder: v.isDirectory(),
             isFile: v.isFile()
         }))
@@ -93,3 +101,4 @@ file.get('/file/dir/content/folders', async (ctx, next) => {
     ctx.body = res
     await next()
 })
+

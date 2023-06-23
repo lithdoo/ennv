@@ -1,4 +1,6 @@
-import { getDirFolders, getDiskList } from "@/request/file"
+import { EnFile, EnFolder, FileType } from "@/model/file"
+import { getDirContent, getDirFolders, getDiskList } from "@/request/file"
+import { assign } from "@/utils/base"
 import { action, makeAutoObservable } from "mobx"
 
 
@@ -50,6 +52,8 @@ export const stateWorkspaces = new class {
             this.current = current
             this.layout = WorkspaceLayout.sider
 
+            stateCurrentDir.open(current)
+
         } else {
 
             const folderTree: FolderTreeItem[] = (await getDirFolders(path))
@@ -65,7 +69,7 @@ export const stateWorkspaces = new class {
                 this.current = workspace
                 this.layout = WorkspaceLayout.sider
 
-                console.log(stateWorkspaces)
+                stateCurrentDir.open(workspace)
             })()
 
         }
@@ -82,8 +86,9 @@ export const stateWorkspaces = new class {
         ws.folderTree = tree
     }
 
-    focus(ws:WorkSpace){
-        this.current = this.list.find(w=>w.path === ws.path)
+    focus(ws: WorkSpace) {
+        this.current = this.list.find(w => w.path === ws.path)
+        if(this.current) stateCurrentDir.open(this.current)
     }
 
     private async reflashDisks() {
@@ -93,26 +98,66 @@ export const stateWorkspaces = new class {
 
 }
 
-
-
-interface FileBase { }
-interface FolderBase { }
-
-interface FileInfo extends FileBase { }
-interface FolderInfo extends FolderBase { }
-
 export const stateCurrentDir = new class {
-    root: string = ''
-    current?: FolderInfo // 仅当未打开任何 workspace 才为空
-    list: (FileBase | FolderBase)[] = []
-    focus?: FileBase | FolderBase
-}
+    ws?: WorkSpace
+    path: string = ''
+    accessble?: boolean   // 为 undefined 的时候 为loding
+    active?: EnFile | EnFolder
+    list: (EnFile | EnFolder)[] = []
 
+    constructor() {
+        makeAutoObservable(this)
+    }
+
+    async open(ws: WorkSpace, path: string = ws.path) {
+
+        this.accessble = undefined
+
+        this.path = path 
+        this.ws = ws
+        this.list = []
+        this.active = undefined
+
+        let accessble = false
+        let list: (EnFile | EnFolder)[] = []
+
+        try {
+            list = (await getDirContent(path)).map(val => assign(
+                val.isFolder ? new EnFolder() : new EnFile(), {
+                name: val.name,
+                path: val.path,
+                accessble: true
+            }, val.isFolder ? {} : {
+                type: FileType.type(val.name)
+            }))
+            accessble = true
+        } catch (e) {
+            accessble = false
+
+        } finally {
+            action(() => {
+                if (this.path !== path) return
+                this.list = list
+                this.accessble = accessble
+                console.log(this)
+            })()
+        }
+    }
+
+    async focus(file: EnFile | EnFolder){
+        this.active = file
+    }
+    async blur(){
+        this.active = undefined
+    }
+
+
+}
 
 export const stateSiderInfo = new class {
     root: string = ''
-    currentDir?: FolderInfo  // 仅当未打开任何 workspace 才为空
-    target?: FolderInfo | FileInfo
+    // currentDir?: FolderInfo  // 仅当未打开任何 workspace 才为空
+    // target?: FolderInfo | FileInfo
     actions: [] = []
 }
 

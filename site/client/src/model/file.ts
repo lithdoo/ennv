@@ -52,27 +52,21 @@ export class FileType {
 
 
 // 基础类
-abstract class Base {
+export abstract class EnFsBase {
     name: string = ''
-    dirPath: string = '/'
-    rootDir: string = ''
-    isFocus: boolean = false
-
+    path: string = ''
+    accessble: boolean = true
     _key = Math.random()
-
     abstract kind: 'file' | 'folder'
 }
 
 // 文件类
-export class EnFile extends Base {
-
+export class EnFile extends EnFsBase {    
     type: FileType = null as any
     kind: 'file' | 'folder' = 'file'
-    size: number = 0
-
 }
 
 // 文件夹类
-export class EnFolder extends Base {
+export class EnFolder extends EnFsBase {
     kind: 'file' | 'folder' = 'folder'
 }

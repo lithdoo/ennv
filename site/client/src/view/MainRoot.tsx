@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { group } from "../style/common";
 // import { rootState } from "@/state/roots";
 import { WidthHideBox } from "@/components";
@@ -7,7 +7,7 @@ import { observer } from "mobx-react";
 import { useEffect, useRef, useState } from "react";
 import { getDirFolders } from "@/request/file";
 import { DataTree, TreeOpenBtn } from "@/components/tree";
-import { WorkspaceLayout, stateWorkspaces } from "@/state";
+import { WorkspaceLayout, stateCurrentDir, stateWorkspaces } from "@/state";
 
 
 const Container = styled.div`
@@ -301,6 +301,7 @@ const RootSelect = observer(() => {
 
     return <RootSelectContainer>
         {stateWorkspaces.list.map(ws => <div
+            key={ws.path}
             className="root-select-ws-item"
             data-current={ws.path === stateWorkspaces.current?.path}
         >
@@ -311,8 +312,8 @@ const RootSelect = observer(() => {
                 <FolderSelectTree
                     list={ws.folderTree}
                     setList={(tree) => { stateWorkspaces.loadTree(ws, tree) }}
-                    selectFolder={''}
-                    setSelectFolder={() => { }}
+                    selectFolder={ stateCurrentDir.ws?.path === ws.path? stateCurrentDir.path:''}
+                    setSelectFolder={(path) => { stateCurrentDir.open(ws,path) }}
                 />
             </div>
         </div>)}
