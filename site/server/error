@@ -570,3 +570,55 @@
       at C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-mount@4.0.0\node_modules\koa-mount\index.js:52:32
       at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:42:32)
 
+
+  Error: ENOENT: no such file or directory, scandir '/Users/lithd/Documents/GitHub/ennv/site/server/G:/vr/希咲那奈/'
+      at Object.readdirSync (node:fs:1452:3)
+      at C:\Users\lithd\Documents\GitHub\ennv\site\server\build\request\file.js:91:20
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:42:32)
+      at C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-router@12.0.0\node_modules\koa-router\lib\router.js:425:16
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:42:32)
+      at C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:34:12
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-router@12.0.0\node_modules\koa-router\lib\router.js:430:31)
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:42:32)
+      at C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-mount@4.0.0\node_modules\koa-mount\index.js:52:32
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:42:32)
+
+
+  Error: ENOENT: no such file or directory, scandir 'G:/vr/Users/'
+      at Object.readdirSync (node:fs:1452:3)
+      at C:\Users\lithd\Documents\GitHub\ennv\site\server\build\request\file.js:91:20
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:42:32)
+      at C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-router@12.0.0\node_modules\koa-router\lib\router.js:425:16
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:42:32)
+      at C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:34:12
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-router@12.0.0\node_modules\koa-router\lib\router.js:430:31)
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:42:32)
+      at C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-mount@4.0.0\node_modules\koa-mount\index.js:52:32
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:42:32)
+
+
+  Error: ENOENT: no such file or directory, scandir '/Users/lithd/Documents/GitHub/ennv/site/server/G:/vr/000/'
+      at Object.readdirSync (node:fs:1452:3)
+      at C:\Users\lithd\Documents\GitHub\ennv\site\server\build\request\file.js:91:20
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:42:32)
+      at C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-router@12.0.0\node_modules\koa-router\lib\router.js:425:16
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:42:32)
+      at C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:34:12
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-router@12.0.0\node_modules\koa-router\lib\router.js:430:31)
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:42:32)
+      at C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-mount@4.0.0\node_modules\koa-mount\index.js:52:32
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:42:32)
+
+
+  Error: ENOENT: no such file or directory, scandir '/Users/lithd/Documents/GitHub/ennv/site/server/G:/vr/000/'
+      at Object.readdirSync (node:fs:1452:3)
+      at C:\Users\lithd\Documents\GitHub\ennv\site\server\build\request\file.js:91:20
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:42:32)
+      at C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-router@12.0.0\node_modules\koa-router\lib\router.js:425:16
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:42:32)
+      at C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:34:12
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-router@12.0.0\node_modules\koa-router\lib\router.js:430:31)
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:42:32)
+      at C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-mount@4.0.0\node_modules\koa-mount\index.js:52:32
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:42:32)
+

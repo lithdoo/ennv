@@ -128,6 +128,7 @@ const FileGrid = ({ focus, toggle, list }: {
                         key={item.name}
                         item={item}
                         isFocus={focus === item}
+                        onOpen={item=>{if(stateCurrentDir.ws) stateCurrentDir.open(stateCurrentDir.ws,item.path)}}
                         onToggle={() => toggle(item)}
                     />)
                 }
@@ -182,10 +183,11 @@ const FileItemContainer = styled.div`
     }
 `
 
-const FileItem = ({ item: target, isFocus, onToggle }: {
+const FileItem = ({ item: target, isFocus, onToggle, onOpen }: {
     item: EnFile | EnFolder,
     isFocus: boolean,
-    onToggle: () => void
+    onToggle: () => void,
+    onOpen: (item: EnFolder) => void
 }) => {
 
     const icon = target instanceof EnFile
@@ -193,7 +195,11 @@ const FileItem = ({ item: target, isFocus, onToggle }: {
         : ['i_file', 'folder']
 
     return (
-        <FileItemContainer className={isFocus ? ' focus' : ''} onClick={onToggle}>
+        <FileItemContainer
+            className={isFocus ? ' focus' : ''}
+            onClick={onToggle}
+            onDoubleClick={() => { if (target instanceof EnFolder) onOpen(target) }}
+        >
             <div className="icon">
                 <EnIcon family={icon[0]} name={icon[1]} />
             </div>

@@ -70,7 +70,7 @@ file.get('/file/dir/content', async (ctx, next) => {
     .filter(v => p.resolve(target, v.name))
         .map((v) => ({
             name: v.name,
-            path: p.posix.resolve(target, v.name),
+            path: p.posix.join(target, v.name),
             isFolder: v.isDirectory(),
             isFile: v.isFile()
         }))
