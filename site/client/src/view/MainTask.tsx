@@ -89,7 +89,7 @@ const TaskItem = ({ task }: { task: EnTask }) => {
             <EnIcon kind={task.action.icon}></EnIcon>
             <div>
                 <div className="action-name">{task.action.name}</div>
-                <div className="target-path">{task.target.dirPath}</div>
+                <div className="target-path">{task.target.name}</div>
             </div>
         </TaskItemContainer>
     )

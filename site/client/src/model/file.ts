@@ -39,8 +39,8 @@ export class FileType {
 
 }
 
-    // 初始化文件类型列表
-    ;
+// 初始化文件类型列表
+;
 ((...list: FileTypeOption[]) => {
     FileType.all = list.map(option => new FileType(option))
 })({
@@ -56,12 +56,12 @@ export abstract class EnFsBase {
     name: string = ''
     path: string = ''
     accessble: boolean = true
-    _key = Math.random()
+    rid = Math.random().toString()
     abstract kind: 'file' | 'folder'
 }
 
 // 文件类
-export class EnFile extends EnFsBase {    
+export class EnFile extends EnFsBase {
     type: FileType = null as any
     kind: 'file' | 'folder' = 'file'
 }
@@ -69,4 +69,17 @@ export class EnFile extends EnFsBase {
 // 文件夹类
 export class EnFolder extends EnFsBase {
     kind: 'file' | 'folder' = 'folder'
+}
+
+// 文件详情
+export class EnFileDetail extends EnFile {
+    createTime: number = 0
+    updateTime: number = 0
+    size: number = 0
+}
+
+// 文件夹详情
+export class EnFolderDetail extends EnFolder {
+    createTime: number = 0
+    updateTime: number = 0
 }

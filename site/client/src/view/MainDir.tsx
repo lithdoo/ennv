@@ -5,6 +5,7 @@ import { EnIcon } from "@ennv/components";
 import { group } from "../style/common";
 import { stateCurrentDir } from "@/state";
 import { observer } from "mobx-react";
+import { assign } from "@/utils/base";
 
 const Container = styled.div`
     grid-area: center;
@@ -60,14 +61,20 @@ const NavBarContainer = styled.div`
     }    
 `
 const NavBar = observer(() => {
-    const root = (stateCurrentDir.ws?.path.split('/') ?? []).filter(v => !!v)
-    const routes = stateCurrentDir.path.split('/').filter(v => !!v)
+    const root = (stateCurrentDir.ws?.folder.path.split('/') ?? []).filter(v => !!v)
+    const routes = stateCurrentDir.folder?.path
+        .split('/').filter(v => !!v)
         .map((val, idx) => val === root[idx] ? '' : val)
         .filter(v => !!v)
         .reduce((res, name) => {
             const parent = res[res.length - 1]
-            return res.concat([{ name, path: `${parent.path}/${name}` }])
-        }, [{ name: '$ROOT', path: stateCurrentDir.ws?.path || '' }])
+            return res.concat([{
+                name, folder: assign(new EnFolder(), {
+                    name, path: `${parent.folder.path}/${name}`
+                })
+            }])
+        }, [{ name: '$ROOT', folder: stateCurrentDir.ws?.folder ?? new EnFolder() }])
+        ?? []
 
     return (
         <NavBarContainer>
@@ -75,7 +82,7 @@ const NavBar = observer(() => {
                 {
                     routes.map((route, index) => <span key={index}>
                         <span className="route" onClick={() => {
-                            if (stateCurrentDir.ws) stateCurrentDir.open(stateCurrentDir.ws, route.path)
+                            if (stateCurrentDir.ws) stateCurrentDir.open(stateCurrentDir.ws, route.folder)
                         }}>{route.name}</span> /
                     </span>)
                 }
@@ -128,7 +135,7 @@ const FileGrid = ({ focus, toggle, list }: {
                         key={item.name}
                         item={item}
                         isFocus={focus === item}
-                        onOpen={item=>{if(stateCurrentDir.ws) stateCurrentDir.open(stateCurrentDir.ws,item.path)}}
+                        onOpen={item => { if (stateCurrentDir.ws) stateCurrentDir.open(stateCurrentDir.ws, item) }}
                         onToggle={() => toggle(item)}
                     />)
                 }
@@ -168,8 +175,19 @@ const FileItemContainer = styled.div`
         margin-top:-12px;
     }
 
-    .text{
-        font-size:16px;
+    .title{
+        font-size:14px;
+        width: 100%;
+        padding:0 16px;
+        text-align:center;
+        height:32px;
+        margin-top:4px;
+        
+
+        >div{
+            transform: translate(0,-20%);
+            ${group.ellipsis(2)}
+        }
     }
 
     &.focus{
@@ -203,8 +221,10 @@ const FileItem = ({ item: target, isFocus, onToggle, onOpen }: {
             <div className="icon">
                 <EnIcon family={icon[0]} name={icon[1]} />
             </div>
-            <div className="title">
-                {target.name}
+            <div className="title" title={target.name}>
+                <div>
+                    {target.name}
+                </div>
             </div>
         </FileItemContainer>
     )

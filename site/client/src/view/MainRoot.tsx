@@ -8,11 +8,13 @@ import { useEffect, useRef, useState } from "react";
 import { getDirFolders } from "@/request/file";
 import { DataTree, TreeOpenBtn } from "@/components/tree";
 import { WorkspaceLayout, stateCurrentDir, stateWorkspaces } from "@/state";
+import { EnFolder } from "@/model/file";
+import { assign } from "@/utils/base";
 
 
 const Container = styled.div`
     ${group.fill()}
-    background: #f3f3f3;
+    background: #f5f5f5;
 
     ${group.flex_row()}
 
@@ -101,9 +103,9 @@ const RootEdit = observer(() => {
         setEditDisk(name)
     }
 
-    const submit = () => { stateWorkspaces.open(select) }
+    const submit = () => { if (select) stateWorkspaces.open(select) }
 
-    const [select, setSelect] = useState<string>('')
+    const [select, setSelect] = useState<EnFolder | null>(null)
 
 
     const listRef = useRef<FolderItem[]>([])
@@ -122,8 +124,8 @@ const RootEdit = observer(() => {
             </div>
             <div className="root-edit-panel">
                 <div className="root-edit-label">
-                    请选择工作目录: {select}
-                    {select.length > 0 ? <button onClick={() => submit()}>submit</button> : ""}
+                    请选择工作目录: {select?.path}
+                    {select ? <button onClick={() => submit()}>submit</button> : ""}
                 </div>
                 <div className="root-edit-disk-selector">{
                     stateWorkspaces.disks.map(name => (
@@ -134,7 +136,8 @@ const RootEdit = observer(() => {
                     !editDisk ? '' : <FolderSelectTree
                         list={list}
                         setList={setList}
-                        selectFolder={select} setSelectFolder={setSelect}
+                        selectFolder={select}
+                        setSelectFolder={setSelect}
                     />
                 }</div>
             </div>
@@ -200,8 +203,8 @@ const FolderSelectTreeContainer = styled.div`
 
 `
 const FolderSelectTree = ({ selectFolder, setSelectFolder, list, setList }: {
-    selectFolder: string,
-    setSelectFolder: (path: string) => void,
+    selectFolder: EnFolder | null,
+    setSelectFolder: (folder: EnFolder | null) => void,
     list: FolderItem[],
     setList: (list: FolderItem[]) => void
 }) => {
@@ -215,7 +218,10 @@ const FolderSelectTree = ({ selectFolder, setSelectFolder, list, setList }: {
     }
 
     const select = (target: FolderItem) => {
-        setSelectFolder(target.path)
+        setSelectFolder(assign(new EnFolder(), {
+            name: target.name,
+            path: target.path,
+        }))
     }
 
     return <FolderSelectTreeContainer>
@@ -232,7 +238,7 @@ const FolderSelectTree = ({ selectFolder, setSelectFolder, list, setList }: {
             title={val => {
                 return <div className="path-tree-title">
                     {val.isLeaf ? '' : <TreeOpenBtn isOpen={val.isOpen} onToggle={() => toggle(val)} />}
-                    <div className="tree-title-content"><span data-select={selectFolder === val.path} onClick={() => select(val)} className="select-point">{val.name}</span></div>
+                    <div className="tree-title-content"><span data-select={selectFolder?.path === val.path} onClick={() => select(val)} className="select-point">{val.name}</span></div>
                 </div>
             }}
             list={list.filter(v => !v.pid)}
@@ -301,19 +307,19 @@ const RootSelect = observer(() => {
 
     return <RootSelectContainer>
         {stateWorkspaces.list.map(ws => <div
-            key={ws.path}
+            key={ws.folder.path}
             className="root-select-ws-item"
-            data-current={ws.path === stateWorkspaces.current?.path}
+            data-current={ws.folder.path === stateWorkspaces.current?.folder.path}
         >
-            <div className="root-select-ws-title" onClick={()=>stateWorkspaces.focus(ws)}>
-                {ws.path}
+            <div className="root-select-ws-title" onClick={() => stateWorkspaces.focus(ws)}>
+                {ws.folder.path}
             </div>
             <div className="root-select-ws-tree">
                 <FolderSelectTree
                     list={ws.folderTree}
                     setList={(tree) => { stateWorkspaces.loadTree(ws, tree) }}
-                    selectFolder={ stateCurrentDir.ws?.path === ws.path? stateCurrentDir.path:''}
-                    setSelectFolder={(path) => { stateCurrentDir.open(ws,path) }}
+                    selectFolder={stateCurrentDir.ws?.folder.path === ws.folder.path ? (stateCurrentDir.folder ?? null) : null}
+                    setSelectFolder={(folder) => { if(folder) stateCurrentDir.open(ws, folder) }}
                 />
             </div>
         </div>)}

@@ -22,11 +22,27 @@ export const group = {
         flex-direction: column;
     `,
     flex_center: () => `
+        display: flex;
         justify-content: center;
         align-items: center;
     `,
     fill: () => `
         height: 100%;
         width: 100%;
-    `
+    `,
+    ellipsis:(lines?:number)=>{
+        if(!lines) return `
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        `
+        else return `
+            overflow: hidden;  
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: ${lines};
+            -webkit-box-orient: vertical;
+        `
+
+    }
 }

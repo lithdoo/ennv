@@ -1,11 +1,11 @@
-import { EnFile, EnFolder, FileType } from "@/model/file"
-import { getDirContent, getDirFolders, getDiskList } from "@/request/file"
+import { EnFile, EnFileDetail, EnFolder, EnFolderDetail, FileType } from "@/model/file"
+import { getDirContent, getDirFolders, getDiskList, getFileDetail, getFolderDetail } from "@/request/file"
 import { assign } from "@/utils/base"
 import { action, makeAutoObservable } from "mobx"
 
 
 interface WorkSpace {
-    path: string
+    folder: EnFolder
     accessble: boolean
     folderTree: FolderTreeItem[]
 }
@@ -42,13 +42,13 @@ export const stateWorkspaces = new class {
     }
 
 
-    async open(path: string) {
+    async open(folder: EnFolder) {
 
-        const current = this.list.find(v => v.path === path)
+        const current = this.list.find(v => v.folder.path === folder.path)
 
         if (current) {
 
-            alert(`已经打开了 ${path}`)
+            alert(`已经打开了 ${folder.path}`)
             this.current = current
             this.layout = WorkspaceLayout.sider
 
@@ -56,13 +56,15 @@ export const stateWorkspaces = new class {
 
         } else {
 
-            const folderTree: FolderTreeItem[] = (await getDirFolders(path))
+            const folderTree: FolderTreeItem[] = (await getDirFolders(folder.path))
                 .map(({ name, isLeaf }) => {
-                    const id = `${path}/${name}`
+                    const id = `${folder.path}/${name}`
                     return { id, name, isLeaf, path: id, isLoaded: false, isOpen: false }
                 })
 
-            const workspace: WorkSpace = { path, folderTree, accessble: true }
+            // const folder = Folder
+
+            const workspace: WorkSpace = { folder, folderTree, accessble: true }
 
             action(() => {
                 this.list = this.list.concat([workspace])
@@ -87,8 +89,8 @@ export const stateWorkspaces = new class {
     }
 
     focus(ws: WorkSpace) {
-        this.current = this.list.find(w => w.path === ws.path)
-        if(this.current) stateCurrentDir.open(this.current)
+        this.current = this.list.find(w => w.folder.path === ws.folder.path)
+        if (this.current) stateCurrentDir.open(this.current)
     }
 
     private async reflashDisks() {
@@ -100,7 +102,8 @@ export const stateWorkspaces = new class {
 
 export const stateCurrentDir = new class {
     ws?: WorkSpace
-    path: string = ''
+    // path: string = ''
+    folder? : EnFolder
     accessble?: boolean   // 为 undefined 的时候 为loding
     active?: EnFile | EnFolder
     list: (EnFile | EnFolder)[] = []
@@ -109,20 +112,23 @@ export const stateCurrentDir = new class {
         makeAutoObservable(this)
     }
 
-    async open(ws: WorkSpace, path: string = ws.path) {
+    async open(ws: WorkSpace, folder: EnFolder = ws.folder) {
 
         this.accessble = undefined
 
-        this.path = path 
+        this.folder = folder
         this.ws = ws
         this.list = []
         this.active = undefined
+        stateSiderInfo.loadDir(folder)
+        stateSiderInfo.removeTarget()
+
 
         let accessble = false
         let list: (EnFile | EnFolder)[] = []
 
         try {
-            list = (await getDirContent(path)).map(val => assign(
+            list = (await getDirContent(folder.path)).map(val => assign(
                 val.isFolder ? new EnFolder() : new EnFile(), {
                 name: val.name,
                 path: val.path,
@@ -136,29 +142,72 @@ export const stateCurrentDir = new class {
 
         } finally {
             action(() => {
-                if (this.path !== path) return
+                if (this.folder?.path !== folder.path) return
                 this.list = list
                 this.accessble = accessble
-                console.log(this)
             })()
         }
     }
 
-    async focus(file: EnFile | EnFolder){
+    async focus(file: EnFile | EnFolder) {
         this.active = file
+        stateSiderInfo.loadTarget(file)
     }
-    async blur(){
+    async blur() {
         this.active = undefined
+        stateSiderInfo.removeTarget()
     }
 
 
 }
 
+
+
 export const stateSiderInfo = new class {
     root: string = ''
-    // currentDir?: FolderInfo  // 仅当未打开任何 workspace 才为空
-    // target?: FolderInfo | FileInfo
+
+    currentDir?: EnFolderDetail
+    loadingDir?: EnFolder
+
+    currentTarget?: EnFileDetail | EnFolderDetail
+    loadingTarget?: EnFile | EnFolder
+
     actions: [] = []
+
+    constructor(){
+        makeAutoObservable(this)
+    }
+
+    async loadDir(folder: EnFolder) {
+        this.loadingDir = folder
+        const detail = await getFolderDetail(folder)
+
+        if (detail.rid !== this.loadingDir?.rid) return
+        action(() => {
+            this.currentDir = detail
+            this.loadingDir = undefined
+        })()
+    }
+    async loadTarget(target: EnFolder | EnFile) {
+
+        this.loadingTarget = target
+        const detail = await (target.kind === 'folder'
+            ? getFolderDetail(target as EnFolder)
+            : getFileDetail(target as EnFile))
+        
+        if (detail.rid !== this.loadingTarget?.rid) return
+
+        action(() => {
+            this.currentTarget = detail
+            this.loadingTarget = undefined
+
+            console.log(this)
+        })()
+    }
+    async removeTarget(){
+        this.currentTarget = undefined
+        this.loadingTarget = undefined
+    }
 }
 
 interface EnTask { }

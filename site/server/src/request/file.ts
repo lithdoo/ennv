@@ -1,7 +1,7 @@
 import Router from 'koa-router'
 // import * as fs from 'fs'
 import { spawn } from 'child_process'
-import * as p from 'path'
+import { resolve, posix } from 'path'
 import * as fs from 'fs'
 import * as hf from 'hidefile'
 
@@ -19,9 +19,17 @@ const access = (path: string) => {
 
     try {
         fs.accessSync(path, fs.constants.R_OK | fs.constants.W_OK)
-        return !hf.isHiddenSync(path)
+        if(hf.isHiddenSync(path)) return false 
     } catch (e) {
         return false
+    }
+    
+    if(fs.statSync(path).isFile()){
+        return true
+    }
+
+    if(fs.statSync(path).isDirectory()){
+        return true
     }
 }
 
@@ -67,10 +75,10 @@ file.get('/file/dir/content', async (ctx, next) => {
     }
 
     const res = fs.readdirSync(target, { withFileTypes: true })
-    .filter(v => p.resolve(target, v.name))
+        .filter(v => resolve(target, v.name))
         .map((v) => ({
             name: v.name,
-            path: p.posix.join(target, v.name),
+            path: posix.join(target, v.name),
             isFolder: v.isDirectory(),
             isFile: v.isFile()
         }))
@@ -91,14 +99,54 @@ file.get('/file/dir/content/folders', async (ctx, next) => {
     }
 
     const res = fs.readdirSync(target as string, { withFileTypes: true })
-        .filter(v => v.isDirectory() && access(p.resolve(target, v.name)))
+        .filter(v => v.isDirectory() && access(resolve(target, v.name)))
         .map((v) => ({
             name: v.name,
-            isLeaf: !fs.readdirSync(p.resolve(target, v.name), { withFileTypes: true })
-                .find(v2 => v2.isDirectory() && access(p.resolve(target, v.name, v2.name)))
+            isLeaf: !fs.readdirSync(resolve(target, v.name), { withFileTypes: true })
+                .find(v2 => v2.isDirectory() && access(resolve(target, v.name, v2.name)))
         }))
 
     ctx.body = res
     await next()
 })
 
+file.get('/file/detail', async (ctx, next) => {
+
+    const { path } = ctx.request.query
+
+    const target = resolve((path as string) ?? '')
+
+    if (!access(target)) throw new Error('error path')
+
+    const stat = fs.statSync(target)
+
+    if (!stat.isFile()) throw new Error('not file path')
+
+    ctx.body = {
+        updateTime: stat.mtimeMs,
+        createTime: stat.ctimeMs,
+        size: stat.size
+    }
+
+    await next()
+})
+
+file.get('/file/folder/detail', async (ctx, next) => {
+
+    const { path } = ctx.request.query
+
+    const target = resolve((path as string) ?? '')
+
+    if (!access(target)) throw new Error('error path')
+
+    const stat = fs.statSync(target)
+
+    if (!stat.isDirectory()) throw new Error('not folder path')
+
+    ctx.body = {
+        updateTime: stat.mtimeMs,
+        createTime: stat.ctimeMs,
+    }
+
+    await next()
+})
