@@ -101,7 +101,7 @@ const TargetInfoPanel = observer(() => {
 
 
 const DirInfoPanelContainer = styled.div`
-    padding: 32px;
+    padding: 16px;
     background: #fff;
 `
 const DirInfoPanel = observer(() => <DirInfoPanelContainer>
