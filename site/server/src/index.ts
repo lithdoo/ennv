@@ -7,22 +7,30 @@ import mount from 'koa-mount'
 import * as path from 'path'
 import { tray } from './utils/tray'
 
-import router from './request/index'
 import bodyParser from 'koa-bodyparser'
+
+import { wss } from './request/connect';
+import { file } from './request/file';
+
 
 const app = new Koa();
 
-
 app.use(bodyParser())
 app.use(mount('/client', serve(path.resolve(__dirname, '../node_modules/@ennv/client/dist/'))));
-app.listen(4002);
-app.use(router.routes())
-app.use(router.allowedMethods())
 
+
+;(app)
+    .use(file.routes())
+    .use(file.allowedMethods())
+
+wss(app,4002)
 
 try {
     tray.init()
 } catch (e) {
     console.log(e)
 }
+
+
+
 console.log('listening on port 3000');

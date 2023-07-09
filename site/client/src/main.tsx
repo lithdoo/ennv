@@ -10,6 +10,9 @@ import { group, vars } from "./style/common"
 import { TaskListLayout, WorkspaceLayout, stateTaskList, stateWorkspaces } from "./state"
 import { observer } from 'mobx-react'
 import { MainTask } from "./view/MainTask"
+import { connect } from './utils/task'
+
+console.log(connect)
 
 const MainContainer = styled.div`
     height:100%;

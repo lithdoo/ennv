@@ -31,6 +31,8 @@ const access = (path: string) => {
     if(fs.statSync(path).isDirectory()){
         return true
     }
+
+    return false
 }
 
 file.get('/file/disk/list', async (ctx, next) => {

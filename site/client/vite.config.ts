@@ -9,7 +9,11 @@ export default defineConfig({
   server: {
     port: 4001,
     proxy: {
-      '/file': 'http://localhost:4002'
+      '/file': 'http://localhost:4002',
+      '/message/connect/':{
+        target:'http://localhost:4002',
+        ws:true
+      }
     }
   },
   resolve: {
