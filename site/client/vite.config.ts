@@ -10,6 +10,7 @@ export default defineConfig({
     port: 4001,
     proxy: {
       '/file': 'http://localhost:4002',
+      '/task': 'http://localhost:4002',
       '/message/connect/':{
         target:'http://localhost:4002',
         ws:true

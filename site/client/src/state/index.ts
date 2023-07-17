@@ -1,7 +1,8 @@
 import { EnFile, EnFileDetail, EnFolder, EnFolderDetail, FileType } from "@/model/file"
 import { getDirContent, getDirFolders, getDiskList, getFileDetail, getFolderDetail } from "@/request/file"
 import { assign } from "@/utils/base"
-import { action, makeAutoObservable } from "mobx"
+import { EnTask } from "@/utils/task"
+import { action, autorun, makeAutoObservable } from "mobx"
 
 
 interface WorkSpace {
@@ -19,8 +20,6 @@ interface FolderTreeItem {
     isLeaf: boolean,
     isLoaded: boolean,
 }
-
-
 
 export enum WorkspaceLayout {
     sider = 'workspace-layout-sider',
@@ -103,7 +102,7 @@ export const stateWorkspaces = new class {
 export const stateCurrentDir = new class {
     ws?: WorkSpace
     // path: string = ''
-    folder? : EnFolder
+    folder?: EnFolder
     accessble?: boolean   // 为 undefined 的时候 为loding
     active?: EnFile | EnFolder
     list: (EnFile | EnFolder)[] = []
@@ -161,8 +160,6 @@ export const stateCurrentDir = new class {
 
 }
 
-
-
 export const stateSiderInfo = new class {
     root: string = ''
 
@@ -174,7 +171,7 @@ export const stateSiderInfo = new class {
 
     actions: [] = []
 
-    constructor(){
+    constructor() {
         makeAutoObservable(this)
     }
 
@@ -194,7 +191,7 @@ export const stateSiderInfo = new class {
         const detail = await (target.kind === 'folder'
             ? getFolderDetail(target as EnFolder)
             : getFileDetail(target as EnFile))
-        
+
         if (detail.rid !== this.loadingTarget?.rid) return
 
         action(() => {
@@ -204,31 +201,62 @@ export const stateSiderInfo = new class {
             console.log(this)
         })()
     }
-    async removeTarget(){
+    async removeTarget() {
         this.currentTarget = undefined
         this.loadingTarget = undefined
     }
 }
 
-interface EnTask { }
-
 export enum TaskListLayout {
     min = 'tasklist-min',
     brief = 'tasklist-brief',
     max = 'tasklist-max',
-
+    detail = 'tasklist-detail'
 }
 export const stateTaskList = new class {
-    layout: TaskListLayout = TaskListLayout.min
+    status: TaskListLayout.min | TaskListLayout.max | TaskListLayout.brief
+        = TaskListLayout.min
     list: EnTask[] = []
     detail?: EnTask
-}
-export const stateLayout = new class {
+    detailElement = document.createElement('div')
+
+    get layout() {
+        if (this.detail) return TaskListLayout.detail
+        else return this.status
+    }
 
     constructor() {
         makeAutoObservable(this)
     }
 
+    focus(task: EnTask) {
+        this.detail = task
+    }
+
+    create(key: string, path: string) {
+        this.list.push(new EnTask(key, path))
+    }
+
+    min() {
+        this.status = TaskListLayout.min
+        this.detail = undefined
+    }
+
+    brief() {
+        this.status = TaskListLayout.brief
+        this.detail = undefined
+    }
+
+    max() {
+        this.status = TaskListLayout.max
+        this.detail = undefined
+    }
 }
 
-
+autorun(()=>{
+    const detail = stateTaskList.detail
+    stateTaskList.detailElement.innerHTML = ''
+    if(detail){
+        stateTaskList.detailElement.appendChild(detail.cntr.cntr)
+    }
+})

@@ -1,3 +1,5 @@
+import { EnFsBase } from "@/model/file"
+
 export enum ConnectStatus {
     off
 }
@@ -81,42 +83,191 @@ export class MessageReceiver {
 
 
 export enum TaskStatus {
+    undo,
     preparing,
     pendding,
     canceled,
     completed,
     error,
 }
-export class EnTask<Args, Msg, Result> {
 
-    status:TaskStatus = TaskStatus.preparing
+type DeleteProp<Obj, Key> = {
+    [K in Exclude<keyof Obj, Key>]: Obj[K]
+}
 
-    onMsg: (msg: Msg) => void = () => { }
-    onComplete: (res: Result) => void = () => { }
+type DeleteProps<Obj, Keys extends any[]> = ((...argus: Keys) => void) extends ((key: infer Key, ...next: infer Next extends any[]) => void)
+    ? Next extends []
+    ? DeleteProp<Obj, Key>
+    : DeleteProps<DeleteProp<Obj, Key>, Next>
+    : never
 
+
+type FetchOption = Partial<DeleteProps<RequestInit, ['method', 'signal']>>
+
+type CreateHandler = (taskId: string, path: string, response: Response, start: (option: FetchOption) => void) => EnTaskClientHandler|Promise<EnTaskClientHandler>
+
+
+export class EnTaskContainer {
+
+    cntr = document.createElement('div')
+
+    mount(element: HTMLElement) {
+        this.cntr.appendChild(element)
+    }
+
+    error(msg: string) {
+        this.cntr.innerHTML = `
+        <h1 style="color:red">${msg}</h1>
+        `
+    }
+
+}
+
+
+export class EnTask {
+    static actions: Map<string, {
+        key:string,
+        option: EnTaskClientOption,
+        createHandler: CreateHandler
+    }>
+        = new Map()
+    static regist(key: string, option: EnTaskClientOption, createHandler: CreateHandler) {
+        EnTask.actions.set(key, { key, option, createHandler: createHandler })
+    }
+
+
+    static fileActions(fb: EnFsBase) {
+        return Array.from(EnTask.actions.values())
+            .filter(v => v.option.apply(fb))
+    }
+
+    id = Math.random().toString()
+    status: TaskStatus = TaskStatus.undo
     key: string = ''
+    taskId: string = ''
     path: string = ''
+    createHandler: CreateHandler
+    option: EnTaskClientOption
+    handle: EnTaskClientHandler | null = null
+    cntr = new EnTaskContainer()
+
+
+    error(msg: string) {
+        this.cntr.error(msg)
+    }
 
     constructor(key: string, path: string) {
         this.key = key
         this.path = path
+        const task = EnTask.actions.get(key)
+        if (!task) throw new Error(`handel named "${key}" is not found.`)
+        this.createHandler = task.createHandler
+        this.option = task.option
+        this.prepare()
     }
 
-    start(argus:Args){
+    async prepare() {
+        const res = await this.preparing()
+        if (!res) return
 
-        fetch(`/task/start/${
-            encodeURIComponent(this.key)
-        }?path=${
-            encodeURIComponent(this.path)
-        }`,{
-            method:'post',
-            body:JSON.stringify(argus),
+        this.taskId = res.id
+        this.handle = await this.createHandler(
+            this.taskId,
+            this.path,
+            res.response,
+            (option) => this.start(option)
+        )
+        this.cntr.mount(this.handle.element)
+    }
+
+    start(fetchOption: FetchOption) {
+        this.pendding(fetchOption)
+    }
+
+    cancel() {
+        this.done(TaskStatus.canceled, () => {
+            if (this.controller) this.controller.abort()
+        })
+    }
+
+    private controller: AbortController | null = null
+
+    private async preparing() {
+        if (this.status !== TaskStatus.undo) return
+        this.status = TaskStatus.preparing
+        const response = await fetch(`/task/prepare/${encodeURIComponent(this.key)}?path=${encodeURIComponent(this.path)}`, {
+            method: 'get',
+        }).catch((error) => {
+            this.done(TaskStatus.error, () => {
+                this.error(`prepare request error: ${error.message}`)
+            })
+            return null
         })
 
+        if (!response) return
+
+        const id = response.headers.get('ennv-task-id')
+
+        if (typeof id !== 'string') return this.done(TaskStatus.error, () => {
+            this.error(`prepare request error: response data error`)
+        })
+
+        return { id, response }
     }
+    private pendding(fetchOption: FetchOption) {
+        if (this.status !== TaskStatus.preparing) return
+        this.status = TaskStatus.pendding
 
-    cancel(){
+        const controller = new AbortController()
 
+        fetch(`/task/start/${encodeURIComponent(this.key)
+            }?path=${encodeURIComponent(this.path)
+            }`, {
+            ...fetchOption,
+            method: 'post',
+            signal: controller.signal
+        }).then(response => {
+            this.done(TaskStatus.completed, () => {
+                this.handle?.onComplete(response)
+            })
+        }).catch(error => {
+            this.done(TaskStatus.error, () => {
+                this.handle?.onError(error.message)
+                this.error(error.message)
+            })
+        }).finally(() => {
+            this.controller = null
+        })
+
+        this.controller = controller
     }
+    private done(
+        status: TaskStatus.canceled | TaskStatus.completed | TaskStatus.error,
+        callback: () => void
+    ) {
+        if (
+            (this.status !== TaskStatus.pendding)
+            && (this.status !== TaskStatus.preparing)
+        ) return
 
+        this.status = status
+        callback()
+    }
 }
+
+
+export interface EnTaskClientOption {
+    name: string,
+    icon: [string, string, string],
+    apply: (file: EnFsBase) => boolean
+}
+export interface EnTaskClientHandler {
+    element: HTMLElement
+    onMsg: (msg: unknown) => void
+    onComplete: (res: Response) => void
+    onError: (msg: string) => void
+}
+
+
+
+

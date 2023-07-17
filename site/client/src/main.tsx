@@ -7,10 +7,12 @@ import { MainDir } from "./view/MainDir"
 import { MainInfo } from "./view/MainInfo"
 import { MainRoot } from "./view/MainRoot"
 import { group, vars } from "./style/common"
-import { TaskListLayout, WorkspaceLayout, stateTaskList, stateWorkspaces } from "./state"
+import { WorkspaceLayout, stateTaskList, stateWorkspaces } from "./state"
 import { observer } from 'mobx-react'
 import { MainTask } from "./view/MainTask"
 import { connect } from './utils/task'
+
+import './entry'
 
 console.log(connect)
 
@@ -40,20 +42,7 @@ const MainContainer = styled.div`
     > .dir-container{
         grid-area: dir;
     }
-
-
-    &.${TaskListLayout.min}{
-      grid-template-rows: ${vars.taskBarMinHeight()} 1fr;
-    }
-
-    &.${TaskListLayout.brief}{
-      grid-template-rows: ${vars.taskBarHeight()} 1fr;
-    }
-
-    &.${TaskListLayout.max}{
-      grid-template-rows: 1fr 0;
-    }
-
+    grid-template-rows: auto 1fr;
 
     &.${WorkspaceLayout.sider}{
       grid-template-columns: ${vars.rootSiderWidth()} 1fr ${vars.infoSiderWidth};

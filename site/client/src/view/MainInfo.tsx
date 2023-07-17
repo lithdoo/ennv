@@ -3,8 +3,9 @@ import styled from "styled-components";
 import { group } from "../style/common";
 import { observer } from "mobx-react";
 import { useState } from "react";
-import { EnFileDetail, EnFolderDetail } from "@/model/file";
-import { stateSiderInfo } from "@/state";
+import { EnFileDetail, EnFolderDetail, EnFsBase } from "@/model/file";
+import { stateSiderInfo, stateTaskList } from "@/state";
+import { EnTask } from "@/utils/task";
 
 const Container = styled.div`
     ${group.fill()}
@@ -94,7 +95,11 @@ const TargetInfoPanel = observer(() => {
                 stateSiderInfo.currentTarget
                     ? <DetailInfo detail={stateSiderInfo.currentTarget}></DetailInfo>
                     : ''
-            }</div>
+            }{
+                    stateSiderInfo.currentTarget
+                        ? <DetailActions detail={stateSiderInfo.currentTarget}></DetailActions>
+                        : ''
+                }</div>
         </div>
     </TargetInfoPanelContainer>
 })
@@ -110,7 +115,11 @@ const DirInfoPanel = observer(() => <DirInfoPanelContainer>
         stateSiderInfo.currentDir
             ? <DetailInfo detail={stateSiderInfo.currentDir}></DetailInfo>
             : ''
-    }</div>
+    }{
+            stateSiderInfo.currentDir
+                ? <DetailActions detail={stateSiderInfo.currentDir}></DetailActions>
+                : ''
+        }</div>
 </DirInfoPanelContainer>)
 
 
@@ -181,4 +190,56 @@ const DetailInfo = ({ detail }: { detail: EnFileDetail | EnFolderDetail }) => {
             <div className="file-info-path">{detail.path}</div>
         </div>
     </DetailInfoContainer>
+}
+
+
+
+const DetailActionsContainer = styled.div`
+
+.action{
+    ${group.flex_row()}
+    ${group.flex_center()}
+    ${group.trans_ease_out()}
+    cursor: pointer;
+    padding:  6px 9px;
+    margin: 6px 9px;
+    border-radius: 6px;
+    &:hover{
+        background:rgba(32,32,32,0.7);
+        color: #fff;
+        box-shadow:0 2px 4px rgba(0,0,0,0.2);
+    }
+
+    .icon{
+        flex: 0 0 auto;
+        margin-right:12px;
+        font-size: 24px;
+    }
+
+    .name{
+        flex: 1 1 0;
+    }
+}
+
+`
+const DetailActions = ({ detail }: { detail: EnFsBase }) => {
+
+    const actions = EnTask.fileActions(detail)
+
+
+    return <DetailActionsContainer>{
+        actions.map(v => <div
+            className="action"
+            key={v.key}
+            onClick={() => stateTaskList.create(v.key, detail.path)}
+        >
+            <div className="icon" style={{ color: v.option.icon[2] }}>
+                <EnIcon
+                    kind={[v.option.icon[0], v.option.icon[1]]}
+                ></EnIcon>
+            </div>
+
+            <div className="name">{v.option.name}</div>
+        </div>)
+    }</DetailActionsContainer>
 }

@@ -29,7 +29,15 @@ export class WsMsgConnect {
     destroy() { }
 }
 
+
+enum ConnectTaskStatus {
+    opened,
+    preding,
+    error,
+    completed
+}
 export class ConnectTask {
+    status: ConnectTaskStatus = ConnectTaskStatus.opened
     connextId: string = ''
     taskId: string = ''
 

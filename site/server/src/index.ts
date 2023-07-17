@@ -9,8 +9,8 @@ import { tray } from './utils/tray'
 
 import bodyParser from 'koa-bodyparser'
 
-import { wss } from './request/connect';
-import { file } from './request/file';
+import { wss } from './ws/connect';
+import { request } from './request/index';
 
 
 const app = new Koa();
@@ -20,8 +20,8 @@ app.use(mount('/client', serve(path.resolve(__dirname, '../node_modules/@ennv/cl
 
 
 ;(app)
-    .use(file.routes())
-    .use(file.allowedMethods())
+    .use(request.routes())
+    .use(request.allowedMethods())
 
 wss(app,4002)
 

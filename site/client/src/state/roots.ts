@@ -18,8 +18,6 @@ interface FolderTreeItem {
     isLoaded: boolean,
 }
 
-
-
 export enum WorkspaceLayout {
     sider = 'workspace-layout-sider',
     edit = 'workspace-layout-edit'

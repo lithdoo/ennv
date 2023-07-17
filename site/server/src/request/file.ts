@@ -35,7 +35,7 @@ const access = (path: string) => {
     return false
 }
 
-file.get('/file/disk/list', async (ctx, next) => {
+file.get('/disk/list', async (ctx, next) => {
     if (process.platform.indexOf('win32') >= 0) {
         ctx.body = 'dsfs'
         ctx.body = await new Promise<string[]>((resolve, reject) => {
@@ -66,7 +66,7 @@ file.get('/file/disk/list', async (ctx, next) => {
     await next()
 })
 
-file.get('/file/dir/content', async (ctx, next) => {
+file.get('/dir/content', async (ctx, next) => {
     const { path } = ctx.request.query
     let target = '/'
 
@@ -88,7 +88,7 @@ file.get('/file/dir/content', async (ctx, next) => {
     await next()
 })
 
-file.get('/file/dir/content/folders', async (ctx, next) => {
+file.get('/dir/content/folders', async (ctx, next) => {
     const { path } = ctx.request.query
 
 
@@ -112,7 +112,7 @@ file.get('/file/dir/content/folders', async (ctx, next) => {
     await next()
 })
 
-file.get('/file/detail', async (ctx, next) => {
+file.get('/detail', async (ctx, next) => {
 
     const { path } = ctx.request.query
 
@@ -133,7 +133,7 @@ file.get('/file/detail', async (ctx, next) => {
     await next()
 })
 
-file.get('/file/folder/detail', async (ctx, next) => {
+file.get('/folder/detail', async (ctx, next) => {
 
     const { path } = ctx.request.query
 
