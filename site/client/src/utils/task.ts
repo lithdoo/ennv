@@ -1,4 +1,5 @@
 import { EnFsBase } from "@/model/file"
+import { action, makeAutoObservable } from "mobx"
 
 export enum ConnectStatus {
     off
@@ -80,8 +81,6 @@ export class MessageReceiver {
     onMsg: (msg: any) => void
 }
 
-
-
 export enum TaskStatus {
     undo,
     preparing,
@@ -102,9 +101,10 @@ type DeleteProps<Obj, Keys extends any[]> = ((...argus: Keys) => void) extends (
     : never
 
 
-type FetchOption = Partial<DeleteProps<RequestInit, ['method', 'signal']>>
+export type FetchOption = Partial<DeleteProps<RequestInit, ['method', 'signal']>>
+export type StartFn = (option: FetchOption) => void
 
-type CreateHandler = (taskId: string, path: string, response: Response, start: (option: FetchOption) => void) => EnTaskClientHandler|Promise<EnTaskClientHandler>
+type CreateHandler = (taskId: string, path: string, response: Response, start: StartFn) => EnTaskClientHandler | Promise<EnTaskClientHandler>
 
 
 export class EnTaskContainer {
@@ -126,7 +126,7 @@ export class EnTaskContainer {
 
 export class EnTask {
     static actions: Map<string, {
-        key:string,
+        key: string,
         option: EnTaskClientOption,
         createHandler: CreateHandler
     }>
@@ -157,6 +157,7 @@ export class EnTask {
     }
 
     constructor(key: string, path: string) {
+        makeAutoObservable(this)
         this.key = key
         this.path = path
         const task = EnTask.actions.get(key)
@@ -197,6 +198,9 @@ export class EnTask {
         this.status = TaskStatus.preparing
         const response = await fetch(`/task/prepare/${encodeURIComponent(this.key)}?path=${encodeURIComponent(this.path)}`, {
             method: 'get',
+        }).then(response => {
+            if(!response.ok) throw new Error(response.statusText)
+            else return response
         }).catch((error) => {
             this.done(TaskStatus.error, () => {
                 this.error(`prepare request error: ${error.message}`)
@@ -226,6 +230,9 @@ export class EnTask {
             ...fetchOption,
             method: 'post',
             signal: controller.signal
+        }).then(response => {
+            if(!response.ok) throw new Error(response.statusText)
+            else return response
         }).then(response => {
             this.done(TaskStatus.completed, () => {
                 this.handle?.onComplete(response)

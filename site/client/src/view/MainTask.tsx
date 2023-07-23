@@ -15,8 +15,8 @@ const cssVar = {
 }
 
 const transiton = `
-    transition: all 0.6s ease;
-    *{ transition: all 0.6s ease; }
+    transition: all 0.3s ease;
+    *{ transition: all 0.3s ease; }
     `
 
 const Container = styled.div`
@@ -30,6 +30,7 @@ const Container = styled.div`
         ${group.flex_col()}
 
         .task-detail-outer{
+            overflow:hidden;
 
 
         }
@@ -37,7 +38,9 @@ const Container = styled.div`
     
         }
         .task-detail-inner{
-            background:#66ccff;
+            border-top:1px solid rgb(236, 236, 236);
+            height:100%;
+            min-height:300px;
         }
     
         .task-list-inner{
@@ -156,17 +159,17 @@ export const MainTask = observer(() => {
 const statusColor = (status: TaskStatus, op: number = 1) => {
     switch (status) {
         case TaskStatus.undo:
-            return `rgba(86,86,86,${op * 255})`;
+            return `rgba(107, 170, 179,${op * 255})`;
         case TaskStatus.preparing:
-            return `rgba(0,0,255,${op * 255})`
+            return `rgba(1, 186, 239,${op * 255})`
         case TaskStatus.pendding:
-            return `rgba(255,255,0,${op * 255})`
+            return `rgba(255,126,71,${op * 255})`
         case TaskStatus.error:
-            return `rgba(255,0,0,${op * 255})`
+            return `rgba(218,27,43,${op * 255})`
         case TaskStatus.completed:
-            return `rgba(0,255,0,${op * 255})`
+            return `rgba(0,255,197,${op * 255})`
         case TaskStatus.canceled:
-            return `rgba(128,128,128,${op * 255})`
+            return `rgba(118,124,167,${op * 255})`
     }
 }
 
@@ -175,7 +178,8 @@ const TaskItemContainer = styled.div`
     border-radius: 6px;
     padding: 0 12px;
     height: 56px;
-
+    color: #565656;
+    ${group.trans_ease_out()}
 
     ${[
         TaskStatus.undo,

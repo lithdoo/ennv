@@ -12,7 +12,7 @@ task.get('/prepare/:taskKey', async (ctx, next) => {
     await next()
 })
 
-task.get('/start/:taskKey', async (ctx, next) => {
+task.post('/start/:taskKey', async (ctx, next) => {
     const path: string = ctx.query.path as string || ''
     const taskId: string = ctx.query.id as string || ''
     const key: string = ctx.params.taskKey
@@ -24,11 +24,15 @@ type RequstCtx = ParameterizedContext<any, Router.IRouterParamContext<any, {}>, 
 
 
 export const taskManager = new class EnTaskManager {
-    all: Map<string, EnTaskHandle> = new Map()
+    all: Map<string, EnTaskHandler> = new Map()
 
-    regist(handle: EnTaskHandle) {
+    regist(handle: EnTaskHandler) {
+        if (!handle.key) return
         if (this.all.has(handle.key)) throw new Error('handle has been regist or task-key has been used.')
         this.all.set(handle.key, handle)
+        if (handle.router) {
+            task.use(`/deal/${encodeURIComponent(handle.key)}/`, handle.router.routes())
+        }
     }
 
     async prepare(key: string, { path, ctx }: { path: string, ctx: RequstCtx }) {
@@ -47,7 +51,7 @@ export const taskManager = new class EnTaskManager {
 }
 
 
-interface EnTaskHandle {
+interface EnTaskHandler {
     key: string
 
     onPerpare: (option: {
@@ -60,6 +64,7 @@ interface EnTaskHandle {
         path: string
     }, ctx: RequstCtx) => unknown
 
+    router?: Router<any, {}>
 }
 
 
@@ -70,5 +75,11 @@ taskManager.regist({
             html: '<h1>hello world!</h1>'
         }
     },
-    onStart(_, ctx) { ctx.body = 'test' }
+    onStart(_, ctx) { ctx.body = 'test' },
+    router: (() => {
+        const router = new Router()
+        router.post('/complete/:tid', () => { })
+        router.post('/error/:tid', () => { })
+        return router
+    })()
 })

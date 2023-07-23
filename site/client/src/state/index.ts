@@ -1,7 +1,7 @@
 import { EnFile, EnFileDetail, EnFolder, EnFolderDetail, FileType } from "@/model/file"
 import { getDirContent, getDirFolders, getDiskList, getFileDetail, getFolderDetail } from "@/request/file"
 import { assign } from "@/utils/base"
-import { EnTask } from "@/utils/task"
+import { EnTask, TaskStatus } from "@/utils/task"
 import { action, autorun, makeAutoObservable } from "mobx"
 
 
@@ -235,6 +235,9 @@ export const stateTaskList = new class {
 
     create(key: string, path: string) {
         this.list.push(new EnTask(key, path))
+        if (this.status !== TaskListLayout.min) return
+        if (this.detail) return
+        this.status = TaskListLayout.brief
     }
 
     min() {
@@ -253,10 +256,10 @@ export const stateTaskList = new class {
     }
 }
 
-autorun(()=>{
+autorun(() => {
     const detail = stateTaskList.detail
     stateTaskList.detailElement.innerHTML = ''
-    if(detail){
+    if (detail) {
         stateTaskList.detailElement.appendChild(detail.cntr.cntr)
     }
 })

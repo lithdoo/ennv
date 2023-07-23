@@ -251,3 +251,185 @@ TypeError: Cannot read properties of undefined (reading 'routes')
     at require (node:internal/modules/cjs/helpers:110:18)
     at Object.<anonymous> (C:\Users\lithd\Documents\GitHub\ennv\site\server\build\index.js:41:17)
     at Module._compile (node:internal/modules/cjs/loader:1254:14)
+
+  Error: not file path
+      at C:\Users\lithd\Documents\GitHub\ennv\site\server\build\request\file.js:137:15
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:42:32)
+      at C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-router@12.0.0\node_modules\koa-router\lib\router.js:425:16
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:42:32)
+      at C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:34:12
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-router@12.0.0\node_modules\koa-router\lib\router.js:430:31)
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:42:32)
+      at C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-mount@4.0.0\node_modules\koa-mount\index.js:52:32
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:42:32)
+      at bodyParser (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-bodyparser@4.4.0\node_modules\koa-bodyparser\index.js:91:11)
+
+
+  Error: EPERM: operation not permitted, scandir 'C:\Windows\Temp'
+      at Object.readdirSync (node:fs:1452:3)
+      at C:\Users\lithd\Documents\GitHub\ennv\site\server\build\request\file.js:123:21
+      at Array.map (<anonymous>)
+      at C:\Users\lithd\Documents\GitHub\ennv\site\server\build\request\file.js:121:10
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:42:32)
+      at C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-router@12.0.0\node_modules\koa-router\lib\router.js:425:16
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:42:32)
+      at C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:34:12
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-router@12.0.0\node_modules\koa-router\lib\router.js:430:31)
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:42:32)
+
+
+  Error: EPERM: operation not permitted, scandir 'C:\Windows\Temp'
+      at Object.readdirSync (node:fs:1452:3)
+      at C:\Users\lithd\Documents\GitHub\ennv\site\server\build\request\file.js:123:21
+      at Array.map (<anonymous>)
+      at C:\Users\lithd\Documents\GitHub\ennv\site\server\build\request\file.js:121:10
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:42:32)
+      at C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-router@12.0.0\node_modules\koa-router\lib\router.js:425:16
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:42:32)
+      at C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:34:12
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-router@12.0.0\node_modules\koa-router\lib\router.js:430:31)
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:42:32)
+
+
+  Error: not file path
+      at C:\Users\lithd\Documents\GitHub\ennv\site\server\build\request\file.js:137:15
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:42:32)
+      at C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-router@12.0.0\node_modules\koa-router\lib\router.js:425:16
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:42:32)
+      at C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:34:12
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-router@12.0.0\node_modules\koa-router\lib\router.js:430:31)
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:42:32)
+      at C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-mount@4.0.0\node_modules\koa-mount\index.js:52:32
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:42:32)
+      at bodyParser (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-bodyparser@4.4.0\node_modules\koa-bodyparser\index.js:91:11)
+
+
+  Error: not file path
+      at C:\Users\lithd\Documents\GitHub\ennv\site\server\build\request\file.js:137:15
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:42:32)
+      at C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-router@12.0.0\node_modules\koa-router\lib\router.js:425:16
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:42:32)
+      at C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:34:12
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-router@12.0.0\node_modules\koa-router\lib\router.js:430:31)
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:42:32)
+      at C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-mount@4.0.0\node_modules\koa-mount\index.js:52:32
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:42:32)
+      at bodyParser (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-bodyparser@4.4.0\node_modules\koa-bodyparser\index.js:91:11)
+
+
+  Error: not file path
+      at C:\Users\lithd\Documents\GitHub\ennv\site\server\build\request\file.js:137:15
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:42:32)
+      at C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-router@12.0.0\node_modules\koa-router\lib\router.js:425:16
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:42:32)
+      at C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:34:12
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-router@12.0.0\node_modules\koa-router\lib\router.js:430:31)
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:42:32)
+      at C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-mount@4.0.0\node_modules\koa-mount\index.js:52:32
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:42:32)
+      at bodyParser (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-bodyparser@4.4.0\node_modules\koa-bodyparser\index.js:91:11)
+
+
+  Error: not file path
+      at C:\Users\lithd\Documents\GitHub\ennv\site\server\build\request\file.js:137:15
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:42:32)
+      at C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-router@12.0.0\node_modules\koa-router\lib\router.js:425:16
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:42:32)
+      at C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:34:12
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-router@12.0.0\node_modules\koa-router\lib\router.js:430:31)
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:42:32)
+      at C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-mount@4.0.0\node_modules\koa-mount\index.js:52:32
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:42:32)
+      at bodyParser (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-bodyparser@4.4.0\node_modules\koa-bodyparser\index.js:91:11)
+
+
+  Error: not file path
+      at C:\Users\lithd\Documents\GitHub\ennv\site\server\build\request\file.js:137:15
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:42:32)
+      at C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-router@12.0.0\node_modules\koa-router\lib\router.js:425:16
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:42:32)
+      at C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:34:12
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-router@12.0.0\node_modules\koa-router\lib\router.js:430:31)
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:42:32)
+      at C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-mount@4.0.0\node_modules\koa-mount\index.js:52:32
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:42:32)
+      at bodyParser (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-bodyparser@4.4.0\node_modules\koa-bodyparser\index.js:91:11)
+
+
+  Error: not file path
+      at C:\Users\lithd\Documents\GitHub\ennv\site\server\build\request\file.js:137:15
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:42:32)
+      at C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-router@12.0.0\node_modules\koa-router\lib\router.js:425:16
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:42:32)
+      at C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:34:12
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-router@12.0.0\node_modules\koa-router\lib\router.js:430:31)
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:42:32)
+      at C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-mount@4.0.0\node_modules\koa-mount\index.js:52:32
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:42:32)
+      at bodyParser (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-bodyparser@4.4.0\node_modules\koa-bodyparser\index.js:91:11)
+
+
+  Error: not file path
+      at C:\Users\lithd\Documents\GitHub\ennv\site\server\build\request\file.js:137:15
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:42:32)
+      at C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-router@12.0.0\node_modules\koa-router\lib\router.js:425:16
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:42:32)
+      at C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:34:12
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-router@12.0.0\node_modules\koa-router\lib\router.js:430:31)
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:42:32)
+      at C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-mount@4.0.0\node_modules\koa-mount\index.js:52:32
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:42:32)
+      at bodyParser (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-bodyparser@4.4.0\node_modules\koa-bodyparser\index.js:91:11)
+
+
+  Error: not file path
+      at C:\Users\lithd\Documents\GitHub\ennv\site\server\build\request\file.js:137:15
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:42:32)
+      at C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-router@12.0.0\node_modules\koa-router\lib\router.js:425:16
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:42:32)
+      at C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:34:12
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-router@12.0.0\node_modules\koa-router\lib\router.js:430:31)
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:42:32)
+      at C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-mount@4.0.0\node_modules\koa-mount\index.js:52:32
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:42:32)
+      at bodyParser (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-bodyparser@4.4.0\node_modules\koa-bodyparser\index.js:91:11)
+
+
+  Error: not file path
+      at C:\Users\lithd\Documents\GitHub\ennv\site\server\build\request\file.js:137:15
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:42:32)
+      at C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-router@12.0.0\node_modules\koa-router\lib\router.js:425:16
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:42:32)
+      at C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:34:12
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-router@12.0.0\node_modules\koa-router\lib\router.js:430:31)
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:42:32)
+      at C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-mount@4.0.0\node_modules\koa-mount\index.js:52:32
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:42:32)
+      at bodyParser (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-bodyparser@4.4.0\node_modules\koa-bodyparser\index.js:91:11)
+
+
+  Error: not file path
+      at C:\Users\lithd\Documents\GitHub\ennv\site\server\build\request\file.js:137:15
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:42:32)
+      at C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-router@12.0.0\node_modules\koa-router\lib\router.js:425:16
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:42:32)
+      at C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:34:12
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-router@12.0.0\node_modules\koa-router\lib\router.js:430:31)
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:42:32)
+      at C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-mount@4.0.0\node_modules\koa-mount\index.js:52:32
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:42:32)
+      at bodyParser (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-bodyparser@4.4.0\node_modules\koa-bodyparser\index.js:91:11)
+
+
+  Error: not file path
+      at C:\Users\lithd\Documents\GitHub\ennv\site\server\build\request\file.js:137:15
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:42:32)
+      at C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-router@12.0.0\node_modules\koa-router\lib\router.js:425:16
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:42:32)
+      at C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:34:12
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-router@12.0.0\node_modules\koa-router\lib\router.js:430:31)
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:42:32)
+      at C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-mount@4.0.0\node_modules\koa-mount\index.js:52:32
+      at dispatch (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-compose@4.1.0\node_modules\koa-compose\index.js:42:32)
+      at bodyParser (C:\Users\lithd\Documents\GitHub\ennv\node_modules\.pnpm\koa-bodyparser@4.4.0\node_modules\koa-bodyparser\index.js:91:11)
+
