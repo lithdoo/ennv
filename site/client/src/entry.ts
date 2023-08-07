@@ -1,10 +1,12 @@
-import { EnTask, EnTaskClientHandler, StartFn } from "./utils/task"
+// import { EnTask, EnTaskClientHandler, StartFn } from "./utils/task"
+
+import { StartFn, actions, EnActionHandler } from '@ennv/action'
 
 
-class TestTaskHandle implements EnTaskClientHandler {
+class TestTaskHandle implements EnActionHandler {
     element: HTMLElement = document.createElement('div')
-    onMsg = (msg: unknown) => { }
-    onError = (msg: string) => { }
+    onMsg = (msg: unknown) => { console.log('onMsg',msg)}
+    onError = (msg: string) => { console.log('onError',msg)}
 
     tid: string
     path: string
@@ -32,14 +34,15 @@ class TestTaskHandle implements EnTaskClientHandler {
 
 
     onComplete(res: Response){
+        console.log('onComplete',res)
         this.element.innerHTML = `task complete`
     }
 
 
 }
 
-EnTask.regist('hello', {
+actions.regist('hello', {
     name: 'hello',
     icon: ['i_file', 'database', '#66ccff'],
-    apply: (fb) => fb.kind === "folder"
+    apply: (fb) => fb.type !== "file"
 }, (tid, path, res, start) => new TestTaskHandle(tid, path).init(res, start))

@@ -10,8 +10,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start:dev": "pnpm run -r --parallel start:dev",
-    "stop:dev": "pnpm run -r --parallel stop:dev"
+    "build": "pnpm run -r build",
+    "stop:dev": "pnpm run -r --parallel stop:dev",
+    "app:start": "pnpm run -r  --filter=app start"
   },
   "repository": {
     "type": "git",

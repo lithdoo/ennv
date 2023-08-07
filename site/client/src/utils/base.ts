@@ -1,4 +1,6 @@
-import { FileType } from "@/model/file"
+// import { FileType } from "@/model/file"
+
+import { FileType } from "./file"
 
 export const assign = <T extends object>(base:T,...next:(Partial<T>)[])=> Object.assign(base,...next)
 

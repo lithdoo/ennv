@@ -1,36 +1,32 @@
-export * from './lib/async';
-export * from './lib/number';
-
 import Koa from 'koa'
-import serve from 'koa-static'
-import mount from 'koa-mount'
-import * as path from 'path'
-import { tray } from './utils/tray'
-
 import bodyParser from 'koa-bodyparser'
 
 import { wss } from './ws/connect';
 import { request } from './request/index';
+import { loadList } from './request/load';
 
-
-const app = new Koa();
-
-app.use(bodyParser())
-app.use(mount('/client', serve(path.resolve(__dirname, '../node_modules/@ennv/client/dist/'))));
-
-
-;(app)
-    .use(request.routes())
-    .use(request.allowedMethods())
-
-wss(app,4002)
-
-try {
-    tray.init()
-} catch (e) {
-    console.log(e)
+export class EnnvServer {
+    app = new Koa()
+    constructor() {
+        this.app
+            .use(bodyParser())
+            .use(request.allowedMethods())
+            .use(request.routes())
+    }
+    use(middleware: Koa.Middleware<Koa.DefaultState, Koa.DefaultContext, any>) {
+        this.app.use(middleware)
+    }
+    setExtraFiles({ scripts, stylesheets }: {
+        scripts?: string[],
+        stylesheets?: string[]
+    }) {
+        loadList.scripts = loadList.scripts.concat(scripts ?? [])
+        loadList.scripts = loadList.scripts.concat(stylesheets ?? [])
+    }
+    listen(port: number) {
+        wss(this.app, port)
+    }
 }
 
 
 
-console.log('listening on port 3000');

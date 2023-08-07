@@ -3,9 +3,11 @@ import styled from "styled-components";
 import { group } from "../style/common";
 import { observer } from "mobx-react";
 import { useState } from "react";
-import { EnFileDetail, EnFolderDetail, EnFsBase } from "@/model/file";
+// import { EnFileDetail, EnFolderDetail, EnFsBase } from "@/model/file";
 import { stateSiderInfo, stateTaskList } from "@/state";
 import { EnTask } from "@/utils/task";
+import { FileStat } from "@/utils/webdav";
+import { FileType } from "@/utils/file";
 
 const Container = styled.div`
     ${group.fill()}
@@ -176,9 +178,9 @@ const DetailInfoContainer = styled.div`
         }
     }
 `
-const DetailInfo = ({ detail }: { detail: EnFileDetail | EnFolderDetail }) => {
-    const icon: [string, string] = detail instanceof EnFileDetail
-        ? detail.type.icon
+const DetailInfo = ({ detail }: { detail: FileStat }) => {
+    const icon: [string, string] = detail.type === 'file'
+        ? FileType.type(detail.basename).icon
         : ['i_file', 'folder']
 
     return <DetailInfoContainer>
@@ -186,8 +188,8 @@ const DetailInfo = ({ detail }: { detail: EnFileDetail | EnFolderDetail }) => {
             <EnIcon kind={icon}></EnIcon>
         </div>
         <div className="file-info-text">
-            <div className="file-info-name">{detail.name}</div>
-            <div className="file-info-path">{detail.path}</div>
+            <div className="file-info-name">{detail.basename}</div>
+            <div className="file-info-path">{detail.filename}</div>
         </div>
     </DetailInfoContainer>
 }
@@ -222,7 +224,7 @@ const DetailActionsContainer = styled.div`
 }
 
 `
-const DetailActions = ({ detail }: { detail: EnFsBase }) => {
+const DetailActions = ({ detail }: { detail: FileStat }) => {
 
     const actions = EnTask.fileActions(detail)
 
@@ -231,7 +233,7 @@ const DetailActions = ({ detail }: { detail: EnFsBase }) => {
         actions.map(v => <div
             className="action"
             key={v.key}
-            onClick={() => stateTaskList.create(v.key, detail.path)}
+            onClick={() => stateTaskList.create(v.key, detail.filename)}
         >
             <div className="icon" style={{ color: v.option.icon[2] }}>
                 <EnIcon

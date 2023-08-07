@@ -1,21 +1,21 @@
-import { EnFile, EnFileDetail, EnFolder, EnFolderDetail, FileType } from "@/model/file"
-import { getDirContent, getDirFolders, getDiskList, getFileDetail, getFolderDetail } from "@/request/file"
-import { assign } from "@/utils/base"
-import { EnTask, TaskStatus } from "@/utils/task"
+// import { EnFile, EnFileDetail, EnFolder, EnFolderDetail, FileType } from "@/model/file"
+// import { getDirContent, getDirFolders, getDiskList, getFileDetail, getFolderDetail } from "@/request/file"
+import * as webdav from '@/utils/webdav'
+import { type FileStat } from '@/utils/webdav'
+import { EnTask } from "@/utils/task"
 import { action, autorun, makeAutoObservable } from "mobx"
 
 
 interface WorkSpace {
-    folder: EnFolder
+    folder: FileStat
     accessble: boolean
     folderTree: FolderTreeItem[]
 }
 
-interface FolderTreeItem {
+export interface FolderTreeItem {
     id: string,
-    pid?: string,
-    name: string,
-    path: string,
+    stat: FileStat,
+    pid?:string,
     isOpen: boolean,
     isLeaf: boolean,
     isLoaded: boolean,
@@ -41,13 +41,13 @@ export const stateWorkspaces = new class {
     }
 
 
-    async open(folder: EnFolder) {
+    async open(folder: FileStat) {
 
-        const current = this.list.find(v => v.folder.path === folder.path)
+        const current = this.list.find(v => v.folder.filename === folder.filename)
 
         if (current) {
 
-            alert(`已经打开了 ${folder.path}`)
+            alert(`已经打开了 ${folder.filename}`)
             this.current = current
             this.layout = WorkspaceLayout.sider
 
@@ -55,13 +55,13 @@ export const stateWorkspaces = new class {
 
         } else {
 
-            const folderTree: FolderTreeItem[] = (await getDirFolders(folder.path))
-                .map(({ name, isLeaf }) => {
-                    const id = `${folder.path}/${name}`
-                    return { id, name, isLeaf, path: id, isLoaded: false, isOpen: false }
-                })
 
-            // const folder = Folder
+            const folderTree: FolderTreeItem[] = (await webdav.getDirFolders(folder.filename))
+                .map((stat) => ({
+                    id: stat.filename,
+                    stat,
+                    isLoaded: false, isOpen: false, isLeaf: false,
+                }))
 
             const workspace: WorkSpace = { folder, folderTree, accessble: true }
 
@@ -88,12 +88,12 @@ export const stateWorkspaces = new class {
     }
 
     focus(ws: WorkSpace) {
-        this.current = this.list.find(w => w.folder.path === ws.folder.path)
+        this.current = this.list.find(w => w.folder.filename === ws.folder.filename)
         if (this.current) stateCurrentDir.open(this.current)
     }
 
     private async reflashDisks() {
-        const list = await getDiskList()
+        const list = ['/']
         action(() => { this.disks = list })()
     }
 
@@ -102,16 +102,16 @@ export const stateWorkspaces = new class {
 export const stateCurrentDir = new class {
     ws?: WorkSpace
     // path: string = ''
-    folder?: EnFolder
+    folder?: FileStat
     accessble?: boolean   // 为 undefined 的时候 为loding
-    active?: EnFile | EnFolder
-    list: (EnFile | EnFolder)[] = []
+    active?: FileStat
+    list: (FileStat)[] = []
 
     constructor() {
         makeAutoObservable(this)
     }
 
-    async open(ws: WorkSpace, folder: EnFolder = ws.folder) {
+    async open(ws: WorkSpace, folder: FileStat = ws.folder) {
 
         this.accessble = undefined
 
@@ -124,31 +124,33 @@ export const stateCurrentDir = new class {
 
 
         let accessble = false
-        let list: (EnFile | EnFolder)[] = []
+        let list: (FileStat)[] = []
 
         try {
-            list = (await getDirContent(folder.path)).map(val => assign(
-                val.isFolder ? new EnFolder() : new EnFile(), {
-                name: val.name,
-                path: val.path,
-                accessble: true
-            }, val.isFolder ? {} : {
-                type: FileType.type(val.name)
-            }))
+            list = //(
+                await webdav.getDirContents(folder.filename)
+            // .map(val => assign(
+            //     val.isFolder ? new EnFolder() : new EnFile(), {
+            //     name: val.name,
+            //     path: val.path,
+            //     accessble: true
+            // }, val.isFolder ? {} : {
+            //     type: FileType.type(val.name)
+            // }))
             accessble = true
         } catch (e) {
             accessble = false
 
         } finally {
             action(() => {
-                if (this.folder?.path !== folder.path) return
+                if (this.folder?.filename !== folder.filename) return
                 this.list = list
                 this.accessble = accessble
             })()
         }
     }
 
-    async focus(file: EnFile | EnFolder) {
+    async focus(file: FileStat) {
         this.active = file
         stateSiderInfo.loadTarget(file)
     }
@@ -163,11 +165,11 @@ export const stateCurrentDir = new class {
 export const stateSiderInfo = new class {
     root: string = ''
 
-    currentDir?: EnFolderDetail
-    loadingDir?: EnFolder
+    currentDir?: FileStat
+    loadingDir?: FileStat
 
-    currentTarget?: EnFileDetail | EnFolderDetail
-    loadingTarget?: EnFile | EnFolder
+    currentTarget?: FileStat
+    loadingTarget?: FileStat
 
     actions: [] = []
 
@@ -175,24 +177,26 @@ export const stateSiderInfo = new class {
         makeAutoObservable(this)
     }
 
-    async loadDir(folder: EnFolder) {
+    async loadDir(folder: FileStat) {
         this.loadingDir = folder
-        const detail = await getFolderDetail(folder)
+        const detail = folder // await getFolderDetail(folder)
 
-        if (detail.rid !== this.loadingDir?.rid) return
+        if (detail.filename !== this.loadingDir?.filename) return
+
         action(() => {
             this.currentDir = detail
             this.loadingDir = undefined
         })()
     }
-    async loadTarget(target: EnFolder | EnFile) {
+    async loadTarget(target: FileStat) {
 
         this.loadingTarget = target
-        const detail = await (target.kind === 'folder'
-            ? getFolderDetail(target as EnFolder)
-            : getFileDetail(target as EnFile))
+        const detail = target
+            // await (target.kind === 'folder'
+            // ? getFolderDetail(target as EnFolder)
+            // : getFileDetail(target as EnFile))
 
-        if (detail.rid !== this.loadingTarget?.rid) return
+        if (detail.filename !== this.loadingTarget?.filename) return
 
         action(() => {
             this.currentTarget = detail

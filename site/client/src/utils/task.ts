@@ -1,5 +1,6 @@
-import { EnFsBase } from "@/model/file"
-import { action, makeAutoObservable } from "mobx"
+import { makeAutoObservable } from "mobx"
+import { actions } from '@ennv/action'
+import { FileStat } from "@/utils/webdav"
 
 export enum ConnectStatus {
     off
@@ -12,7 +13,7 @@ export const connect = new class Connect {
         this.reconnect()
     }
 
-    reconnectTimeout: number | null = null
+    reconnectTimeout: any | null = null
     reconnect() {
         if (this.online || this.ws) {
             return
@@ -53,8 +54,7 @@ export const connect = new class Connect {
         if (typeof data == 'string') {
             try {
                 const obj = JSON.parse(data)
-
-
+                console.log('wsMessage', obj)
             } catch (e) {
                 console.error(e)
             }
@@ -125,19 +125,9 @@ export class EnTaskContainer {
 
 
 export class EnTask {
-    static actions: Map<string, {
-        key: string,
-        option: EnTaskClientOption,
-        createHandler: CreateHandler
-    }>
-        = new Map()
-    static regist(key: string, option: EnTaskClientOption, createHandler: CreateHandler) {
-        EnTask.actions.set(key, { key, option, createHandler: createHandler })
-    }
-
-
-    static fileActions(fb: EnFsBase) {
-        return Array.from(EnTask.actions.values())
+    static actions = () => actions.all
+    static fileActions(fb: FileStat) {
+        return Array.from(EnTask.actions().values())
             .filter(v => v.option.apply(fb))
     }
 
@@ -160,7 +150,7 @@ export class EnTask {
         makeAutoObservable(this)
         this.key = key
         this.path = path
-        const task = EnTask.actions.get(key)
+        const task = EnTask.actions().get(key)
         if (!task) throw new Error(`handel named "${key}" is not found.`)
         this.createHandler = task.createHandler
         this.option = task.option
@@ -199,7 +189,7 @@ export class EnTask {
         const response = await fetch(`/task/prepare/${encodeURIComponent(this.key)}?path=${encodeURIComponent(this.path)}`, {
             method: 'get',
         }).then(response => {
-            if(!response.ok) throw new Error(response.statusText)
+            if (!response.ok) throw new Error(response.statusText)
             else return response
         }).catch((error) => {
             this.done(TaskStatus.error, () => {
@@ -231,7 +221,7 @@ export class EnTask {
             method: 'post',
             signal: controller.signal
         }).then(response => {
-            if(!response.ok) throw new Error(response.statusText)
+            if (!response.ok) throw new Error(response.statusText)
             else return response
         }).then(response => {
             this.done(TaskStatus.completed, () => {
@@ -262,12 +252,12 @@ export class EnTask {
     }
 }
 
-
 export interface EnTaskClientOption {
     name: string,
     icon: [string, string, string],
-    apply: (file: EnFsBase) => boolean
+    apply: (file: FileStat) => boolean
 }
+
 export interface EnTaskClientHandler {
     element: HTMLElement
     onMsg: (msg: unknown) => void

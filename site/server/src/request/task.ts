@@ -83,3 +83,19 @@ taskManager.regist({
         return router
     })()
 })
+
+taskManager.regist({
+    key: 'gba-emulator',
+    onPerpare(_, ctx) {
+        ctx.body = {
+            html: '<h1>hello world!</h1>'
+        }
+    },
+    onStart(_, ctx) { ctx.body = 'test' },
+    router: (() => {
+        const router = new Router()
+        router.post('/complete/:tid', () => { })
+        router.post('/error/:tid', () => { })
+        return router
+    })()
+})

@@ -23,3 +23,9 @@ dist-ssr
 *.sln
 *.sw?
 site/server/console
+*.tsbuildinfo
+*.tsbuildinfo
+site/server/console
+site/server/error
+site/app/console
+site/app/error

@@ -5,9 +5,9 @@ import fs from 'fs'
 
 export const tray = new class {
 
-    private systray?: SysTray
+    systray?: SysTray
 
-    private actions() {
+    actions() {
         return [{
             title: "创建 Ennv 链接",
             tooltip: "在浏览器打开一个新的 Ennv 页面",
@@ -27,7 +27,7 @@ export const tray = new class {
         }]
     }
 
-    private events() {
+    events() {
         const list = this.actions().map(v => v.on)
 
         return (e: ClickEvent) => {
@@ -38,7 +38,7 @@ export const tray = new class {
 
     }
 
-    private async icon() {
+    async icon() {
         const filePath = process.platform.indexOf('win32') >= 0
             ? path.resolve(__dirname, "../../assets/logo/favicon64.ico")
             : path.resolve(__dirname, "../../assets/logo/favicon64.png")
@@ -63,7 +63,7 @@ export const tray = new class {
         return await base64(filePath)
     }
 
-    private async items() {
+    async items() {
         return (await this.actions()).map(({ title, tooltip, checked, enabled }) => ({ title, tooltip, checked, enabled }))
 
     }

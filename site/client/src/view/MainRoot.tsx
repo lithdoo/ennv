@@ -1,15 +1,17 @@
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 import { group } from "../style/common";
 // import { rootState } from "@/state/roots";
 import { WidthHideBox } from "@/components";
 import logo from '@/assets/favicon500.png'
 import { observer } from "mobx-react";
 import { useEffect, useRef, useState } from "react";
-import { getDirFolders } from "@/request/file";
+// import { getDirFolders } from "@/request/file";
 import { DataTree, TreeOpenBtn } from "@/components/tree";
-import { WorkspaceLayout, stateCurrentDir, stateWorkspaces } from "@/state";
-import { EnFolder } from "@/model/file";
+import { FolderTreeItem, WorkspaceLayout, stateCurrentDir, stateWorkspaces } from "@/state";
+// import { EnFolder } from "@/model/file";
 import { assign } from "@/utils/base";
+import * as webdav from '@/utils/webdav'
+import { FileStat } from '@/utils/webdav'
 
 
 const Container = styled.div`
@@ -105,12 +107,12 @@ const RootEdit = observer(() => {
 
     const submit = () => { if (select) stateWorkspaces.open(select) }
 
-    const [select, setSelect] = useState<EnFolder | null>(null)
+    const [select, setSelect] = useState<FileStat | null>(null)
 
 
-    const listRef = useRef<FolderItem[]>([])
+    const listRef = useRef<FolderTreeItem[]>([])
 
-    const [list, setList] = useState<FolderItem[]>(listRef.current)
+    const [list, setList] = useState<FolderTreeItem[]>(listRef.current)
 
     useEffect(() => {
         setList([])
@@ -124,7 +126,7 @@ const RootEdit = observer(() => {
             </div>
             <div className="root-edit-panel">
                 <div className="root-edit-label">
-                    请选择工作目录: {select?.path}
+                    请选择工作目录: {select?.filename}
                     {select ? <button onClick={() => submit()}>submit</button> : ""}
                 </div>
                 <div className="root-edit-disk-selector">{
@@ -146,26 +148,16 @@ const RootEdit = observer(() => {
     </RootEditContainer>
 })
 
-type FolderItem = {
-    name: string,
-    id: string,
-    pid?: string,
-    path: string,
-    isOpen: boolean,
-    isLeaf: boolean,
-    isLoaded: boolean,
-}
 
-const load = async (path: string, pid: string, list: FolderItem[], setList: (list: FolderItem[]) => void) => {
-    const children = (await getDirFolders(path)).map(val => ({
-        id: `${path}/${val.name}`,
-        pid: pid,
-        name: val.name,
-        path: `${path}/${val.name}`,
-        isOpen: false,
-        isLeaf: val.isLeaf,
-        isLoaded: false,
-    }))
+
+const load = async (path: string, pid: string, list: FolderTreeItem[], setList: (list: FolderTreeItem[]) => void) => {
+    const children = (await webdav.getDirFolders(path))
+        .map((stat) => ({
+            id: stat.filename,
+            stat,
+            pid,
+            isLoaded: false, isOpen: false, isLeaf: false,
+        }))
 
     const newList = list.filter(val => pid ? (val.pid || '').indexOf(pid) !== 0 : false)
         .map(val => val.id !== pid ? val : Object.assign({}, val, { isLoaded: true, isOpen: true }))
@@ -203,29 +195,26 @@ const FolderSelectTreeContainer = styled.div`
 
 `
 const FolderSelectTree = ({ selectFolder, setSelectFolder, list, setList }: {
-    selectFolder: EnFolder | null,
-    setSelectFolder: (folder: EnFolder | null) => void,
-    list: FolderItem[],
-    setList: (list: FolderItem[]) => void
+    selectFolder: FileStat | null,
+    setSelectFolder: (folder: FileStat | null) => void,
+    list: FolderTreeItem[],
+    setList: (list: FolderTreeItem[]) => void
 }) => {
 
 
 
-    const toggle = (target: FolderItem) => {
-        if (!target.isLoaded) return load(target.path, target.id, list, setList)
+    const toggle = (target: FolderTreeItem) => {
+        if (!target.isLoaded) return load(target.stat.filename, target.id, list, setList)
         const newList = list.map(val => val.id !== target.id ? val : Object.assign({}, val, { isOpen: !val.isOpen }))
         setList(newList)
     }
 
-    const select = (target: FolderItem) => {
-        setSelectFolder(assign(new EnFolder(), {
-            name: target.name,
-            path: target.path,
-        }))
+    const select = (target: FolderTreeItem) => {
+        setSelectFolder(target.stat)
     }
 
     return <FolderSelectTreeContainer>
-        <DataTree<FolderItem>
+        <DataTree<FolderTreeItem>
             id={val => val.id}
             blank={(target) => {
                 if (!target.isOpen)
@@ -238,7 +227,7 @@ const FolderSelectTree = ({ selectFolder, setSelectFolder, list, setList }: {
             title={val => {
                 return <div className="path-tree-title">
                     {val.isLeaf ? '' : <TreeOpenBtn isOpen={val.isOpen} onToggle={() => toggle(val)} />}
-                    <div className="tree-title-content"><span data-select={selectFolder?.path === val.path} onClick={() => select(val)} className="select-point">{val.name}</span></div>
+                    <div className="tree-title-content"><span data-select={selectFolder?.filename === val.stat.filename} onClick={() => select(val)} className="select-point">{val.stat.basename}</span></div>
                 </div>
             }}
             list={list.filter(v => !v.pid)}
@@ -307,19 +296,19 @@ const RootSelect = observer(() => {
 
     return <RootSelectContainer>
         {stateWorkspaces.list.map(ws => <div
-            key={ws.folder.path}
+            key={ws.folder.filename}
             className="root-select-ws-item"
-            data-current={ws.folder.path === stateWorkspaces.current?.folder.path}
+            data-current={ws.folder.filename === stateWorkspaces.current?.folder.filename}
         >
             <div className="root-select-ws-title" onClick={() => stateWorkspaces.focus(ws)}>
-                {ws.folder.path}
+                {ws.folder.filename}
             </div>
             <div className="root-select-ws-tree">
                 <FolderSelectTree
                     list={ws.folderTree}
                     setList={(tree) => { stateWorkspaces.loadTree(ws, tree) }}
-                    selectFolder={stateCurrentDir.ws?.folder.path === ws.folder.path ? (stateCurrentDir.folder ?? null) : null}
-                    setSelectFolder={(folder) => { if(folder) stateCurrentDir.open(ws, folder) }}
+                    selectFolder={stateCurrentDir.ws?.folder.filename === ws.folder.filename ? (stateCurrentDir.folder ?? null) : null}
+                    setSelectFolder={(folder) => { if (folder) stateCurrentDir.open(ws, folder) }}
                 />
             </div>
         </div>)}

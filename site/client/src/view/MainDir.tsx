@@ -1,11 +1,12 @@
-import { useState } from "react";
 import styled from "styled-components";
-import { EnFolder, EnFile, FileType } from "../model/file";
+// import { EnFolder, EnFile } from "../model/file";
 import { EnIcon } from "@ennv/components";
 import { group } from "../style/common";
 import { stateCurrentDir } from "@/state";
 import { observer } from "mobx-react";
 import { assign } from "@/utils/base";
+import { FileStat } from "@/utils/webdav";
+import { FileType } from "@/utils/file";
 
 const Container = styled.div`
     grid-area: center;
@@ -16,7 +17,7 @@ const Container = styled.div`
 export const MainDir = observer(() => {
     const focus = stateCurrentDir.active ?? null
     const list = stateCurrentDir.list
-    const toggle = (target: EnFile | EnFolder) => {
+    const toggle = (target: FileStat) => {
         if (focus !== target) {
             stateCurrentDir.focus(target)
         } else {
@@ -61,20 +62,21 @@ const NavBarContainer = styled.div`
     }    
 `
 const NavBar = observer(() => {
-    const root = (stateCurrentDir.ws?.folder.path.split('/') ?? []).filter(v => !!v)
-    const routes = stateCurrentDir.folder?.path
-        .split('/').filter(v => !!v)
-        .map((val, idx) => val === root[idx] ? '' : val)
-        .filter(v => !!v)
-        .reduce((res, name) => {
-            const parent = res[res.length - 1]
-            return res.concat([{
-                name, folder: assign(new EnFolder(), {
-                    name, path: `${parent.folder.path}/${name}`
-                })
-            }])
-        }, [{ name: '$ROOT', folder: stateCurrentDir.ws?.folder ?? new EnFolder() }])
-        ?? []
+    const root = (stateCurrentDir.ws?.folder.filename.split('/') ?? []).filter(v => !!v)
+    const routes = [] as any[]
+    //   stateCurrentDir.folder?.filename
+    //     .split('/').filter(v => !!v)
+    //     .map((val, idx) => val === root[idx] ? '' : val)
+    //     .filter(v => !!v)
+    //     .reduce((res, name) => {
+    //         const parent = res[res.length - 1]
+    //         return res.concat([{
+    //             name, folder: assign(new EnFolder(), {
+    //                 name, path: `${parent.folder.path}/${name}`
+    //             })
+    //         }])
+    //     }, [{ name: '$ROOT', folder: stateCurrentDir.ws?.folder ?? new EnFolder() }])
+    //     ?? []
 
     return (
         <NavBarContainer>
@@ -121,9 +123,9 @@ const FileGridContainer = styled.div`
 `
 
 const FileGrid = ({ focus, toggle, list }: {
-    focus: EnFile | EnFolder | null,
-    toggle: (f: EnFile | EnFolder) => void
-    list: (EnFile | EnFolder)[]
+    focus: FileStat | null,
+    toggle: (f: FileStat) => void
+    list: (FileStat)[]
 }) => {
 
     return (
@@ -132,7 +134,7 @@ const FileGrid = ({ focus, toggle, list }: {
 
                 {
                     list.map(item => <FileItem
-                        key={item.name}
+                        key={item.basename}
                         item={item}
                         isFocus={focus === item}
                         onOpen={item => { if (stateCurrentDir.ws) stateCurrentDir.open(stateCurrentDir.ws, item) }}
@@ -202,28 +204,28 @@ const FileItemContainer = styled.div`
 `
 
 const FileItem = ({ item: target, isFocus, onToggle, onOpen }: {
-    item: EnFile | EnFolder,
+    item: FileStat,
     isFocus: boolean,
     onToggle: () => void,
-    onOpen: (item: EnFolder) => void
+    onOpen: (item: FileStat) => void
 }) => {
 
-    const icon = target instanceof EnFile
-        ? target.type.icon
+    const icon = target.type === 'file'
+        ? FileType.type(target.basename).icon
         : ['i_file', 'folder']
 
     return (
         <FileItemContainer
             className={isFocus ? ' focus' : ''}
             onClick={onToggle}
-            onDoubleClick={() => { if (target instanceof EnFolder) onOpen(target) }}
+            onDoubleClick={() => { if (target.type === 'directory') onOpen(target) }}
         >
             <div className="icon">
                 <EnIcon family={icon[0]} name={icon[1]} />
             </div>
-            <div className="title" title={target.name}>
+            <div className="title" title={target.basename}>
                 <div>
-                    {target.name}
+                    {target.basename}
                 </div>
             </div>
         </FileItemContainer>

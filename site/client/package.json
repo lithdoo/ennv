@@ -13,12 +13,14 @@
     "dist/**/*"
   ],
   "dependencies": {
+    "@ennv/action": "workspace:*",
     "@ennv/components": "workspace:*",
     "mobx": "^6.9.0",
     "mobx-react": "^7.6.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "styled-components": "^5.3.11"
+    "styled-components": "^5.3.11",
+    "webdav": "^5.2.3"
   },
   "devDependencies": {
     "@types/react": "^18.0.28",

@@ -13,6 +13,8 @@ import { MainTask } from "./view/MainTask"
 import { connect } from './utils/task'
 
 import './entry'
+import './utils/webdav'
+import { getLoadScripts, getLoadStylesheets } from './request/plugin'
 
 console.log(connect)
 
@@ -68,6 +70,20 @@ const MainLayout = observer(() => {
       <div className="dir-container"><MainDir /></div>
     </MainContainer>
   )
+})
+
+
+getLoadScripts().then(list=>{
+  list
+    .map(src=>Object.assign(document.createElement('script'),{src}))
+    .forEach(script=>document.head.appendChild(script))
+})
+
+
+getLoadStylesheets().then(list=>{
+  list
+    .map(href=>Object.assign(document.createElement('style'),{href,type:'stylesheet'}))
+    .forEach(script=>document.head.appendChild(script))
 })
 
 
