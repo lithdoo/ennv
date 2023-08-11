@@ -38,5 +38,5 @@ class TestTaskHandle implements EnActionHandler {
 actions.regist('gba-emulator', {
     name: 'gba-emulator',
     icon: ['i_file', 'database', '#66ccff'],
-    apply: (fb) => fb.kind === "folder"
+    apply: (fb) => fb.type === 'directory'
 }, (tid, path, res, start) => new TestTaskHandle(tid, path).init(res, start))

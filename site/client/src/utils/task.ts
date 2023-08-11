@@ -132,6 +132,7 @@ export class EnTask {
     }
 
     id = Math.random().toString()
+    fileStat: FileStat
     status: TaskStatus = TaskStatus.undo
     key: string = ''
     taskId: string = ''
@@ -146,11 +147,12 @@ export class EnTask {
         this.cntr.error(msg)
     }
 
-    constructor(key: string, path: string) {
+    constructor(key: string, stat:FileStat) {
         makeAutoObservable(this)
         this.key = key
-        this.path = path
+        this.path = stat.filename
         const task = EnTask.actions().get(key)
+        this.fileStat = stat
         if (!task) throw new Error(`handel named "${key}" is not found.`)
         this.createHandler = task.createHandler
         this.option = task.option

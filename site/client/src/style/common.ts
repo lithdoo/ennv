@@ -26,6 +26,11 @@ export const group = {
         justify-content: center;
         align-items: center;
     `,
+    flex_row_center: () => `
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    `,
     fill: () => `
         height: 100%;
         width: 100%;
@@ -38,6 +43,8 @@ export const group = {
         `
         else return `
             overflow: hidden;  
+            -o-text-overflow: ellipsis;
+            overflow-wrap: break-word;
             text-overflow: ellipsis;
             display: -webkit-box;
             -webkit-line-clamp: ${lines};

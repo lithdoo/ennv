@@ -1,10 +1,8 @@
 import styled from "styled-components";
-// import { EnFolder, EnFile } from "../model/file";
 import { EnIcon } from "@ennv/components";
 import { group } from "../style/common";
 import { stateCurrentDir } from "@/state";
 import { observer } from "mobx-react";
-import { assign } from "@/utils/base";
 import { FileStat } from "@/utils/webdav";
 import { FileType } from "@/utils/file";
 
@@ -27,7 +25,7 @@ export const MainDir = observer(() => {
 
     return (
         <Container>
-            <NavBar></NavBar>
+            {/* <NavBar></NavBar> */}
             <FileGrid
                 list={list}
                 focus={focus}
@@ -113,12 +111,21 @@ const FileGridContainer = styled.div`
         background-color: #ccc;
     }
 
+    >.file-desc-cntr{
+        height: 32px;
+        line-height: 32px;
+        color: rgb(37, 38, 43, 0.72);
+        font-weight: 600;
+        margin: 0 0 12px 0px;
+        padding: 0px 42px;
+    }
     >.file-grid-content{
         display: grid;
+        padding:0 40px;
         grid-gap: 20px 0;
-        justify-content: center;
+        justify-content: space-between;
         justify-items: center;
-        grid-template-columns: repeat(auto-fill,minmax(160px,200px));
+        grid-template-columns: repeat(auto-fill,150px);
     }
 `
 
@@ -130,6 +137,9 @@ const FileGrid = ({ focus, toggle, list }: {
 
     return (
         <FileGridContainer>
+            <div className="file-desc-cntr">
+                共 {list.length} 项
+            </div>
             <div className="file-grid-content">
 
                 {
@@ -147,12 +157,11 @@ const FileGrid = ({ focus, toggle, list }: {
 }
 
 const FileItemContainer = styled.div`
-    height: 140px;
-    width: 140px;
+    height: 207px;
+    width: 148px;
+    padding: 0 12px;
+    margin: 0 12px;
 
-    ${group.flex_col}
-    ${group.flex_center}
-    ${group.trans_ease_out}
     cursor: pointer;
     border-radius: 12px;
 
@@ -172,30 +181,51 @@ const FileItemContainer = styled.div`
         filter: drop-shadow( 0px 3px 4px rgba(0, 0, 0, .17));
     }
 
+    .card{
+        ${group.flex_col()}
+        ${group.flex_row_center()}
+        ${group.trans_ease_out()}
+        padding: 8px 4px 10px;
+    }
+
     .icon{
-        font-size: 48px;
-        margin-top:-12px;
+        font-size: 102px;
+        line-height: 102px;
+        text-align: center;
+        height:102px;
+        width:115px;
+        margin-bottom:12px;
     }
 
     .title{
-        font-size:14px;
+        padding: 0 8px;
         width: 100%;
-        padding:0 16px;
-        text-align:center;
-        height:32px;
-        margin-top:4px;
-        
+        max-width: 100%;
+        text-align: center;
+        font-size: 14px;
+        line-height: 1.5;
+        margin: 0;
+        margin-bottom: 2px;
+        ${group.ellipsis(2)}
 
-        >div{
-            transform: translate(0,-20%);
-            ${group.ellipsis(2)}
-        }
+    }
+    
+    .desc{
+        padding: 0 8px;
+        width: 100%;
+        margin: 0;
+        max-width: 100%;
+        text-align: center;
+        font-size: 12px;
+        line-height: 1.6;
+        color:rgba(37, 38, 43, 0.36);
+        ${group.ellipsis()}
     }
 
     &.focus{
-        box-shadow: 0px 3px 12px 0 rgba(0, 0, 0, .27);
-        background: #66ccff;
-        color: #fff;
+        box-shadow: 0px 2px 12px 0 rgba(0, 0, 0, .1);
+        background: #70F1FF;
+        color: rgb(0,0,0,0.8);
     }
 
     &.focus svg{
@@ -214,19 +244,44 @@ const FileItem = ({ item: target, isFocus, onToggle, onOpen }: {
         ? FileType.type(target.basename).icon
         : ['i_file', 'folder']
 
+    const time = new Date(target.lastmod)
+
+    const toStr = (num:number)=>{
+        const str = num.toString()
+        return str.length === 1 ? `0${str}`:str
+    }
+    const year = time.getFullYear()
+
+    const month = toStr(time.getMonth() + 1)
+
+    const date = toStr(time.getDate())
+
+    const hour = toStr(time.getHours())
+
+    const min = toStr(time.getMinutes())
+
+   
+
+    const dateStr = `${year === new Date().getFullYear()
+            ?'':(year + ' ')}${month}/${date} ${hour}:${min}`
+
     return (
         <FileItemContainer
             className={isFocus ? ' focus' : ''}
             onClick={onToggle}
             onDoubleClick={() => { if (target.type === 'directory') onOpen(target) }}
         >
+            <div className="card">
+
             <div className="icon">
                 <EnIcon family={icon[0]} name={icon[1]} />
             </div>
-            <div className="title" title={target.basename}>
-                <div>
+            <p className="title" title={target.basename}>
                     {target.basename}
-                </div>
+            </p>
+            <p className="desc">
+                    {dateStr}
+            </p>
             </div>
         </FileItemContainer>
     )

@@ -30,8 +30,8 @@ const TargetInfoPanelContainer = styled.div`
     bottom: 0;
     top: 0;
 
-    padding-top:64px;
-    padding-bottom:64px;
+    padding-top:0;
+    padding-bottom:16px;
 
     padding-left:0;
     padding-right:0;
@@ -50,7 +50,7 @@ const TargetInfoPanelContainer = styled.div`
         width:100%;
         height:100%;
         border-radius:12px;
-        box-shadow: 0 3px 12px 0 rgba(0,0,0,0.2);
+        box-shadow: 0 2px 12px 0 rgba(0,0,0,0.1);
 
         overflow:hidden;
     }
@@ -61,17 +61,17 @@ const TargetInfoPanelContainer = styled.div`
         padding-left:16px;
         padding-right:16px;
 
-        padding-top:16px;
+        padding-top:0;
         padding-bottom:16px;
 
 
         .target-info-panel-outer{
-            background: #66ccff;
+            background: #70F1FF;
             position: relative;
             width:100%;
             height:100%;
             border-radius:12px;
-            box-shadow: 0 3px 12px 0 rgba(0,0,0,0.2);
+            box-shadow: 0 3px 12px 0 rgba(0,0,0,0.1);
         }
     }
 
@@ -79,7 +79,6 @@ const TargetInfoPanelContainer = styled.div`
         height:100%;
         width:100%;
         min-width:260px;
-        color:#fff;
     }
 
 `
@@ -108,7 +107,7 @@ const TargetInfoPanel = observer(() => {
 
 
 const DirInfoPanelContainer = styled.div`
-    padding: 16px;
+    padding: 0 16px 16px;
     background: #fff;
 `
 const DirInfoPanel = observer(() => <DirInfoPanelContainer>
@@ -233,7 +232,7 @@ const DetailActions = ({ detail }: { detail: FileStat }) => {
         actions.map(v => <div
             className="action"
             key={v.key}
-            onClick={() => stateTaskList.create(v.key, detail.filename)}
+            onClick={() => stateTaskList.create(v.key, detail)}
         >
             <div className="icon" style={{ color: v.option.icon[2] }}>
                 <EnIcon

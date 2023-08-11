@@ -6,10 +6,9 @@ import logo from '@/assets/favicon500.png'
 import { observer } from "mobx-react";
 import { useEffect, useRef, useState } from "react";
 // import { getDirFolders } from "@/request/file";
-import { DataTree, TreeOpenBtn } from "@/components/tree";
+import {  FolderTree } from "@/components/tree";
 import { FolderTreeItem, WorkspaceLayout, stateCurrentDir, stateWorkspaces } from "@/state";
 // import { EnFolder } from "@/model/file";
-import { assign } from "@/utils/base";
 import * as webdav from '@/utils/webdav'
 import { FileStat } from '@/utils/webdav'
 
@@ -135,12 +134,12 @@ const RootEdit = observer(() => {
                     ))
                 }</div>
                 <div className="root-edit-path-selector">{
-                    !editDisk ? '' : <FolderSelectTree
-                        list={list}
-                        setList={setList}
-                        selectFolder={select}
-                        setSelectFolder={setSelect}
-                    />
+                    !editDisk ? '' :<FolderTree
+                    target={null}
+                    selectFolder={select}
+                    setSelectFolder={setSelect}
+                    queryFolderChildren={(stat)=> webdav.getDirFolders(stat?stat.filename:'/')}
+                    ></FolderTree>
                 }</div>
             </div>
 
@@ -165,80 +164,6 @@ const load = async (path: string, pid: string, list: FolderTreeItem[], setList: 
 
     setList(newList)
 }
-
-const FolderSelectTreeContainer = styled.div`
-
-    .path-tree-title{
-        ${group.flex_row()}
-
-        >*{
-            flex: 0 0 auto
-        }
-
-        .tree-title-content{
-            flex: 1 1 0;
-            overflow:hidden;
-        }
-    }
-
-
-    .select-point{
-        cursor:pointer;
-
-        &[data-select="true"]{
-            font-weight:bolder;
-            color: #66ccff;
-        }
-    }
-  
-
-
-`
-const FolderSelectTree = ({ selectFolder, setSelectFolder, list, setList }: {
-    selectFolder: FileStat | null,
-    setSelectFolder: (folder: FileStat | null) => void,
-    list: FolderTreeItem[],
-    setList: (list: FolderTreeItem[]) => void
-}) => {
-
-
-
-    const toggle = (target: FolderTreeItem) => {
-        if (!target.isLoaded) return load(target.stat.filename, target.id, list, setList)
-        const newList = list.map(val => val.id !== target.id ? val : Object.assign({}, val, { isOpen: !val.isOpen }))
-        setList(newList)
-    }
-
-    const select = (target: FolderTreeItem) => {
-        setSelectFolder(target.stat)
-    }
-
-    return <FolderSelectTreeContainer>
-        <DataTree<FolderTreeItem>
-            id={val => val.id}
-            blank={(target) => {
-                if (!target.isOpen)
-                    return <div></div>
-                else if (!target.isLoaded)
-                    return <div>加载中...</div>
-                else
-                    return <div>无子节点</div>
-            }}
-            title={val => {
-                return <div className="path-tree-title">
-                    {val.isLeaf ? '' : <TreeOpenBtn isOpen={val.isOpen} onToggle={() => toggle(val)} />}
-                    <div className="tree-title-content"><span data-select={selectFolder?.filename === val.stat.filename} onClick={() => select(val)} className="select-point">{val.stat.basename}</span></div>
-                </div>
-            }}
-            list={list.filter(v => !v.pid)}
-            isOpen={val => val.isOpen}
-            isLeaf={val => val.isLeaf}
-            children={val => list.filter(v => v.pid === val.id)}
-        />
-    </FolderSelectTreeContainer>
-
-}
-
 
 const RootSelectContainer = styled.div`
 
@@ -304,12 +229,13 @@ const RootSelect = observer(() => {
                 {ws.folder.filename}
             </div>
             <div className="root-select-ws-tree">
-                <FolderSelectTree
-                    list={ws.folderTree}
-                    setList={(tree) => { stateWorkspaces.loadTree(ws, tree) }}
+                <FolderTree
+                    target={ws.folder || null}
                     selectFolder={stateCurrentDir.ws?.folder.filename === ws.folder.filename ? (stateCurrentDir.folder ?? null) : null}
                     setSelectFolder={(folder) => { if (folder) stateCurrentDir.open(ws, folder) }}
+                    queryFolderChildren={(stat)=> webdav.getDirFolders(stat?stat.filename:'/')}
                 />
+
             </div>
         </div>)}
         <div className="root-select-add-btn" onClick={() => stateWorkspaces.edit()}> + </div>

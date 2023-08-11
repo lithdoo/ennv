@@ -15,6 +15,7 @@ import { connect } from './utils/task'
 import './entry'
 import './utils/webdav'
 import { getLoadScripts, getLoadStylesheets } from './request/plugin'
+import { MainTools } from './view/MainTools'
 
 console.log(connect)
 
@@ -25,6 +26,7 @@ const MainContainer = styled.div`
     min-width:800px;
     display: grid;
     grid-template-areas:  'task task task'
+                          'root tool tool'
                           'root dir info';
     ${group.trans_ease_out()}
     > *{
@@ -44,7 +46,10 @@ const MainContainer = styled.div`
     > .dir-container{
         grid-area: dir;
     }
-    grid-template-rows: auto 1fr;
+    > .tool-container{
+        grid-area: tool;
+    }
+    grid-template-rows: auto auto 1fr;
 
     &.${WorkspaceLayout.sider}{
       grid-template-columns: ${vars.rootSiderWidth()} 1fr ${vars.infoSiderWidth};
@@ -67,6 +72,7 @@ const MainLayout = observer(() => {
       <div className="task-container"><MainTask /></div>
       <div className="info-container"><MainInfo /></div>
       <div className="root-container"><MainRoot /></div>
+      <div className="tool-container"><MainTools /></div>
       <div className="dir-container"><MainDir /></div>
     </MainContainer>
   )

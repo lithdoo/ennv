@@ -3,11 +3,10 @@ import { EnIconBtn, HeightHideBox } from "../components";
 import { group } from "../style/common";
 import { EnIcon } from "@ennv/components";
 import { observer } from 'mobx-react'
-// import { BarStatus, barState } from "@/state/roots";
 import { TaskListLayout, stateTaskList } from "@/state";
 import { EnTask, TaskStatus } from "@/utils/task";
-import { fileicon, filename } from "@/utils/base";
 import { useEffect, useRef } from "react";
+import { FileType } from "@/utils/file";
 
 const cssVar = {
     barHeight: '72px',
@@ -237,9 +236,9 @@ const TaskItem = observer(({ task, focus }: { task: EnTask, focus: boolean }) =>
             data-status={task.status}
             onClick={() => { stateTaskList.focus(task) }}
         >
-            <EnIcon kind={fileicon(task.path)}></EnIcon>
+            <EnIcon kind={FileType.type(task.fileStat.basename).icon}></EnIcon>
             <div>
-                <div className="action-name">{filename(task.path)}</div>
+                <div className="action-name">{task.fileStat.basename}</div>
                 <div className="target-path">{task.path}</div>
             </div>
         </TaskItemContainer>

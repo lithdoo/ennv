@@ -1,5 +1,3 @@
-// import { EnFile, EnFileDetail, EnFolder, EnFolderDetail, FileType } from "@/model/file"
-// import { getDirContent, getDirFolders, getDiskList, getFileDetail, getFolderDetail } from "@/request/file"
 import * as webdav from '@/utils/webdav'
 import { type FileStat } from '@/utils/webdav'
 import { EnTask } from "@/utils/task"
@@ -201,8 +199,6 @@ export const stateSiderInfo = new class {
         action(() => {
             this.currentTarget = detail
             this.loadingTarget = undefined
-
-            console.log(this)
         })()
     }
     async removeTarget() {
@@ -237,8 +233,8 @@ export const stateTaskList = new class {
         this.detail = task
     }
 
-    create(key: string, path: string) {
-        this.list.push(new EnTask(key, path))
+    create(key: string, stat:FileStat) {
+        this.list.push(new EnTask(key, stat))
         if (this.status !== TaskListLayout.min) return
         if (this.detail) return
         this.status = TaskListLayout.brief

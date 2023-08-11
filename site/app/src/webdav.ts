@@ -3,7 +3,9 @@ import e2k from 'express-to-koa'
 import fs from "fs"
 
 export const createMV = async (roots: string[]) => {
-    const server = new v2.WebDAVServer()
+    const server = new v2.WebDAVServer({
+        maxRequestDepth:2
+    })
     roots.forEach((path) => {
         if (!fs.existsSync(path)) return
         if (!fs.statSync(path).isDirectory()) return
