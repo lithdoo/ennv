@@ -259,12 +259,14 @@ const RootSelectContainer = styled.div`
         margin: 16px;
         line-height:36px;
         text-align:center;
-        border: 1px solid #fff;
+        border: 1px solid rgba(255,255,255,1);
         color: #fff;
         font-size: 24px;
         cursor: pointer;
+        background: rgba(255,255,255,0);
         &:hover{
-            opacity: 0.8;
+            background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.2);
         }
     }
 
