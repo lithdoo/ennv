@@ -108,6 +108,7 @@ const FileGridContainer = styled.div`
 
     &::-webkit-scrollbar-thumb
     {
+        border-radius: 2px;
         background-color: #ccc;
     }
 
@@ -178,7 +179,7 @@ const FileItemContainer = styled.div`
     float:left;
 
     svg{
-        filter: drop-shadow( 0px 3px 4px rgba(0, 0, 0, .17));
+        filter: drop-shadow(0px 0 0 rgba(0, 0, 0, 0));
     }
 
     .card{
@@ -223,13 +224,12 @@ const FileItemContainer = styled.div`
     }
 
     &.focus{
-        box-shadow: 0px 2px 12px 0 rgba(0, 0, 0, .1);
-        background: #70F1FF;
+        background: rgb(246, 246, 246, 1);
         color: rgb(0,0,0,0.8);
     }
 
     &.focus svg{
-        filter: drop-shadow(0px 0 0 rgba(0, 0, 0, 0));
+        filter: drop-shadow( 0px 3px 4px rgba(0, 0, 0, .17));
     }
 `
 

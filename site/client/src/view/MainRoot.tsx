@@ -15,9 +15,11 @@ import { FileStat } from '@/utils/webdav'
 
 const Container = styled.div`
     ${group.fill()}
-    background: #f5f5f5;
-
     ${group.flex_row()}
+
+    background:#E27750;
+    color:#fff;
+    font-size:14px;
 
     > .root-sider-container{
         ${group.trans_ease_out()}
@@ -28,11 +30,9 @@ const Container = styled.div`
         }
     }
 
-    
     > .root-edit-container{
         ${group.trans_ease_out()}
         height:100%;
-
         > *{
             height:100%;
             overflow:auto;
@@ -87,7 +87,6 @@ const RootEditContainer = styled.div`
                 color: #66ccff;
                 text-align: center;
                 cursor: pointer;
-
                 &[data-focus="true"]{
                     background: #66ccff;
                     color: #fff;
@@ -168,7 +167,7 @@ const load = async (path: string, pid: string, list: FolderTreeItem[], setList: 
 const RootSelectContainer = styled.div`
 
     ${group.flex_col()}
-    
+    ${group.flex_center()}
     ${group.trans_ease_out()}
     height: 100%;
 
@@ -178,18 +177,71 @@ const RootSelectContainer = styled.div`
         ${group.flex_col()}
         flex: 0 0 auto;
         height: 56px;
+        width: 100%;
         overflow:hidden;
 
         .root-select-ws-title{
+            ${group.trans_ease_out()}
             flex: 0 0 auto;
-            height: 56px;
-            line-height: 56px;
-            border-top: 1px solid #66ccff;
-            background:#e0e0e0;
+            margin: 12px 0;
+            height: 56x;
+            padding: 4px 24px;
+            position: relative;
+            font-weight: bolder;
+            opacity: 0.7;
+            background: rgba(0,0,0,0);
+            cursor: pointer;
+
+            &::before{
+                ${group.trans_ease_out()}
+                content: "";
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                width: 0;
+                background: rgba(255,255,255,0.9);
+                border-radius: 0 3px 3px 0;
+            }
+
+
+            >.root-select-ws-title-name{
+                line-height: 26px;font-size: 16px;
+            }
+
+            >.root-select-ws-title-path{
+                line-height: 18px;font-size: 12px;
+            }
+        }
+
+        &[data-current="true"]{
+            .root-select-ws-title{
+                background: rgba(0,0,0,0.1);
+                opacity: 1;
+
+                &::before{
+                    width: 6px;
+                }
+            }
         }
         .root-select-ws-tree{
             flex: 1 1 0;
-            overflow:auto
+            overflow:auto;
+            padding: 16px;
+
+            &::-webkit-scrollbar-track
+            {}
+        
+            &::-webkit-scrollbar
+            {
+                width: 4px;
+            }
+        
+            &::-webkit-scrollbar-thumb
+            {
+                border-radius: 2px;
+                background-color: rgba(255,255,255,0.5);
+            }
 
         }
 
@@ -201,12 +253,13 @@ const RootSelectContainer = styled.div`
     .root-select-add-btn{
         ${group.trans_ease_out()}
         flex: 0 0 auto;
-        height:64px;
-        line-height:64px;
+        height:40px;
+        width:40px;
+        border-radius: 50%;
+        margin: 16px;
+        line-height:36px;
         text-align:center;
-        border: 1px solid #66ccff;
-        background: #66ccff;
-        margin: 4px;
+        border: 1px solid #fff;
         color: #fff;
         font-size: 24px;
         cursor: pointer;
@@ -226,7 +279,8 @@ const RootSelect = observer(() => {
             data-current={ws.folder.filename === stateWorkspaces.current?.folder.filename}
         >
             <div className="root-select-ws-title" onClick={() => stateWorkspaces.focus(ws)}>
-                {ws.folder.filename}
+               <div className="root-select-ws-title-name"> {ws.folder.basename}</div>
+               <div className="root-select-ws-title-path"> {ws.folder.filename}</div>
             </div>
             <div className="root-select-ws-tree">
                 <FolderTree

@@ -66,7 +66,7 @@ const TargetInfoPanelContainer = styled.div`
 
 
         .target-info-panel-outer{
-            background: #70F1FF;
+            background: rgb(246, 246, 246, 1);
             position: relative;
             width:100%;
             height:100%;

@@ -1,7 +1,7 @@
 import { createClient, ResponseDataDetailed } from 'webdav'
 
 
-const client = createClient('http://localhost:4001/webdav/')
+const client = createClient(`${window.location.origin}/webdav/`)
 
 
 
