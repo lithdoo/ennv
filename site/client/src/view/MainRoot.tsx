@@ -179,12 +179,12 @@ const RootSelectContainer = styled.div`
         height: 56px;
         width: 100%;
         overflow:hidden;
+        margin: 6px 0;
 
         .root-select-ws-title{
             ${group.trans_ease_out()}
+            height: 56px;
             flex: 0 0 auto;
-            margin: 12px 0;
-            height: 56x;
             padding: 4px 24px;
             position: relative;
             font-weight: bolder;
@@ -226,7 +226,7 @@ const RootSelectContainer = styled.div`
         }
         .root-select-ws-tree{
             flex: 1 1 0;
-            overflow:auto;
+            overflow: auto;
             padding: 16px;
 
             &::-webkit-scrollbar-track
@@ -246,7 +246,7 @@ const RootSelectContainer = styled.div`
         }
 
         &[data-current="true"]{
-            flex: 1 1 0;
+            flex: 1 1 auto;
         }
     }
 
