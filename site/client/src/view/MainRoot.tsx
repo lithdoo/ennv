@@ -227,7 +227,7 @@ const RootSelectContainer = styled.div`
         .root-select-ws-tree{
             flex: 1 1 0;
             overflow: auto;
-            padding: 16px;
+            padding: 8px 12px;
 
             &::-webkit-scrollbar-track
             {}
