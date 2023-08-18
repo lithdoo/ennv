@@ -171,6 +171,23 @@ const RootSelectContainer = styled.div`
     ${group.trans_ease_out()}
     height: 100%;
 
+    .root-logo{
+        width: 100%:
+        flex: 0 0 auto;
+        ${group.flex_row()}
+        ${group.flex_center()}
+        img{
+            display: block;
+            width: 48px;
+            height: 48px;
+            margin-left: -16px;
+        }
+        h1 {
+            font-size: 36px;
+            line-height: 56px;
+            margin: 12px 0 12px 16px;
+        }
+    }
     .root-select-ws-item{
         
         ${group.trans_ease_out()}
@@ -275,6 +292,10 @@ const RootSelectContainer = styled.div`
 const RootSelect = observer(() => {
 
     return <RootSelectContainer>
+        <div className="root-logo">
+            <img src={logo} alt="ennv" />
+            <h1>Ennv</h1>
+        </div>
         {stateWorkspaces.list.map(ws => <div
             key={ws.folder.filename}
             className="root-select-ws-item"

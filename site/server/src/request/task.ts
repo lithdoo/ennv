@@ -51,7 +51,7 @@ export const taskManager = new class EnTaskManager {
 }
 
 
-interface EnTaskHandler {
+export interface EnTaskHandler {
     key: string
 
     onPerpare: (option: {
@@ -70,22 +70,6 @@ interface EnTaskHandler {
 
 taskManager.regist({
     key: 'hello',
-    onPerpare(_, ctx) {
-        ctx.body = {
-            html: '<h1>hello world!</h1>'
-        }
-    },
-    onStart(_, ctx) { ctx.body = 'test' },
-    router: (() => {
-        const router = new Router()
-        router.post('/complete/:tid', () => { })
-        router.post('/error/:tid', () => { })
-        return router
-    })()
-})
-
-taskManager.regist({
-    key: 'gba-emulator',
     onPerpare(_, ctx) {
         ctx.body = {
             html: '<h1>hello world!</h1>'

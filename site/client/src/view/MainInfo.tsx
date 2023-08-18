@@ -30,7 +30,7 @@ const TargetInfoPanelContainer = styled.div`
     bottom: 0;
     top: 0;
 
-    padding-top:0;
+    padding-top:16px;
     padding-bottom:16px;
 
     padding-left:0;
@@ -61,7 +61,7 @@ const TargetInfoPanelContainer = styled.div`
         padding-left:16px;
         padding-right:16px;
 
-        padding-top:0;
+        padding-top:16px;
         padding-bottom:16px;
 
 
@@ -107,7 +107,7 @@ const TargetInfoPanel = observer(() => {
 
 
 const DirInfoPanelContainer = styled.div`
-    padding: 0 16px 16px;
+    padding: 16px;
     background: #fff;
 `
 const DirInfoPanel = observer(() => <DirInfoPanelContainer>

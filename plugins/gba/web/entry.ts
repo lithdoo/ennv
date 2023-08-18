@@ -16,7 +16,10 @@ class TestTaskHandle implements EnActionHandler {
 
     async init(res: Response, start: StartFn) {
         console.log(res,start)
+        this.element.style.height = '100%'
         this.element.innerHTML = `<iframe style="height:100%;width:100%;border:none" src="/plugin/static/gba-emulator/index.html">`
+        
+        start({})
         // const { html } = await res.json()
         // this.element.innerHTML = html
         // const btnStart = document.createElement('button');
@@ -28,15 +31,38 @@ class TestTaskHandle implements EnActionHandler {
         return this
     }
 
-    onComplete(res: Response) {
-        console.log('onComplete', res)
-        this.element.innerHTML = `task complete`
+    run(file){
+        const win = this.element.querySelector('iframe')?.contentDocument?.querySelector('iframe')?.contentWindow
+        if(!win) return 
+        (win as any).run(file)
     }
 
+    async onComplete(res: Response) {
+        console.log('onComplete', res)
+        const blob = await res.blob()
+        const file = new File([blob],'current.gba')
+        const outer = this.element.querySelector('iframe')
+        
+        if(outer){
+           outer.onload = ()=>{
+             console.log(outer.contentDocument)
+             if(!outer.contentDocument) return 
+             const inner = outer.contentDocument.querySelector('iframe')
+             
+             if(inner?.contentWindow &&( inner.contentWindow as any).run){
+                this.run(file)
+             }else if(inner){
+                inner.onload = ()=>{
+                    this.run(file)
+                }
+             }
+           }
+        }
+    }
 }
 
 actions.regist('gba-emulator', {
     name: 'gba-emulator',
     icon: ['i_file', 'database', '#66ccff'],
-    apply: (fb) => fb.type === 'directory'
+    apply: (fb) => /\.gba$/.test(fb.filename)
 }, (tid, path, res, start) => new TestTaskHandle(tid, path).init(res, start))

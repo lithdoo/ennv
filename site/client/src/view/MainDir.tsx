@@ -36,61 +36,6 @@ export const MainDir = observer(() => {
 })
 
 
-
-const NavBarContainer = styled.div`
-    flex: 0 0 auto;
-    display:flex;
-    flex-direction: row;
-    align-items:center;
-
-    .route-list{
-        padding: 16px 32px;
-        font-size: 20px;
-        line-height: 32px;
-        font-weight: bolder;
-
-        .root{
-            color: #999;
-            padding: 0 2px;
-        }
-        .route{
-            padding: 0 2px;
-            cursor: pointer;
-        }
-    }    
-`
-const NavBar = observer(() => {
-    const root = (stateCurrentDir.ws?.folder.filename.split('/') ?? []).filter(v => !!v)
-    const routes = [] as any[]
-    //   stateCurrentDir.folder?.filename
-    //     .split('/').filter(v => !!v)
-    //     .map((val, idx) => val === root[idx] ? '' : val)
-    //     .filter(v => !!v)
-    //     .reduce((res, name) => {
-    //         const parent = res[res.length - 1]
-    //         return res.concat([{
-    //             name, folder: assign(new EnFolder(), {
-    //                 name, path: `${parent.folder.path}/${name}`
-    //             })
-    //         }])
-    //     }, [{ name: '$ROOT', folder: stateCurrentDir.ws?.folder ?? new EnFolder() }])
-    //     ?? []
-
-    return (
-        <NavBarContainer>
-            <div className="route-list">
-                {
-                    routes.map((route, index) => <span key={index}>
-                        <span className="route" onClick={() => {
-                            if (stateCurrentDir.ws) stateCurrentDir.open(stateCurrentDir.ws, route.folder)
-                        }}>{route.name}</span> /
-                    </span>)
-                }
-            </div>
-        </NavBarContainer>
-    )
-})
-
 const FileGridContainer = styled.div`
     flex: 1 1 0;
     overflow: auto;
@@ -117,7 +62,7 @@ const FileGridContainer = styled.div`
         line-height: 32px;
         color: rgb(37, 38, 43, 0.72);
         font-weight: 600;
-        margin: 0 0 12px 0px;
+        margin: 8px 0px;
         padding: 0px 42px;
     }
     >.file-grid-content{

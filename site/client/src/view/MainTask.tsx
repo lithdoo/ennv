@@ -10,7 +10,7 @@ import { FileType } from "@/utils/file";
 
 const cssVar = {
     barHeight: '72px',
-    minHeight: '24px'
+    minHeight: '32px'
 }
 
 const transiton = `
@@ -23,15 +23,12 @@ const Container = styled.div`
     ${transiton}
 
     border-bottom: 1px solid #ececec;
-
     .bar-container{
 
         ${group.flex_col()}
 
         .task-detail-outer{
             overflow:hidden;
-
-
         }
         .task-list-outer{
     
@@ -49,7 +46,22 @@ const Container = styled.div`
     }
 
 
-
+    .task-min-content{
+        cursor: pointer;
+        text-align:center;
+        .blank{
+            color: rgba(0,0,0,0.4)
+        }
+        .task-min-count{
+            padding 0 12px;
+            display: inline-block;
+            line-height:22px;
+            border-radius: 11px;
+            font-size: 12px;
+            color: #fff;
+            margin: 0 4px;
+        }
+    }
 
 
     &.${TaskListLayout.brief}{
@@ -110,12 +122,8 @@ const Container = styled.div`
 `
 
 export const MainTask = observer(() => {
-    // const [status, setStatus] = useState<'bar' | 'min'>('bar')
-
-    const detail :React.LegacyRef<HTMLDivElement>= useRef(null)
-
-
-    useEffect(()=>{
+    const detail: React.LegacyRef<HTMLDivElement> = useRef(null)
+    useEffect(() => {
         detail.current?.appendChild(stateTaskList.detailElement)
     })
 
@@ -148,10 +156,34 @@ export const MainTask = observer(() => {
             </HeightHideBox>
 
             <HeightHideBox height={cssVar.minHeight} hide={stateTaskList.layout !== TaskListLayout.min} >
-                <b style={{ lineHeight: cssVar.minHeight }} onClick={() => { stateTaskList.brief() }}>test</b>
+                <div className="task-min-content" onClick={() => { stateTaskList.brief() }}>
+                    <b style={{ lineHeight: cssVar.minHeight }} ><TaskMinText/></b>
+                </div>
             </HeightHideBox>
         </Container>
     )
+})
+
+
+
+export const TaskMinText = observer(() => {
+
+    if (!stateTaskList.list.filter(v => v.status !== TaskStatus.undo).length) 
+        return <span className="blank">暂无任务</span>
+
+    const span = (status:TaskStatus)=>{
+        const length = stateTaskList.list.filter(v => v.status === status).length
+        if(!length) return ''
+        return <span className="task-min-count" style={{background:statusColor(status)}}>{status}: {length}</span>
+    }
+    
+    return <>
+        {span(TaskStatus.preparing)}
+        {span(TaskStatus.pendding)}
+        {span(TaskStatus.error)}
+        {span(TaskStatus.completed)}
+        {span(TaskStatus.canceled)}
+    </>
 })
 
 
@@ -189,8 +221,9 @@ const TaskItemContainer = styled.div`
         TaskStatus.canceled,
     ].map(status => ({ status, color: statusColor(status) }))
         .map(({ status, color }) => `
+
     &[data-status="${status}"]{
-        border: 1px solid ${color};
+        border: 2px solid ${color};
     }
 
     &[data-status="${status}"][data-focus="true"]{
@@ -198,7 +231,6 @@ const TaskItemContainer = styled.div`
         background:${color};
         color: #fff;
     }
-
     
     `)
 

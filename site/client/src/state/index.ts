@@ -227,6 +227,7 @@ export const stateTaskList = new class {
 
     constructor() {
         makeAutoObservable(this)
+        this.detailElement.style.height = '100%'
     }
 
     focus(task: EnTask) {

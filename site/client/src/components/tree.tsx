@@ -2,7 +2,7 @@
 import { group } from "@/style/common"
 import { FileStat } from "@/utils/webdav"
 import { EnIcon } from "@ennv/components"
-import { useCallback, useEffect, useMemo, useRef, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 import styled from "styled-components"
 
 

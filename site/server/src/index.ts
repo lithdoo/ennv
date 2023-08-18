@@ -5,6 +5,8 @@ import { wss } from './ws/connect';
 import { request } from './request/index';
 import { loadList } from './request/load';
 
+export { taskManager,type EnTaskHandler } from './request/task'
+
 export class EnnvServer {
     app = new Koa()
     constructor() {
@@ -27,6 +29,7 @@ export class EnnvServer {
         wss(this.app, port)
     }
 }
+
 
 
 

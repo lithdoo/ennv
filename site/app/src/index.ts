@@ -1,6 +1,6 @@
 import Router from 'koa-router'
 import serve from 'koa-static'
-import { EnnvServer } from "@ennv/server"
+import { EnTaskHandler, EnnvServer, taskManager } from "@ennv/server"
 import mount from 'koa-mount'
 import { tray } from './tray'
 import * as path from 'path'
@@ -19,7 +19,8 @@ export interface EnnvPlugin {
         scripts?: string[],
         stylesheets?: string[],
         staticDir?: string,
-    }
+    },
+    actions?: EnTaskHandler[]
 }
 
 export const getDefaultConfig: () => EnnvConfig = () => {
@@ -39,6 +40,7 @@ export class EnnvAppServer {
 
         this.initClient()
         this.initWebDav()
+        this.initPluginAction()
         this.initPluginClient()
         this.initPluginRequest()
 
@@ -48,7 +50,7 @@ export class EnnvAppServer {
     initClient() {
         this.server.use(mount('/client', serve(path.resolve(__dirname, '../node_modules/@ennv/client/dist/'))))
     }
-    async initWebDav(){
+    async initWebDav() {
         this.server.use(await createMV(this.config.roots))
     }
     initPluginRequest() {
@@ -70,9 +72,15 @@ export class EnnvAppServer {
             stylesheets: res.scripts.concat(current.client?.stylesheets || []),
         }), { scripts: [] as string[], stylesheets: [] as string[] }))
     }
-
-
-    listen(){
+    initPluginAction() {
+        this.config.plugins.forEach(plugin => {
+            if (!plugin.actions) return
+            plugin.actions.forEach(hander=>{
+                taskManager.regist(hander)
+            })
+        })
+    }
+    listen() {
         this.server.listen(this.config.port)
     }
 }

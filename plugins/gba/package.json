@@ -4,6 +4,7 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "vite --host",
+    "build": "pnpm build:web && pnpm build:entry && pnpm build:node",
     "build:web": "tsc && vite build",
     "build:entry": "vite build -c vite.entry.config.ts",
     "build:node": "tsc -p tsconfig.node.json",

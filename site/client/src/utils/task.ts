@@ -82,12 +82,12 @@ export class MessageReceiver {
 }
 
 export enum TaskStatus {
-    undo,
-    preparing,
-    pendding,
-    canceled,
-    completed,
-    error,
+    undo = 'undo',
+    preparing = 'preparing',
+    pendding = 'pendding',
+    canceled = 'canceled',
+    completed = 'completed',
+    error = 'error',
 }
 
 type DeleteProp<Obj, Key> = {
@@ -112,6 +112,7 @@ export class EnTaskContainer {
     cntr = document.createElement('div')
 
     mount(element: HTMLElement) {
+        this.cntr.style.height = '100%'
         this.cntr.appendChild(element)
     }
 
