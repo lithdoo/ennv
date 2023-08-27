@@ -3,6 +3,7 @@ import { group } from "../style/common";
 import { TaskListLayout, stateCurrentDir, stateTaskList } from "@/state";
 import { observer } from "mobx-react";
 import * as webdav from '@/utils/webdav'
+import { EnIcon } from "@ennv/components";
 
 const Container = styled.div`
     height: 48px;
@@ -92,7 +93,7 @@ const RouteList = observer(() => {
                     const rootPath = stateCurrentDir.ws?.folder.filename
                     if (rootPath) open(rootPath)
                 }}>
-                    工作空间
+                    <EnIcon kind={['i_ennv','list']} /> 工作空间
                 </span>
                 <span className="div">/</span>
                 {

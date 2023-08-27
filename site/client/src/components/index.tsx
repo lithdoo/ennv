@@ -1,3 +1,4 @@
+import { EnIcon } from "@ennv/components"
 import { PropsWithChildren } from "react"
 import styled from "styled-components"
 
@@ -29,12 +30,19 @@ export const WidthHideBox = ({ innerClassName = '', outerClassName = "", minWidt
 
 
 
-const EnIconBtnContainer = styled.button``
+const EnIconBtnContainer = styled.button`
+    font-size:24px;
+    height: 32px;
+    width: 32px;
+    line-height: 32px;
+    padding: 0;
+    text-align: center;
+`
 
-export const EnIconBtn = ({onClick=()=>{}})=>{
+export const EnIconBtn = ({icon, onClick=()=>{}}:{icon:[string,string],onClick:()=>void})=>{
     return (
-        <EnIconBtnContainer onClick={onClick}>
-            test
+        <EnIconBtnContainer type="button" onClick={onClick}>
+            <EnIcon  kind={icon}/>
         </EnIconBtnContainer>
     )
 }

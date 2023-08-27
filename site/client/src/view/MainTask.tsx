@@ -307,8 +307,9 @@ const TaskBtnGroup = ({
 }) => {
     return (
         <TaskBtnGroupContainer style={{ float: "right" }}>
-            <EnIconBtn onClick={onMinimize}></EnIconBtn>
-            <EnIconBtn onClick={onMaximize}></EnIconBtn>
+            <EnIconBtn icon={['i_ennv','minimize']} onClick={onMinimize}></EnIconBtn>
+            <EnIconBtn icon={['i_ennv','unfold-more']} onClick={onMaximize}></EnIconBtn>
+            <EnIconBtn icon={['i_ennv','unfold-less']} onClick={onMaximize}></EnIconBtn>
         </TaskBtnGroupContainer>
     )
 }
