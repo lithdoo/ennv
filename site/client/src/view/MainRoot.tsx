@@ -17,8 +17,9 @@ const Container = styled.div`
     ${group.fill()}
     ${group.flex_row()}
 
-    background:#E27750;
-    color:#fff;
+    background:rgb(249, 250, 251);
+    border-right: 1px solid rgb(238, 238, 238);
+    color:rgba(0, 0, 0, 0.88);
     font-size:14px;
 
     > .root-sider-container{
@@ -217,7 +218,7 @@ const RootSelectContainer = styled.div`
                 bottom: 0;
                 left: 0;
                 width: 0;
-                background: rgba(255,255,255,0.9);
+                background:rgb(23, 92, 235);
                 border-radius: 0 3px 3px 0;
             }
 
@@ -233,7 +234,7 @@ const RootSelectContainer = styled.div`
 
         &[data-current="true"]{
             .root-select-ws-title{
-                background: rgba(0,0,0,0.1);
+                background: rgb(233, 235, 237);
                 opacity: 1;
 
                 &::before{
@@ -276,14 +277,14 @@ const RootSelectContainer = styled.div`
         margin: 16px;
         line-height:36px;
         text-align:center;
-        border: 1px solid rgba(255,255,255,1);
-        color: #fff;
+        border: 1px solid rgb(23, 92, 235);
+        color: rgb(23, 92, 235);
         font-size: 24px;
         cursor: pointer;
         background: rgba(255,255,255,0);
         &:hover{
             background: rgba(255,255,255,0.2);
-            border: 1px solid rgba(255,255,255,0.2);
+            border: 1px solid rgb(23, 92, 235);
         }
     }
 

@@ -3,6 +3,7 @@
     // "incremental": true,
     "target": "es2017",
     "outDir": "build",
+    "rootDir": "src",
     "moduleResolution": "node",
     "module": "commonjs",
     "declaration": true,

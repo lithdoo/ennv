@@ -7,20 +7,20 @@ import { EnIcon } from "@ennv/components";
 
 const Container = styled.div`
     height: 48px;
-    padding: 4px 40px;
+    padding: 4px 16px;
     border-bottom: 1px solid #eee;
     ${group.flex_row()}
     ${group.flex_center()}
     ${group.trans_ease_out()}
 
     &.${TaskListLayout.max}{
-        padding: 0 40px;
+        padding: 0 16px;
         height: 0;
         border-bottom: 0px solid #eee;
     }
 
     &.${TaskListLayout.detail}{
-        padding: 0 40px;
+        padding: 0 16px;
         height: 0;
         border-bottom: 0px solid #eee;
     }
@@ -52,6 +52,10 @@ const RouteListContainer = styled.div`
             font-weight:bold;
             padding: 0 2px;
             cursor: pointer;
+
+            svg {
+                margin-right: 8px;
+            }
         }
         .route{
             padding: 0 2px;

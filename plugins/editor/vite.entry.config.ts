@@ -6,9 +6,9 @@ export default defineConfig({
     emptyOutDir:false,
     lib: {
       entry: path.resolve(__dirname, 'web/entry.ts'),
-      name: 'EnnvPluginGBAEmulator',
+      name: 'EnnvPluginTextEditor',
       formats: ['umd'],
-      fileName: (format) => `ennv-plugin-gba-emulator.${format}.js`,
+      fileName: (format) => `ennv-plugin-text-editor.${format}.js`,
     },
   },
 })

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import ReactDOM from 'react-dom/client'
 import styled from "styled-components"
 import { Editor } from './editor'
@@ -6,17 +6,18 @@ import { Button, AutoComplete, Dropdown, Menu } from "@arco-design/web-react";
 import { IconSave, IconDown } from '@arco-design/web-react/icon'
 import "@arco-design/web-react/dist/css/arco.css";
 import './lang';
+import { instance } from './run';
 
 
 const ToolsCntr = styled.div`
     display: flex;
     flex-direction: row;
-    padding: 0 56px;
+    padding: 0 20px;
     height: 56px;
     align-items: center;
 
     .btn{
-        margin-right: 24px;
+        margin-right: 12px;
         flex: 0 0 auto;
     }
     .file{
@@ -45,9 +46,17 @@ const Tools = () => {
     const [lang, setLang] = useState('')
     const [eol, setEol] = useState('LF')
 
+    useEffect(() => {
+        instance.resolveSetLang(setLang)
+    })
+
+    useEffect(() => {
+        instance.changeLang(lang)
+    }, [lang])
+
     return <ToolsCntr>
         <div className='btn'>
-            <Button type='primary' shape='circle' icon={<IconSave />} />
+            <Button type='primary' onClick={() => instance.save()} shape='circle' icon={<IconSave />} />
         </div>
         <div className='file'>
             <div className='file_name'>测试.ts</div>
@@ -56,8 +65,8 @@ const Tools = () => {
         <div className='eof'>
             <Dropdown droplist={
                 <Menu>
-                    <Menu.Item onClick={()=> setEol('CRLF')} key='CRLF'>CRLF</Menu.Item>
-                    <Menu.Item onClick={()=> setEol('LF')} key='LF'>LF</Menu.Item>
+                    <Menu.Item onClick={() => setEol('CRLF')} key='CRLF'>CRLF</Menu.Item>
+                    <Menu.Item onClick={() => setEol('LF')} key='LF'>LF</Menu.Item>
                 </Menu>
             }>
                 <Button type='text'>
@@ -89,8 +98,9 @@ const MainCntr = styled.div`
 
     .tools{
         height: 56px;
-        border-bottom: 1px solid #ccc;
+        border-top: 1px solid rgb(236, 236, 236);
         position: relative;
+        background: #fff;
         z-index: 1;
     }
 
@@ -103,12 +113,11 @@ const MainCntr = styled.div`
 const MainLayout = () => {
     return (
         <MainCntr >
-            <div className='tools'><Tools /></div>
             <div className='editor'><Editor /></div>
+            <div className='tools'><Tools /></div>
         </MainCntr>
     )
 }
-
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     // <React.StrictMode>

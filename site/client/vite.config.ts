@@ -11,6 +11,7 @@ export default defineConfig({
     proxy: {
       '/file': 'http://localhost:14003',
       '/task': 'http://localhost:14003',
+      '/load': 'http://localhost:14003',
       '/webdav': 'http://localhost:14003',
       '/message/connect/':{
         target:'http://localhost:14003',

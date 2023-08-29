@@ -2,24 +2,30 @@ import { useRef, useState, useEffect } from 'react';
 import React from 'react'
 import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
 import styled from 'styled-components';
+import { instance } from './run';
 
 const EditorCntr = styled.div`
-    height: calc(100vh - 64px);
+    height: calc(100vh - 57px);
 `
+
 export const Editor = () => {
     const [editor, setEditor] = useState<monaco.editor.IStandaloneCodeEditor | null>(null);
     const monacoEl = useRef(null);
 
     useEffect(() => {
         if (monacoEl) {
-            setEditor((editor) => {
-                if (editor) return editor;
+            setEditor((cur) => {
+                if (cur) return cur;
 
-                return monaco.editor.create(monacoEl.current!, {
-                    value: '# 213 \n* fsfsda \n> fdsafdsa',
-                    // value: ['function x() {', '\tconsole.log("Hello world!");', '}'].join('\n'),
+                const editor =  monaco.editor.create(monacoEl.current!, {
+                    value: '',
                     language: 'markdown'
                 });
+
+                instance.resolveEditor(editor)
+                ;(window as any).editor = editor
+                ;(window as any).monaco = monaco
+                return editor
             });
         }
 
@@ -28,3 +34,4 @@ export const Editor = () => {
 
     return <EditorCntr className='inner' ref={monacoEl}></EditorCntr>;
 };
+

@@ -12,6 +12,7 @@ import htmlWorker from 'monaco-editor/esm/vs/language/html/html.worker?worker';
 import tsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker?worker';
 
 import "monaco-editor/esm/vs/basic-languages/markdown/markdown.contribution"
+// import 'monaco-editor/esm/vs/editor/contrib/find/findController'
 
 // @ts-ignore
 self.MonacoEnvironment = {

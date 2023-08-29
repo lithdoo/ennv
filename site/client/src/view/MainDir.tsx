@@ -63,7 +63,11 @@ const FileGridContainer = styled.div`
         color: rgb(37, 38, 43, 0.72);
         font-weight: 600;
         margin: 8px 0px;
-        padding: 0px 42px;
+        padding: 0px 17px;
+
+        input {
+            margin-right: 10px;
+        }
     }
     >.file-grid-content{
         display: grid;
@@ -84,7 +88,7 @@ const FileGrid = ({ focus, toggle, list }: {
     return (
         <FileGridContainer>
             <div className="file-desc-cntr">
-                共 {list.length} 项
+                <input type="checkbox" name="" id="" /> 共 {list.length} 项
             </div>
             <div className="file-grid-content">
 

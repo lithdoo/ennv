@@ -5,6 +5,8 @@ import mount from 'koa-mount'
 import { tray } from './tray'
 import * as path from 'path'
 import { createMV } from './webdav'
+import Koa from 'koa'
+
 
 export interface EnnvConfig {
     port: number
@@ -14,7 +16,7 @@ export interface EnnvConfig {
 
 export interface EnnvPlugin {
     name: string
-    requset?: Router.IMiddleware<any, {}>
+    requset?: Koa<Koa.DefaultState, Koa.DefaultContext>
     client?: {
         scripts?: string[],
         stylesheets?: string[],
@@ -57,10 +59,12 @@ export class EnnvAppServer {
         const router = new Router()
         this.config.plugins.filter(v => v.name).forEach(v => {
             if (!v.requset) return
-            router.use(`/plugin/requset/${v.name}`, v.requset)
+
+            this.server.use(mount(`/plugin/requset/${v.name}/`,v.requset))
         })
         this.server.use(router.allowedMethods() as any)
         this.server.use(router.routes() as any)
+
     }
     initPluginClient() {
         this.config.plugins.forEach(plugin => {
