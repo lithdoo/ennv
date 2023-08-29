@@ -277,7 +277,7 @@ const RootSelectContainer = styled.div`
         margin: 16px;
         line-height:36px;
         text-align:center;
-        border: 1px solid rgb(23, 92, 235);
+        border: 2px solid rgb(23, 92, 235);
         color: rgb(23, 92, 235);
         font-size: 24px;
         cursor: pointer;
