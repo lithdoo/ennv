@@ -19,16 +19,12 @@ const TreeItemContainer = styled.div`
     ${group.trans_ease_out()}
    
 }
-.tree-item-children{
-    padding-left:18px;
-
-}
-
-
 `
 
 export function TreeItem<T>(props: {
     target: T,
+    layer: number,
+    itemCls: (t: T) => string[]
     genKey: (t: T) => string,
     blank: (t: T) => string | JSX.Element
     title: (t: T) => string | JSX.Element
@@ -37,7 +33,7 @@ export function TreeItem<T>(props: {
     children: (t: T) => T[],
 }) {
 
-    const { target, genKey, title, isLeaf, children, isOpen, blank } = props
+    const { target, genKey, title, isLeaf, children, isOpen, blank, itemCls } = props
     const childrenListElement = useRef<HTMLDivElement | null>(null)
     const childrenCntrElement = useRef<HTMLDivElement | null>(null)
     const childNodeList = isLeaf(target) ? null : children(target)
@@ -80,13 +76,17 @@ export function TreeItem<T>(props: {
                 : '0'
         }, 300)
 
-    }, [target,childrenCntrElement, childrenListElement])
+    }, [target, childrenCntrElement, childrenListElement])
 
-    return <TreeItemContainer>
-        <div className="title">
+    return <TreeItemContainer className={itemCls(target).join(' ')}>
+        <div className="title"
+            style={{ paddingLeft: props.layer * 18 + 'px' }}>
             {title(target)}
         </div>
-        <div ref={childrenCntrElement} className="tree-item-children-cntr" data-open={isOpenVal}>
+        <div
+            ref={childrenCntrElement}
+            className="tree-item-children-cntr"
+            data-open={isOpenVal}>
             {(() => {
 
                 if (!childNodeList) return ''
@@ -96,8 +96,10 @@ export function TreeItem<T>(props: {
                 return <div ref={childrenListElement} className="tree-item-children">{
                     children(target).map(t =>
                         <TreeItem<T>
+                            layer={props.layer + 1}
                             key={genKey(t)}
                             target={t}
+                            itemCls={itemCls}
                             blank={blank}
                             genKey={genKey}
                             title={title}
@@ -114,21 +116,24 @@ export function TreeItem<T>(props: {
     </TreeItemContainer>
 }
 
-export function DataTree<T>({ roots, blank, id, title, isLeaf, isOpen, children }: {
+export function DataTree<T>({ roots, blank, id, title, isLeaf, isOpen, children, itemCls }: {
     roots: T[],
     id: (t: T) => string,
     blank: (t: T) => string | JSX.Element
     title: (t: T) => string | JSX.Element
     isLeaf: (t: T) => boolean,
     isOpen: (t: T) => boolean,
+    itemCls: (t: T) => string[],
     children: (t: T) => T[],
 }) {
     return <>{
         roots.map(target => <TreeItem<T>
+            layer={0}
             key={id(target)}
             target={target}
             blank={blank}
             genKey={id}
+            itemCls={itemCls}
             title={title}
             isLeaf={isLeaf}
             isOpen={isOpen}
@@ -138,9 +143,9 @@ export function DataTree<T>({ roots, blank, id, title, isLeaf, isOpen, children 
 }
 
 const TreeStatusBtnContainer = styled.div`
-    height: 24px;
+    height: 28px;
     width:  22px;
-    line-height: 24px;
+    line-height: 28px;
     font-size: 20px;
     margin-left:-6px;
     margin-right: 2px;
@@ -178,11 +183,9 @@ interface FolderTreeData {
     }
 }
 const FolderTreeContainer = styled.div`
-padding-left: 8px;
-
 .path-tree-title{
     ${group.flex_row()}
-    padding: 2px 0;
+    padding: 2px 20px;
 
     >*{
         flex: 0 0 auto
@@ -194,14 +197,17 @@ padding-left: 8px;
     }
 }
 
+.tree-title-content{
+    line-height: 28px;
+}
 
 .select-point{
     cursor:pointer;
+}
 
-    &[data-select="true"]{
-        font-weight:bolder;
-        color: #66ccff;
-    }
+
+.selected > .title{
+    font-weight:bolder;
 }
 `
 export function FolderTree({
@@ -286,6 +292,7 @@ export function FolderTree({
     return <FolderTreeContainer>
         <DataTree<FolderTreeData>
             id={val => val.id}
+            itemCls={val => selectFolder?.filename === val.stat.filename ? ['selected'] : []}
             blank={(val) => {
                 if (val.extra && val.extra.isOpen) return <div>无子节点</div>
                 else return ''
@@ -296,7 +303,15 @@ export function FolderTree({
                         status={getTreeStatus(val)}
                         onToggle={() => toggle(val)}
                     />
-                    <div className="tree-title-content"><span data-select={selectFolder?.filename === val.stat.filename} onClick={() => setSelectFolder(val.stat)} className="select-point">{val.stat.basename}</span></div>
+                    <div className="tree-title-content">
+                        <div
+                            data-select={selectFolder?.filename === val.stat.filename}
+                            onClick={() => setSelectFolder(val.stat)}
+
+                            className="select-point">
+                            {val.stat.basename}
+                        </div>
+                    </div>
                 </div>
             }}
             roots={list.filter(v => !v.pid)}

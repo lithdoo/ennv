@@ -236,7 +236,7 @@ const RootSelectContainer = styled.div`
             .root-select-ws-title{
                 background: rgb(233, 235, 237);
                 opacity: 1;
-
+                
                 &::before{
                     width: 6px;
                 }
@@ -245,7 +245,27 @@ const RootSelectContainer = styled.div`
         .root-select-ws-tree{
             flex: 1 1 0;
             overflow: auto;
-            padding: 8px 12px;
+            padding: 8px 0px;
+
+            .title:hover{
+                opacity: 1;
+                background: rgba(0,0,0,0.06);
+            }
+            
+            .title{
+                transition: all 0.3s ease;
+                font-weight: 600!important;
+                opacity: 0.7;
+                color: rgb(0, 0, 0)
+            }
+
+            .selected {
+                > .title{
+                    color:rgb(23, 92, 235);
+                    transition: all 0.3s ease;
+                    background: rgba(0,0,0,0.06);
+                }
+            }
 
             &::-webkit-scrollbar-track
             {}
