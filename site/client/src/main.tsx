@@ -1,4 +1,3 @@
-import React from 'react'
 import ReactDOM from 'react-dom/client'
 import './style/index.scss'
 
@@ -16,6 +15,8 @@ import './entry'
 import './utils/webdav'
 import { getLoadScripts, getLoadStylesheets } from './request/plugin'
 import { MainTools } from './view/MainTools'
+
+import "@arco-design/web-react/dist/css/arco.css";
 
 console.log(connect)
 
@@ -94,7 +95,7 @@ getLoadStylesheets().then(list=>{
 
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <MainLayout></MainLayout>
-  </React.StrictMode>,
+  // </React.StrictMode>,
 )

@@ -62,17 +62,18 @@ const FileGridContainer = styled.div`
         line-height: 32px;
         color: rgb(37, 38, 43, 0.72);
         font-weight: 600;
-        margin: 8px 0px;
-        padding: 0px 17px;
+        margin: 4px 0px;
+        padding: 0px 12px;
 
         input {
-            margin-right: 10px;
+            margin-right: 8px;
+            transform: translateY(2px);
         }
     }
     >.file-grid-content{
         display: grid;
-        padding:0 40px;
-        grid-gap: 20px 0;
+        padding:0 24px;
+        grid-gap: 12px 0;
         justify-content: space-between;
         justify-items: center;
         grid-template-columns: repeat(auto-fill,150px);
@@ -107,10 +108,10 @@ const FileGrid = ({ focus, toggle, list }: {
 }
 
 const FileItemContainer = styled.div`
-    height: 207px;
-    width: 148px;
-    padding: 0 12px;
-    margin: 0 12px;
+    height: 168px;
+    width: 120px;
+    padding: 0 8px;
+    margin: 0 9px;
 
     cursor: pointer;
     border-radius: 12px;
@@ -135,24 +136,24 @@ const FileItemContainer = styled.div`
         ${group.flex_col()}
         ${group.flex_row_center()}
         ${group.trans_ease_out()}
-        padding: 8px 4px 10px;
+        padding: 4px 4px 6px;
     }
 
     .icon{
-        font-size: 102px;
-        line-height: 102px;
+        font-size: 80px;
+        line-height: 80px;
         text-align: center;
-        height:102px;
-        width:115px;
+        height:80px;
+        width:92px;
         margin-bottom:12px;
     }
 
     .title{
-        padding: 0 8px;
+        padding: 0 4px;
         width: 100%;
         max-width: 100%;
         text-align: center;
-        font-size: 14px;
+        font-size: 13px;
         line-height: 1.5;
         margin: 0;
         margin-bottom: 2px;

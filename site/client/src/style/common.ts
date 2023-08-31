@@ -1,14 +1,14 @@
 export const vars = {
     taskBarHeight: () => `72px`,
     taskBarMinHeight: () => `24px`,
-    rootSiderWidth: () => `300px`,
-    infoSiderWidth: () => `320px`
+    rootSiderWidth: () => `240px`,
+    infoSiderWidth: () => `280px`
 }
 
 
 export const group = {
     trans_ease_out: () => `
-        transition:all 0.3s ease-out;
+        transition:all 0.3s ease-out , color 0.2s ease;
     `,
     text_font: () => `
         font-size: 14px;

@@ -48,7 +48,7 @@ export const MainRoot = () => {
                 <RootEdit></RootEdit>
             </WidthHideBox>
 
-            <WidthHideBox width="100%" outerClassName="root-sider-container" hide={stateWorkspaces.layout !== WorkspaceLayout.sider} minWidth="290px" >
+            <WidthHideBox width="100%" outerClassName="root-sider-container" hide={stateWorkspaces.layout !== WorkspaceLayout.sider} minWidth="200px" >
                 <RootSelect></RootSelect>
             </WidthHideBox>
         </Container>
@@ -179,14 +179,16 @@ const RootSelectContainer = styled.div`
         ${group.flex_center()}
         img{
             display: block;
-            width: 48px;
-            height: 48px;
+            width: 40px;
+            height: 40px;
             margin-left: -16px;
+            margin-top: -2px;
         }
         h1 {
-            font-size: 36px;
-            line-height: 56px;
-            margin: 12px 0 12px 16px;
+            font-size: 32px;
+            line-height: 40px;
+            margin: 12px 0 8px 16px;
+            color: #666;
         }
     }
     .root-select-ws-item{
@@ -194,16 +196,16 @@ const RootSelectContainer = styled.div`
         ${group.trans_ease_out()}
         ${group.flex_col()}
         flex: 0 0 auto;
-        height: 56px;
+        height: 48px;
         width: 100%;
         overflow:hidden;
-        margin: 6px 0;
+        margin: 4px 0;
 
         .root-select-ws-title{
             ${group.trans_ease_out()}
-            height: 56px;
+            height: 48px;
             flex: 0 0 auto;
-            padding: 4px 24px;
+            padding: 0 16px;
             position: relative;
             font-weight: bolder;
             opacity: 0.7;
@@ -228,7 +230,7 @@ const RootSelectContainer = styled.div`
             }
 
             >.root-select-ws-title-path{
-                line-height: 18px;font-size: 12px;
+                line-height: 18px;font-size: 12px; color: #666;
             }
         }
 
@@ -245,7 +247,7 @@ const RootSelectContainer = styled.div`
         .root-select-ws-tree{
             flex: 1 1 0;
             overflow: auto;
-            padding: 8px 0px;
+            padding: 4px 0px;
 
             .title:hover{
                 opacity: 1;
@@ -256,7 +258,8 @@ const RootSelectContainer = styled.div`
                 transition: all 0.3s ease;
                 font-weight: 600!important;
                 opacity: 0.7;
-                color: rgb(0, 0, 0)
+                color: rgb(0, 0, 0);
+                margin: 1px 0;
             }
 
             .selected {
@@ -278,7 +281,7 @@ const RootSelectContainer = styled.div`
             &::-webkit-scrollbar-thumb
             {
                 border-radius: 2px;
-                background-color: rgba(255,255,255,0.5);
+                background-color:  #ccc;
             }
 
         }

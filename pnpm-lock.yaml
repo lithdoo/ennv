@@ -483,6 +483,9 @@ importers:
 
   site/client:
     dependencies:
+      '@arco-design/web-react':
+        specifier: ^2.52.0
+        version: 2.52.0(@types/react@18.0.28)(react-dom@18.2.0)(react@18.2.0)
       '@ennv/action':
         specifier: workspace:*
         version: link:../../libs/action

@@ -6,21 +6,21 @@ import * as webdav from '@/utils/webdav'
 import { EnIcon } from "@ennv/components";
 
 const Container = styled.div`
-    height: 48px;
-    padding: 4px 16px;
+    height: 40px;
+    padding: 4px 8px;
     border-bottom: 1px solid #eee;
     ${group.flex_row()}
     ${group.flex_center()}
     ${group.trans_ease_out()}
 
     &.${TaskListLayout.max}{
-        padding: 0 16px;
+        padding: 0 12px;
         height: 0;
         border-bottom: 0px solid #eee;
     }
 
     &.${TaskListLayout.detail}{
-        padding: 0 16px;
+        padding: 0 12px;
         height: 0;
         border-bottom: 0px solid #eee;
     }
@@ -43,7 +43,7 @@ const RouteListContainer = styled.div`
     align-items:center;
 
     .route-list{
-        font-size: 18px;
+        font-size: 14px;
         line-height: 32px;
         font-weight: bolder;
 
@@ -54,7 +54,9 @@ const RouteListContainer = styled.div`
             cursor: pointer;
 
             svg {
-                margin-right: 8px;
+                margin-right: 4px;
+                font-size: 18px;
+                transform: translateY(2px);
             }
         }
         .route{
@@ -97,7 +99,7 @@ const RouteList = observer(() => {
                     const rootPath = stateCurrentDir.ws?.folder.filename
                     if (rootPath) open(rootPath)
                 }}>
-                    <EnIcon kind={['i_ennv','list']} /> 工作空间
+                    <EnIcon kind={['i_ennv','home']} /> 工作空间
                 </span>
                 <span className="div">/</span>
                 {

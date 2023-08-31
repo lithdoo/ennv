@@ -31,10 +31,10 @@ export const WidthHideBox = ({ innerClassName = '', outerClassName = "", minWidt
 
 
 const EnIconBtnContainer = styled.button`
-    font-size:24px;
-    height: 32px;
-    width: 32px;
-    line-height: 32px;
+    font-size:18px;
+    height: 24px;
+    width: 24px;
+    line-height: 24px;
     padding: 0;
     text-align: center;
 `

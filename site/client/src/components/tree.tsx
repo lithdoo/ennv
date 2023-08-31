@@ -80,7 +80,7 @@ export function TreeItem<T>(props: {
 
     return <TreeItemContainer className={itemCls(target).join(' ')}>
         <div className="title"
-            style={{ paddingLeft: props.layer * 18 + 'px' }}>
+            style={{ paddingLeft: props.layer * 14 + 'px' }}>
             {title(target)}
         </div>
         <div
@@ -146,13 +146,17 @@ const TreeStatusBtnContainer = styled.div`
     height: 28px;
     width:  22px;
     line-height: 28px;
-    font-size: 20px;
-    margin-left:-6px;
-    margin-right: 2px;
+    font-size: 16px;
+    margin-left:-4px;
+    margin-right: -3px;
+    margin-top: -1px;
     cursor: pointer;
     overflow:hidden;
     ${group.trans_ease_out()}
-    &[data-status="open"]{
+    svg{
+     ${group.trans_ease_out()}
+    }
+    &[data-status="open"] svg{
         transform: rotate(90deg);
     }
     &[data-status="close"]{}
@@ -185,7 +189,7 @@ interface FolderTreeData {
 const FolderTreeContainer = styled.div`
 .path-tree-title{
     ${group.flex_row()}
-    padding: 2px 20px;
+    padding: 1px 16px;
 
     >*{
         flex: 0 0 auto

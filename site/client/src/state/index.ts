@@ -235,10 +235,12 @@ export const stateTaskList = new class {
     }
 
     create(key: string, stat:FileStat) {
-        this.list.push(new EnTask(key, stat))
+        const task = new EnTask(key, stat)
+        this.list.push(task)
         if (this.status !== TaskListLayout.min) return
         if (this.detail) return
         this.status = TaskListLayout.brief
+        this.detail = task
     }
 
     min() {

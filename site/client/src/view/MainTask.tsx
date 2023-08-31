@@ -9,8 +9,8 @@ import { useEffect, useRef } from "react";
 import { FileType } from "@/utils/file";
 
 const cssVar = {
-    barHeight: '72px',
-    minHeight: '32px'
+    barHeight: '56px',
+    minHeight: '24px'
 }
 
 const transiton = `
@@ -55,8 +55,8 @@ const Container = styled.div`
         .task-min-count{
             padding 0 12px;
             display: inline-block;
-            line-height:22px;
-            border-radius: 11px;
+            line-height:18px;
+            border-radius: 8px;
             font-size: 12px;
             color: #fff;
             margin: 0 4px;
@@ -157,7 +157,7 @@ export const MainTask = observer(() => {
 
             <HeightHideBox height={cssVar.minHeight} hide={stateTaskList.layout !== TaskListLayout.min} >
                 <div className="task-min-content" onClick={() => { stateTaskList.brief() }}>
-                    <b style={{ lineHeight: cssVar.minHeight }} ><TaskMinText/></b>
+                    <b><TaskMinText/></b>
                 </div>
             </HeightHideBox>
         </Container>
@@ -205,11 +205,13 @@ const statusColor = (status: TaskStatus, op: number = 1) => {
 }
 
 const TaskItemContainer = styled.div`
-    margin: 4px;
+    margin: 2px;
     border-radius: 6px;
     padding: 0 12px;
-    height: 56px;
+    height: 48px;
     color: #565656;
+    width: 180px;
+
     ${group.trans_ease_out()}
 
     ${[
@@ -227,7 +229,7 @@ const TaskItemContainer = styled.div`
     }
 
     &[data-status="${status}"][data-focus="true"]{
-        box-shadow: 0 2px 6px 0 rgba(0,0,0,0.2);
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 1px;
         background:${color};
         color: #fff;
     }
@@ -243,20 +245,31 @@ const TaskItemContainer = styled.div`
     ${group.trans_ease_out()}
     
     > svg{
-        font-size:36px;
-        margin-right: 12px
+        font-size:32px;
+        margin-right: 8px;
+        margin-left: -4px;
+        flex: 0 0 auto;
     }
 
     > div{
         margin-right:4px;
+        flex: 1 1 auto;
+        overflow: hidden;
     }
     .action-name{
-        font-size:14px;
-        line-height: 18px;
+        margin-top: -4px;
+        font-size: 14px;
+        font-weight: 600;
+        color: #666;
+        line-height: 22px;
+        ${group.ellipsis()}
     }
     
     .target-path{
-        font-size:12px;
+        font-size: 12px;
+        line-height: 14px;
+        color: #999;
+        ${group.ellipsis()}
     }
 
 
@@ -270,8 +283,8 @@ const TaskItem = observer(({ task, focus }: { task: EnTask, focus: boolean }) =>
         >
             <EnIcon kind={FileType.type(task.fileStat.basename).icon}></EnIcon>
             <div>
-                <div className="action-name">{task.fileStat.basename}</div>
-                <div className="target-path">{task.path}</div>
+                <div title={task.fileStat.basename} className="action-name">{task.fileStat.basename}</div>
+                <div title={task.path} className="target-path">{task.path}</div>
             </div>
         </TaskItemContainer>
     )
@@ -280,7 +293,7 @@ const TaskItem = observer(({ task, focus }: { task: EnTask, focus: boolean }) =>
 const TaskListContainer = styled.div`
     flex:1 1 auto;
 
-    padding: 4px;
+    padding: 2px;
     height: 100%;
 
     ${group.flex_row}
