@@ -179,13 +179,13 @@ const RootSelectContainer = styled.div`
         ${group.flex_center()}
         img{
             display: block;
-            width: 40px;
-            height: 40px;
+            width: 36px;
+            height: 36px;
             margin-left: -16px;
             margin-top: -2px;
         }
         h1 {
-            font-size: 32px;
+            font-size:28px;
             line-height: 40px;
             margin: 12px 0 8px 16px;
             color: #666;
@@ -205,7 +205,7 @@ const RootSelectContainer = styled.div`
             ${group.trans_ease_out()}
             height: 48px;
             flex: 0 0 auto;
-            padding: 0 16px;
+            padding: 1px 16px;
             position: relative;
             font-weight: bolder;
             opacity: 0.7;

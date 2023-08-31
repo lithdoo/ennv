@@ -30,14 +30,15 @@ const TargetInfoPanelContainer = styled.div`
     bottom: 0;
     top: 0;
 
-    padding-top:16px;
-    padding-bottom:16px;
+    margin-top:12px;
+    margin-bottom:12px;
 
     padding-left:0;
     padding-right:0;
 
 
-    width:1px;
+    width: 0px;
+    border-right:1px solid rgb(238, 238, 238);
 
     ${group.trans_ease_out()}
 
@@ -45,7 +46,7 @@ const TargetInfoPanelContainer = styled.div`
     .target-info-panel-outer{
         ${group.trans_ease_out()}
 
-        background: rgb(236, 236, 236);
+        background: rgb(238, 238, 238);
 
         width:100%;
         height:100%;
@@ -58,11 +59,11 @@ const TargetInfoPanelContainer = styled.div`
     &[data-show="true"]{
         width:100%;
         
-        padding-left:16px;
-        padding-right:16px;
+        padding-left:12px;
+        padding-right:12px;
 
-        padding-top:16px;
-        padding-bottom:16px;
+        margin-top:12px;
+        margin-bottom:12px;
 
 
         .target-info-panel-outer{
@@ -70,8 +71,8 @@ const TargetInfoPanelContainer = styled.div`
             position: relative;
             width:100%;
             height:100%;
-            border-radius:12px;
-            box-shadow: 0 3px 12px 0 rgba(0,0,0,0.1);
+            border-radius: 4px;
+            box-shadow: 0 4px 6px 0 rgba(0,0,0,0.1);
         }
     }
 
@@ -107,7 +108,7 @@ const TargetInfoPanel = observer(() => {
 
 
 const DirInfoPanelContainer = styled.div`
-    padding: 16px;
+    padding: 12px 12px;
     background: #fff;
 `
 const DirInfoPanel = observer(() => <DirInfoPanelContainer>
@@ -156,23 +157,24 @@ const DetailInfoContainer = styled.div`
 
     .file-icon{
         flex: 0 0 auto;
-        font-size 48px;
-        padding: 4px 16px
+        font-size: 40px;
+        margin-left: -1px;
+        padding: 0 12px
     }
 
     .file-info-text{
         flex: 1 1 0;
         overflow:hidden;
         .file-info-name{
-            font-size: 18px;
+            font-size: 16px;
             font-weight: bolder;
-            padding-right: 16px;
+            padding-right: 8px;
             ${group.ellipsis()}
         }
         .file-info-path{
-            font-size: 14px;
+            font-size: 12px;
             opacity: 0.8;
-            padding-right: 16px;
+            padding-right: 8px;
             ${group.ellipsis()}
         }
     }
@@ -202,9 +204,9 @@ const DetailActionsContainer = styled.div`
     ${group.flex_center()}
     ${group.trans_ease_out()}
     cursor: pointer;
-    padding:  6px 9px;
-    margin: 6px 9px;
-    border-radius: 6px;
+    padding:  4px 6px;
+    margin: 4px 6px;
+    border-radius: 4px;
     &:hover{
         background:rgba(32,32,32,0.7);
         color: #fff;
@@ -213,8 +215,8 @@ const DetailActionsContainer = styled.div`
 
     .icon{
         flex: 0 0 auto;
-        margin-right:12px;
-        font-size: 24px;
+        margin-right:6px;
+        font-size: 20px;
     }
 
     .name{

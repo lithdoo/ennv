@@ -2,7 +2,7 @@ export const vars = {
     taskBarHeight: () => `72px`,
     taskBarMinHeight: () => `24px`,
     rootSiderWidth: () => `240px`,
-    infoSiderWidth: () => `280px`
+    infoSiderWidth: () => `260px`
 }
 
 
