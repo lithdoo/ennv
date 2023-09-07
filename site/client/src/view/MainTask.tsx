@@ -30,13 +30,13 @@ const Container = styled.div`
         .task-detail-outer{
             overflow:hidden;
         }
-        .task-list-outer{
-    
-        }
         .task-detail-inner{
             border-top:1px solid rgb(236, 236, 236);
             height:100%;
             min-height:300px;
+        }
+        .task-list-outer{
+    
         }
     
         .task-list-inner{
@@ -90,6 +90,7 @@ const Container = styled.div`
             flex: 0 0 auto;
             height: ${cssVar.barHeight};
         }
+        
     }
 
     
@@ -103,6 +104,11 @@ const Container = styled.div`
         .task-list-outer{
             flex: 0 0 auto;
             height: 100%;
+        }
+
+        
+        .task-list-inner{
+            height: 100vh;
         }
 
     }
@@ -142,8 +148,10 @@ export const MainTask = observer(() => {
                     <div className="task-list-inner">
                         <TaskList tasks={stateTaskList.list} focus={stateTaskList.detail}></TaskList>
                         <TaskBtnGroup
+
                             onMinimize={() => { stateTaskList.min() }}
                             onMaximize={() => { stateTaskList.max() }}
+                            onBrief={() => { stateTaskList.brief() }}
                         ></TaskBtnGroup>
                     </div>
                 </div>
@@ -157,7 +165,7 @@ export const MainTask = observer(() => {
 
             <HeightHideBox height={cssVar.minHeight} hide={stateTaskList.layout !== TaskListLayout.min} >
                 <div className="task-min-content" onClick={() => { stateTaskList.brief() }}>
-                    <b><TaskMinText/></b>
+                    <b><TaskMinText /></b>
                 </div>
             </HeightHideBox>
         </Container>
@@ -168,15 +176,15 @@ export const MainTask = observer(() => {
 
 export const TaskMinText = observer(() => {
 
-    if (!stateTaskList.list.filter(v => v.status !== TaskStatus.undo).length) 
+    if (!stateTaskList.list.filter(v => v.status !== TaskStatus.undo).length)
         return <span className="blank">暂无任务</span>
 
-    const span = (status:TaskStatus)=>{
+    const span = (status: TaskStatus) => {
         const length = stateTaskList.list.filter(v => v.status === status).length
-        if(!length) return ''
-        return <span className="task-min-count" style={{background:statusColor(status)}}>{status}: {length}</span>
+        if (!length) return ''
+        return <span className="task-min-count" style={{ background: statusColor(status) }}>{status}: {length}</span>
     }
-    
+
     return <>
         {span(TaskStatus.preparing)}
         {span(TaskStatus.pendding)}
@@ -205,12 +213,13 @@ const statusColor = (status: TaskStatus, op: number = 1) => {
 }
 
 const TaskItemContainer = styled.div`
-    margin: 2px;
+    margin: 0 0;
     border-radius: 6px;
     padding: 0 12px;
     height: 48px;
     color: #565656;
     width: 180px;
+    flex: 0 0 auto;
 
     ${group.trans_ease_out()}
 
@@ -292,37 +301,89 @@ const TaskItem = observer(({ task, focus }: { task: EnTask, focus: boolean }) =>
 
 const TaskListContainer = styled.div`
     flex:1 1 auto;
+    overflow: auto;
+    height: 56px;
+    padding: 0 4px;
+    ${group.trans_ease_out()}
+    ${group.flex_row_center()}
 
-    padding: 2px;
-    height: 100%;
+    .inner{
+        width: 100%;
+        height: 48px;
+        display: grid;
+        grid-auto-flow:column; 
+        justify-content:start;
+        align-items: start;
+        grid-gap: 4px;
+        padding: 0 0;
+        ${group.trans_ease_out()}
+    }
 
-    ${group.flex_row}
-    justify-content: flex-start;
-    flex-wrap: nowrap;
-    align-items: stretch;
+    &[data-status="${TaskListLayout.max}"] {
+        height: 100vh;
+        .inner{
+            justify-content:center;
+            height: 100vh;
+            padding: 72px 120px;
+            grid-auto-flow:row; 
+            grid-gap: 8px;
+            grid-template-columns: repeat(auto-fill, 180px);
+            grid-template-rows: repeat(auto-fill, 48px);
+        }
+    }
+
+    &::-webkit-scrollbar-track
+    {
+        background-color: #FFFFFF;
+    }
+
+    &::-webkit-scrollbar
+    {
+        width: 4px;
+        height: 4px;
+        background-color: #FFFFFF;
+    }
+
+    &::-webkit-scrollbar-thumb
+    {
+        border-radius: 2px;
+        background-color: #ccc;
+    }
 
 `
 
 const TaskList = observer(({ tasks, focus }: { tasks: EnTask[], focus?: EnTask }) => {
-    return <TaskListContainer>{
-        tasks.map((task, key) => <TaskItem task={task} key={key} focus={task.id === focus?.id} />)
-    }</TaskListContainer>
+    return <TaskListContainer data-status={stateTaskList.layout}>
+        <div className="inner">{
+            tasks.map((task, key) => <TaskItem task={task} key={key} focus={task.id === focus?.id} />)
+        }</div>
+    </TaskListContainer>
 })
-
 
 const TaskBtnGroupContainer = styled.div`
     flex: 0 0 auto;
+    border-left: 1px solid rgb(238, 238, 238);
+    padding: 2px;
 `
 
-const TaskBtnGroup = ({
+const TaskBtnGroup = observer(({
     onMinimize = () => { },
     onMaximize = () => { },
+    onBrief = () => { },
 }) => {
     return (
         <TaskBtnGroupContainer style={{ float: "right" }}>
-            <EnIconBtn icon={['i_ennv','minimize']} onClick={onMinimize}></EnIconBtn>
-            <EnIconBtn icon={['i_ennv','unfold-more']} onClick={onMaximize}></EnIconBtn>
-            <EnIconBtn icon={['i_ennv','unfold-less']} onClick={onMaximize}></EnIconBtn>
+            <div>
+                <EnIconBtn icon={['i_ennv', 'delete-outline']} onClick={onMaximize}></EnIconBtn>
+            </div>
+            <div>
+                <EnIconBtn icon={['i_ennv', 'minimize']} onClick={onMinimize}></EnIconBtn>
+                {
+                    stateTaskList.status === TaskListLayout.brief
+                        ? <EnIconBtn icon={['i_ennv', 'unfold-more']} onClick={onMaximize}></EnIconBtn>
+                        : <EnIconBtn icon={['i_ennv', 'unfold-less']} onClick={onBrief}></EnIconBtn>
+                }
+            </div>
         </TaskBtnGroupContainer>
     )
-}
+})
