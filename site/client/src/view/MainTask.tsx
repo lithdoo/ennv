@@ -353,7 +353,28 @@ const TaskListContainer = styled.div`
 `
 
 const TaskList = observer(({ tasks, focus }: { tasks: EnTask[], focus?: EnTask }) => {
-    return <TaskListContainer data-status={stateTaskList.layout}>
+
+    const handelWheel = (e:any)=>{
+        console.log(e)
+        console.log(e.wheelDelta)
+        console.log(e.detail)
+        var delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail || -e.deltaY)));
+        const target = scrollTarget.current 
+        console.log(target)
+
+        if(target){
+            (target as HTMLDivElement).scrollTo({
+                left:(target as HTMLDivElement).scrollLeft - delta * 80,
+                behavior: 'smooth'
+            })
+        }
+        // document.getElementById('yourDiv').scrollLeft -= (delta * 40); // Multiplied by 40
+        e.preventDefault();
+    }
+
+    const scrollTarget = useRef<any>(null)
+
+    return <TaskListContainer ref={scrollTarget} onWheel={handelWheel}  data-status={stateTaskList.layout}>
         <div className="inner">{
             tasks.map((task, key) => <TaskItem task={task} key={key} focus={task.id === focus?.id} />)
         }</div>
@@ -374,15 +395,15 @@ const TaskBtnGroup = observer(({
     return (
         <TaskBtnGroupContainer style={{ float: "right" }}>
             <div>
-                <EnIconBtn icon={['i_ennv', 'delete-outline']} onClick={onMaximize}></EnIconBtn>
-            </div>
-            <div>
-                <EnIconBtn icon={['i_ennv', 'minimize']} onClick={onMinimize}></EnIconBtn>
-                {
+                <EnIconBtn icon={['i_ennv', 'minimize']} onClick={onMinimize}></EnIconBtn>{
                     stateTaskList.status === TaskListLayout.brief
                         ? <EnIconBtn icon={['i_ennv', 'unfold-more']} onClick={onMaximize}></EnIconBtn>
                         : <EnIconBtn icon={['i_ennv', 'unfold-less']} onClick={onBrief}></EnIconBtn>
                 }
+            </div>
+            <div>
+                <EnIconBtn icon={['i_ennv', 'delete-outline']} onClick={onMaximize}></EnIconBtn>
+                <EnIconBtn icon={['i_ennv', 'more-hor']} onClick={onMaximize}></EnIconBtn>
             </div>
         </TaskBtnGroupContainer>
     )
