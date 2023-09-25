@@ -1,4 +1,13 @@
-import { FileStat } from 'webdav';
+export interface EnnvFile<Extra = undefined> {
+    filename: string;
+    basename: string;
+    lastmod: string;
+    size: number;
+    type: "file" | "directory";
+    etag: string | null;
+    symlink: boolean;
+    extra: Extra;
+}
 type DeleteProp<Obj, Key> = {
     [K in Exclude<keyof Obj, Key>]: Obj[K];
 };
@@ -10,10 +19,10 @@ export interface FileInfo {
     path: string;
     kind: 'file' | 'folder';
 }
-export interface EnActionOption {
+export interface EnActionOption<Extra = undefined> {
     name: string;
     icon: [string, string, string];
-    apply: (file: FileStat) => boolean;
+    apply: (file: EnnvFile<Extra>) => boolean;
 }
 export interface EnActionHandler {
     element: HTMLElement;

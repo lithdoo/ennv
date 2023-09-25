@@ -41,6 +41,7 @@
   },
   "dependencies": {
     "@ennv/client": "workspace:*",
+    "@ennv/disk": "workspace:^",
     "@ennv/systray": "workspace:*",
     "crypto-js": "^4.1.1",
     "express-to-koa": "^2.0.0",

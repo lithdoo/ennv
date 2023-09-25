@@ -1,8 +1,9 @@
 import styled from "styled-components";
-import { EnIcon } from "@ennv/components";
-import { group } from "../style/common";
-import { stateCurrentDir } from "@/state";
 import { observer } from "mobx-react";
+
+import { EnIcon } from "@ennv/components";
+import { group } from "@/style/common";
+import { stateCurrentDir } from "@/state";
 import { FileStat } from "@/utils/webdav";
 import { FileType } from "@/utils/file";
 

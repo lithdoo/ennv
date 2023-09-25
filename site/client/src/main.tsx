@@ -1,22 +1,23 @@
-import ReactDOM from 'react-dom/client'
 import './style/index.scss'
 
+import ReactDOM from 'react-dom/client'
+import { observer } from 'mobx-react'
 import styled from "styled-components"
-import { MainDir } from "./view/MainDir"
-import { MainInfo } from "./view/MainInfo"
-import { MainRoot } from "./view/MainRoot"
 import { group, vars } from "./style/common"
 import { WorkspaceLayout, stateTaskList, stateWorkspaces } from "./state"
-import { observer } from 'mobx-react'
-import { MainTask } from "./view/MainTask"
 import { connect } from './utils/task'
 
 import './entry'
 import './utils/webdav'
 import { getLoadScripts, getLoadStylesheets } from './request/plugin'
-import { MainTools } from './view/MainTools'
 
-import "@arco-design/web-react/dist/css/arco.css";
+
+import { MainTask as TaskView } from "./view/task/_index"
+import { MainRoot as WorkspaceView } from "./view/workspace/_index"
+import { MainDir as DirView } from "./view/dir/_index"
+import { MainInfo as InfoView } from "./view/info/_index"
+import { MainTools as ToolView } from './view/tool/_index'
+
 
 console.log(connect)
 
@@ -61,20 +62,16 @@ const MainContainer = styled.div`
       grid-template-columns: 1fr 0 0;
     }
 
-
-
-
-
 `
 
 const MainLayout = observer(() => {
   return (
     <MainContainer className={`${stateWorkspaces.layout} ${stateTaskList.layout}`}>
-      <div className="task-container"><MainTask /></div>
-      <div className="info-container"><MainInfo /></div>
-      <div className="root-container"><MainRoot /></div>
-      <div className="tool-container"><MainTools /></div>
-      <div className="dir-container"><MainDir /></div>
+      <div className="task-container"><TaskView /></div>
+      <div className="info-container"><InfoView /></div>
+      <div className="root-container"><WorkspaceView /></div>
+      <div className="tool-container"><ToolView /></div>
+      <div className="dir-container"><DirView /></div>
     </MainContainer>
   )
 })

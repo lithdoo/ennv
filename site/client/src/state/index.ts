@@ -1,6 +1,6 @@
 import * as webdav from '@/utils/webdav'
 import { type FileStat } from '@/utils/webdav'
-import { EnTask } from "@/utils/task"
+import { EnTask, TaskStatus } from "@/utils/task"
 import { action, autorun, makeAutoObservable } from "mobx"
 
 
@@ -13,7 +13,7 @@ interface WorkSpace {
 export interface FolderTreeItem {
     id: string,
     stat: FileStat,
-    pid?:string,
+    pid?: string,
     isOpen: boolean,
     isLeaf: boolean,
     isLoaded: boolean,
@@ -190,9 +190,9 @@ export const stateSiderInfo = new class {
 
         this.loadingTarget = target
         const detail = target
-            // await (target.kind === 'folder'
-            // ? getFolderDetail(target as EnFolder)
-            // : getFileDetail(target as EnFile))
+        // await (target.kind === 'folder'
+        // ? getFolderDetail(target as EnFolder)
+        // : getFileDetail(target as EnFile))
 
         if (detail.filename !== this.loadingTarget?.filename) return
 
@@ -234,7 +234,7 @@ export const stateTaskList = new class {
         this.detail = task
     }
 
-    create(key: string, stat:FileStat) {
+    create(key: string, stat: FileStat) {
         const task = new EnTask(key, stat)
         this.list.push(task)
         if (this.status !== TaskListLayout.min) return
@@ -256,6 +256,21 @@ export const stateTaskList = new class {
     max() {
         this.status = TaskListLayout.max
         this.detail = undefined
+    }
+
+    clear(...list: TaskStatus[]) {
+        const set = new Set(list)
+        this.list = this.list.filter(v => {
+            if (set.has(v.status)) {
+                return false
+            } else {
+                return true
+            }
+        })
+        const idx = this.list.findIndex((val) => val === this.detail)
+        if (idx < 0) {
+            this.detail = undefined
+        }
     }
 }
 

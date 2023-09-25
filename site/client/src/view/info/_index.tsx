@@ -1,10 +1,10 @@
-import { EnIcon } from "@ennv/components";
 import styled from "styled-components";
-import { group } from "../style/common";
 import { observer } from "mobx-react";
 import { useState } from "react";
-// import { EnFileDetail, EnFolderDetail, EnFsBase } from "@/model/file";
+
 import { stateSiderInfo, stateTaskList } from "@/state";
+import { group } from "@/style/common";
+import { EnIcon } from "@ennv/components";
 import { EnTask } from "@/utils/task";
 import { FileStat } from "@/utils/webdav";
 import { FileType } from "@/utils/file";

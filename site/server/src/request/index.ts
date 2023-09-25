@@ -1,11 +1,17 @@
 
 import Router from 'koa-router'
-import {file} from './file'
+import {disk} from './file'
 import {task} from './task'
 import { load } from './load'
+import { EnnvServer } from '..'
 
-export const request = new Router()
+export const request = (_:EnnvServer) => {
+    const router = new Router()
+    
+    router.use('/disk',disk.routes())
+    router.use('/task',task.routes())
+    router.use('/load',load.routes())
 
-request.use('/file',file.routes())
-request.use('/task',task.routes())
-request.use('/load',load.routes())
+    return router
+}
+

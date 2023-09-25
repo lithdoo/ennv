@@ -1,16 +1,17 @@
 import Router from 'koa-router'
 import serve from 'koa-static'
 import { EnTaskHandler, EnnvServer, taskManager } from "@ennv/server"
+import { EnFileDisk } from '@ennv/disk'
 import mount from 'koa-mount'
 import { tray } from './tray'
 import * as path from 'path'
-import { createMV } from './webdav'
 import Koa from 'koa'
 
+export { LocalFile } from './file'
 
 export interface EnnvConfig {
     port: number
-    roots: string[],
+    disk: { [keyName: string]: EnFileDisk<unknown> }
     plugins: EnnvPlugin[]
 }
 
@@ -28,7 +29,7 @@ export interface EnnvPlugin {
 export const getDefaultConfig: () => EnnvConfig = () => {
     return {
         port: 4008,
-        roots: ['C:'],
+        disk: {},
         plugins: [],
     }
 }
@@ -40,8 +41,8 @@ export class EnnvAppServer {
         this.config = Object.assign(getDefaultConfig(), config)
         this.server = new EnnvServer()
 
+        this.initDisk()
         this.initClient()
-        this.initWebDav()
         this.initPluginAction()
         this.initPluginClient()
         this.initPluginRequest()
@@ -50,26 +51,28 @@ export class EnnvAppServer {
         catch (e) { console.log(e) }
     }
     initClient() {
-        this.server.use(mount('/client', serve(path.resolve(__dirname, '../node_modules/@ennv/client/dist/'))))
+        this.server.useMiddleware(mount('/client', serve(path.resolve(__dirname, '../node_modules/@ennv/client/dist/'))))
     }
-    async initWebDav() {
-        this.server.use(await createMV(this.config.roots))
+    initDisk() {
+        Array.from(Object.entries(this.config.disk)).forEach(([keyName, fileDisk]) => {
+            this.server.loadFileDisk(keyName, fileDisk)
+        })
     }
     initPluginRequest() {
         const router = new Router()
         this.config.plugins.filter(v => v.name).forEach(v => {
             if (!v.requset) return
 
-            this.server.use(mount(`/plugin/requset/${v.name}/`,v.requset))
+            this.server.useMiddleware(mount(`/plugin/requset/${v.name}/`, v.requset))
         })
-        this.server.use(router.allowedMethods() as any)
-        this.server.use(router.routes() as any)
+        this.server.useMiddleware(router.allowedMethods() as any)
+        this.server.useMiddleware(router.routes() as any)
 
     }
     initPluginClient() {
         this.config.plugins.forEach(plugin => {
             if (!plugin.client?.staticDir) return
-            this.server.use(mount(`/plugin/static/${plugin.name}`, serve(plugin.client.staticDir)))
+            this.server.useMiddleware(mount(`/plugin/static/${plugin.name}`, serve(plugin.client.staticDir)))
         })
         this.server.setExtraFiles(this.config.plugins.reduce((res, current) => ({
             scripts: res.scripts.concat(current.client?.scripts || []),
@@ -79,7 +82,7 @@ export class EnnvAppServer {
     initPluginAction() {
         this.config.plugins.forEach(plugin => {
             if (!plugin.actions) return
-            plugin.actions.forEach(hander=>{
+            plugin.actions.forEach(hander => {
                 taskManager.regist(hander)
             })
         })
@@ -88,6 +91,7 @@ export class EnnvAppServer {
         this.server.listen(this.config.port)
     }
 }
+
 
 
 

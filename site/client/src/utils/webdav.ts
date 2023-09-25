@@ -17,12 +17,6 @@ export const getDirFolders = (path: string) => client.getDirectoryContents(path)
     .then(list => list instanceof Array ? list : list.data)
     .then(list => list.filter(v => v.type === 'directory'))
 
-// export const getDirFoldersWithLeafField = (path:string)=>{
-//     client.getDirectoryContents(path,{
-//         d
-//     })
-// }
-
 export const getFileDetail = (path: string) => client.stat(path).then((file) => isResponseDataDetailed(file) ? file.data : file)
 
 export interface FileStat {

@@ -39,11 +39,11 @@
   },
   "dependencies": {
     "@ennv/client": "workspace:*",
-    "@ennv/systray": "workspace:*",
+    "@ennv/disk": "workspace:^",
     "@ennv/server": "workspace:*",
-    "express-to-koa": "^2.0.0",
-    "webdav-server": "^2.6.2",
+    "@ennv/systray": "workspace:*",
     "crypto-js": "^4.1.1",
+    "express-to-koa": "^2.0.0",
     "hidefile": "^3.0.0",
     "koa": "^2.14.2",
     "koa-bodyparser": "^4.4.0",
@@ -54,21 +54,22 @@
     "path-to-regexp": "^6.2.1",
     "pm2": "^5.3.0",
     "python": "^0.0.4",
+    "webdav-server": "^2.6.2",
     "ws": "^8.13.0"
   },
   "devDependencies": {
     "@ava/typescript": "^1.1.1",
-    "@types/express-to-koa": "^1.0.0",
     "@istanbuljs/nyc-config-typescript": "^1.0.1",
+    "@types/crypto-js": "^4.1.1",
+    "@types/express-to-koa": "^1.0.0",
+    "@types/hidefile": "^3.0.0",
     "@types/koa": "^2.13.6",
+    "@types/koa-bodyparser": "^4.3.10",
     "@types/koa-mount": "^4.0.2",
     "@types/koa-router": "^7.4.4",
     "@types/koa-static": "^4.0.2",
-    "@types/node": "^20.2.6", 
-    "@types/crypto-js": "^4.1.1",
-    "@types/hidefile": "^3.0.0",
-    "@types/koa-bodyparser": "^4.3.10",
     "@types/koa-websocket": "^5.0.7",
+    "@types/node": "^20.2.6",
     "@types/ws": "^8.5.5",
     "@typescript-eslint/eslint-plugin": "^4.0.1",
     "@typescript-eslint/parser": "^4.0.1",
@@ -83,8 +84,8 @@
     "typedoc": "^0.19.0",
     "typescript": "^5.1.6"
   },
-  "bin":{
-    "ennv":"./build/cli.js"
+  "bin": {
+    "ennv": "./build/cli.js"
   },
   "files": [
     "build/main",
