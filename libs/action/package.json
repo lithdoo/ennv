@@ -1,0 +1,36 @@
+{
+  "name": "@ennv/action",
+  "version": "1.0.0",
+  "description": "ennv server",
+  "main": "build/main/index.js",
+  "typings": "build/main/index.d.ts",
+  "module": "build/module/index.js",
+  "repository": "https://github.com/lithdoo/server",
+  "license": "MIT",
+  "keywords": [],
+  "scripts": {
+    "start": "node ./build/index.js",
+    "build": "tsc -p tsconfig.json",
+    "build:main": "tsc -p tsconfig.json",
+    "build:module": "tsc -p tsconfig.module.json"
+  },
+  "engines": {
+    "node": ">=10"
+  },
+  "devDependencies": {
+    "@types/node": "^20.2.6",
+    "typescript": "^5.1.6"
+  },
+  "files": [
+    "build/main",
+    "build/module",
+    "!**/*.spec.*",
+    "!**/*.json",
+    "CHANGELOG.md",
+    "LICENSE",
+    "README.md"
+  ],
+  "dependencies": {
+    "webdav": "^5.2.3"
+  }
+}
