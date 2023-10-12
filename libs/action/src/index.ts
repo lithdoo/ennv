@@ -31,7 +31,7 @@ export interface FileInfo {
 
 export interface EnActionOption<Extra = undefined> {
     name: string,
-    icon: [string, string, string],
+    icon: string,
     apply: (file: EnFile<Extra>) => boolean
 }
 
@@ -42,33 +42,38 @@ export interface EnActionHandler {
     onError: (msg: string) => void
 }
 
-type CreateHandler = (actionId: string, path: string, response: Response, start: StartFn) => EnActionHandler | Promise<EnActionHandler>
+type CreateHandler = (ctx: {
+    actionId: string,
+    path: string,
+    response:
+    Response,
+    start: StartFn
+}) => EnActionHandler | Promise<EnActionHandler>
 
 export class EnActions {
     all: Map<string, {
         key: string,
-        option: EnActionOption,
+        option: EnActionOption<unknown>,
         createHandler: CreateHandler
     }> = new Map()
 
-    regist(key: string, option: EnActionOption, createHandler: CreateHandler) {
-        this.all.set(key, { key, option, createHandler: createHandler })
+    regist(key: string, option: EnActionOption<unknown>, createHandler: CreateHandler) {
+        this.all.set(key, { key, option, createHandler })
     }
 }
 
 declare global {
-    interface Window {
-        en_actions: EnActions;
-        __en_actions__: boolean;
-    }
+    var en_actions: EnActions;
+    var __en_actions__: boolean;
 }
 
+
 export const actions = (() => {
-    if ((typeof window !== 'undefined') && window['__en_actions__'] && window['en_actions']) {
-        return window['en_actions'];
+    if ((typeof globalThis !== 'undefined') && globalThis['__en_actions__'] && globalThis['en_actions']) {
+        return globalThis['en_actions'];
     } else {
-        window['__en_actions__'] = true
-        return window['en_actions'] = new EnActions()
+        globalThis['__en_actions__'] = true
+        return globalThis['en_actions'] = new EnActions()
     }
 })()
 
