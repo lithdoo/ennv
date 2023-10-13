@@ -2,8 +2,10 @@ import test from 'ava';
 import { EnnvServer } from './index'
 import { diskHandler } from './request/file';
 
+export const server = new EnnvServer()
+
 test('loadFileDisk',(t)=>{
-    const server = new EnnvServer()
+    
     server.loadFileDisk('loadFileDisk',{
         typeName: 'loadFileDisk',
         async getFile(path: string){ throw Error(`getFile:${path}`)},

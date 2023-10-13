@@ -28,7 +28,7 @@ export class EnnvServer {
         stylesheets?: string[]
     }) {
         loadList.scripts = loadList.scripts.concat(scripts ?? [])
-        loadList.scripts = loadList.scripts.concat(stylesheets ?? [])
+        loadList.stylesheets = loadList.stylesheets.concat(stylesheets ?? [])
     }
     listen(port: number) {
         this.app.listen(port)
