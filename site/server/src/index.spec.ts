@@ -1,6 +1,6 @@
 import test from 'ava';
 import { EnnvServer } from './index'
-import { diskHandler } from './request/file';
+import { diskHandler } from './request/disk';
 
 export const server = new EnnvServer()
 

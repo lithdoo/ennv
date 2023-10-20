@@ -1,6 +1,6 @@
 
 import Router from 'koa-router'
-import {disk} from './file'
+import {disk} from './disk'
 import {task} from './task'
 import { load } from './load'
 import { EnnvServer } from '..'

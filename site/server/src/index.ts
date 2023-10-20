@@ -4,7 +4,7 @@ import { EnFileDisk } from '@ennv/disk'
 
 import { request } from './request/index';
 import { loadList } from './request/load';
-import { diskHandler } from './request/file';
+import { diskHandler } from './request/disk';
 
 export { taskManager,type EnTaskHandler } from './request/task'
 

@@ -23,6 +23,13 @@
   },
   "homepage": "https://github.com/lithdoo/ennv#readme",
   "devDependencies": {
-    "@changesets/cli": "^2.26.1"
+    "@changesets/cli": "^2.26.1",
+    "commitizen": "^4.3.0",
+    "cz-conventional-changelog": "^3.3.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }
