@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "ennv disk interface",
   "main": "build/main/index.js",
-  "typings": "build/main/index.d.ts",
+  "types": "build/main/index.d.ts",
   "module": "build/module/index.js",
   "repository": "https://github.com/lithdoo/ennv",
   "license": "MIT",
